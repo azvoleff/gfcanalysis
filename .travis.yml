@@ -21,9 +21,6 @@ before_install:
 
 install:
   - ./travis-tool.sh install_deps
-  - ./travis-tool.sh install_github hadley/devtools
-  - ./travis-tool.sh install_github hadley/testthat
-  - ./travis-tool.sh install_github hadley/httr
 
 script: ./travis-tool.sh run_tests
 
