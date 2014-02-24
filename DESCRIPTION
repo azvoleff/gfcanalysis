@@ -1,0 +1,26 @@
+Package: hansenForest
+Version: 0.1
+Date: 2014-02-25
+Title: Tools for working with Hansen et al. 2013 Global Forest Change dataset
+Authors@R: c(person("Alex", "Zvoleff", email="azvoleff@conservation.org",
+    role=c("aut", "cre")))
+Maintainer: Alex Zvoleff <azvoleff@conservation.org>
+Depends:
+    R (>= 2.10.0),
+    raster (>= 2.2-6)
+Imports:
+    rgeos,
+    plyr,
+    reshape2,
+    ggplot2,
+    stringr
+Suggests:
+    foreach,
+    doSNOW,
+    notifyR
+Description: The `hansenForest` package is designed to facilitate analyses using 
+    the Global Forest Change dataset released by Hansen et al.
+License: GPL (>= 3)
+URL: https://github.com/azvoleff/hansenForest
+BugReports: https://github.com/azvoleff/hansenForest/issues
+LazyData: true
