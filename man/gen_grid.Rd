@@ -1,0 +1,33 @@
+\name{gen_grid}
+\alias{gen_grid}
+\title{Function to generate grid}
+\usage{
+gen_grid(origin_x, dx, max_x, origin_y, dy, max_y,
+  crs = CRS("+init=epsg:4326"))
+}
+\arguments{
+  \item{origin_x}{x coordinate of the origin}
+
+  \item{dx}{cell size in the x direction}
+
+  \item{max_x}{maximum value in x direction}
+
+  \item{origin_y}{y coordinate of the origin}
+
+  \item{dy}{cell size in the y direction}
+
+  \item{max_y}{maximum value in y direction}
+
+  \item{crs}{coordinate system as a crs object (defaults to
+  WGS-84)}
+}
+\description{
+Used for producing the 10x10 degree WGS84 grid that the GFC
+product is tiled on, so that an AOI polygon can be
+intersected with the grid to calculate the appropriate
+tiles to download.
+}
+\examples{
+gfc_grid <- gen_grid(-180, 10, 180, -90, 10, 90)
+}
+
