@@ -4,6 +4,7 @@
 #' on, so that an AOI polygon can be intersected with the grid to calculate the 
 #' appropriate tiles to download.
 #'
+#' @export
 #' @import sp
 #' @param origin_x x coordinate of the origin
 #' @param dx cell size in the x direction

@@ -1,5 +1,6 @@
 export(calc_gfc_tiles)
 export(download_tiles)
+export(gen_grid)
 export(utm_zone)
 import(methods)
 import(sp)
