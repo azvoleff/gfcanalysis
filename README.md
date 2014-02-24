@@ -32,6 +32,6 @@ USA
 ## References
 Hansen, M.C., Potapov, P.V., Moore, R., Hancher, M., Turubanova, S.A., 
 Tyukavina, A., Thau, D., Stehman, S.V., Goetz, S.J., Loveland, T.R., 
-Kommareddy, A., Egorov, A., Chini, L., Justice, C.O., Townshend, J.R.G., 2013.  
+Kommareddy, A., Egorov, A., Chini, L., Justice, C.O., Townshend, J.R.G., 2013. 
 High-resolution global maps of 21st-century forest cover change. Science 342, 
 850--853.
