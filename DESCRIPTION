@@ -18,7 +18,7 @@ Suggests:
     foreach,
     doSNOW,
     notifyR
-Description: The `hansenForest` package is designed to facilitate analyses using 
+Description: The `hansenForest` package is designed to facilitate analyses using
     the Global Forest Change dataset released by Hansen et al.
 License: GPL (>= 3)
 URL: https://github.com/azvoleff/hansenForest
