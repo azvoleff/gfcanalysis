@@ -4,8 +4,11 @@
 
 ## Tools for working with Hansen et al. 2013 Global Forest Change dataset
 
-The `gfcanalysis` package is designed to facilitate analyses using the Global 
-Forest Change dataset released by Hansen et al.
+The `gfcanalysis` package is designed to facilitate analyses using the [Global 
+Forest 
+Change](http://earthenginepartners.appspot.com/science-2013-global-forest) 
+dataset released by Hansen et al.
+
 ## Package Installation
 
 `gfcanalysis` is not yet listed on [CRAN](http://cran.r-project.org).  The 
