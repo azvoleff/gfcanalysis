@@ -1,23 +1,23 @@
-# hansenForest
+# gfcanalysis
 
-[![Build Status](https://travis-ci.org/azvoleff/hansenForest.png)](https://travis-ci.org/azvoleff/hansenForest)
+[![Build Status](https://travis-ci.org/azvoleff/gfcanalysis.png)](https://travis-ci.org/azvoleff/gfcanalysis)
 
 ## Tools for working with Hansen et al. 2013 Global Forest Change dataset
 
-The `hansenForest` package is designed to facilitate analyses using the Global 
+The `gfcanalysis` package is designed to facilitate analyses using the Global 
 Forest Change dataset released by Hansen et al.
 ## Package Installation
 
-`hansenForest` is not yet listed on [CRAN](http://cran.r-project.org).  The 
-easiest way to install the `hansenForest` package is using the 
+`gfcanalysis` is not yet listed on [CRAN](http://cran.r-project.org).  The 
+easiest way to install the `gfcanalysis` package is using the 
 [`devtools`](http://cran.r-project.org/web/packages/devtools/index.html) 
 package. After installing `devtools` from CRAN, type:
 
 ```R
-install_github('hansenForest', username='azvoleff')
+install_github('gfcanalysis', username='azvoleff')
 ```
 
-at the R prompt to install `hansenForest`.
+at the R prompt to install `gfcanalysis`.
 
 ## Author Contact Information
 
