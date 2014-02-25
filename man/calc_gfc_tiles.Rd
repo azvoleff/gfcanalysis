@@ -5,8 +5,9 @@
 calc_gfc_tiles(aoi, aoi_buffer)
 }
 \arguments{
-  \item{aoi}{an Area of Interest (AOI). If the AOI is not
-  in the WGS84 geographic coordinate system, it will be
+  \item{aoi}{an Area of Interest (AOI) as a
+  \code{SpatialPolygons*} object. If the AOI is not in the
+  WGS84 geographic coordinate system, it will be
   reprojected to WGS84.}
 
   \item{aoi_buffer}{a distance in meters to buffer the AOI
