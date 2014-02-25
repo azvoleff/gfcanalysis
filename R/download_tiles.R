@@ -29,8 +29,9 @@ download_tile <- function(tile_url, local_path) {
 #' Download a set of GFC tiles
 #'
 #' Function to download a set of Global Forest Change product tiles, after 
-#' verifying that are not present locally.
+#' verifying that they are not present locally.
 #' @export
+#' @importFrom sp bbox
 #' @importFrom stringr str_extract
 #' @param tiles \code{SpatialPolygonsDataFrame} with Global Forest Change 
 #' product tiles to download, as calculated by the \code{calc_gfc_tiles} 

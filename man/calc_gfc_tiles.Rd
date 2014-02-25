@@ -22,4 +22,9 @@ Intersects an (optionally buffered) AOI with the Global
 Forest Change product grid to determine what tiles are need
 to cover the AOI.
 }
+\examples{
+tiles <- calc_gfc_tiles(test_poly)
+plot(tiles)
+plot(test_poly, add=TRUE)
+}
 

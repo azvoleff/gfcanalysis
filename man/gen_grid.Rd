@@ -2,8 +2,7 @@
 \alias{gen_grid}
 \title{Function to generate grid}
 \usage{
-gen_grid(origin_x, dx, max_x, origin_y, dy, max_y,
-  crs = CRS("+init=epsg:4326"))
+gen_grid(origin_x, dx, max_x, origin_y, dy, max_y, grid_proj4string = NULL)
 }
 \arguments{
   \item{origin_x}{x coordinate of the origin}
@@ -18,8 +17,8 @@ gen_grid(origin_x, dx, max_x, origin_y, dy, max_y,
 
   \item{max_y}{maximum value in y direction}
 
-  \item{crs}{coordinate system as a crs object (defaults to
-  WGS-84)}
+  \item{grid_proj4string}{coordinate system as a crs object
+  (defaults to WGS-84)}
 }
 \description{
 Used for producing the 10x10 degree WGS84 grid that the GFC

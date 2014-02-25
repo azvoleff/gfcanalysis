@@ -16,7 +16,7 @@ used for the side effect of downloading GFC tiles
 }
 \description{
 Function to download a set of Global Forest Change product
-tiles, after verifying that are not present locally.
+tiles, after verifying that they are not present locally.
 }
 \examples{
 \dontrun{

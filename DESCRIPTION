@@ -10,8 +10,8 @@ Depends:
     methods
 Imports:
     raster,
-    RCurl,
     rgdal,
+    RCurl,
     rgeos,
     plyr,
     reshape2,
