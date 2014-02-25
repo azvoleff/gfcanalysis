@@ -10,6 +10,7 @@ Depends:
     methods
 Imports:
     raster,
+    RCurl,
     rgdal,
     rgeos,
     plyr,
@@ -19,8 +20,8 @@ Imports:
     stringr
 Suggests:
     foreach,
-    doSNOW,
-    notifyR
+    itertools,
+    doSNOW
 Description: The `gfcanalysis` package is designed to facilitate analyses using
     the Global Forest Change dataset released by Hansen et al.
 License: GPL (>= 3)
