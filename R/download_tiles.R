@@ -37,6 +37,8 @@ download_tile <- function(tile_url, local_path) {
 #' product tiles to download, as calculated by the \code{calc_gfc_tiles} 
 #' function.
 #' @param output_folder the folder to save output data in
+#' @param first_and_last whether to download the composite images for 2000 and 
+#' 2010 (which are substantially larger than the other layers)
 #' @return used for the side effect of downloading GFC tiles
 #' @examples
 #' \dontrun{
@@ -44,7 +46,7 @@ download_tile <- function(tile_url, local_path) {
 #' tiles <- calc_gfc_tiles(test_poly)
 #' download_tiles(tiles, output_folder)
 #' }
-download_tiles <- function(tiles, output_folder) {
+download_tiles <- function(tiles, output_folder, first_and_last=FALSE) {
     message(paste(nrow(tiles), 'tiles to download/check.'))
     successes <- 0
     failures <- 0
@@ -66,10 +68,11 @@ download_tiles <- function(tiles, output_folder) {
         }
         file_root <- 'Hansen_GFC2013_'
         file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
-        filenames <- paste0(file_root, c('treecover2000', 'loss', 'gain', 
-                                        'lossyear', 'datamask', 'first', 
-                                        'last'),
-                            file_suffix)
+        images <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
+        if (first_and_last == TRUE) {
+            images <- c(images, 'first', 'last')
+        }
+        filenames <- paste0(file_root, images, file_suffix)
         tile_urls <- paste0('http://commondatastorage.googleapis.com/earthenginepartners-hansen/GFC2013/',
                       filenames)
         local_paths <- file.path(output_folder, filenames)
