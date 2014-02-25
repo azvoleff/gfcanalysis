@@ -23,6 +23,7 @@ Forest Change product grid to determine what tiles are need
 to cover the AOI.
 }
 \examples{
+library(sp)
 tiles <- calc_gfc_tiles(test_poly)
 plot(tiles)
 plot(test_poly, add=TRUE)
