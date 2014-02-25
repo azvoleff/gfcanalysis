@@ -70,17 +70,14 @@ gen_stack <- function(aoi, data_folder, forest_threshold=50) {
     # Code water as 5
     out[tile_mosaic$datamask == 2] <- 5
 
-    out <- setZ(out, seq(as.Date('2000-1-1'), as.Date('2012-1-1'), by='year'))
-
-    out <- ratify(out)
-    rat <- levels(out)
-
     # Project to utm for plotting and analysis of change in forest area
     bounding_poly <- as(extent(out), "SpatialPolygons")
     proj4string(bounding_poly) <- proj4string(out)
     utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
     # Use nearest neighbor since the data is categorical
-    out <- projectRaster(out, crs=utm_proj4string, method=ngb)
+    out <- projectRaster(out, crs=utm_proj4string, method='ngb')
+
+    out <- setZ(out, seq(as.Date('2000-1-1'), as.Date('2012-1-1'), by='year'))
 
     return(out)
 }
