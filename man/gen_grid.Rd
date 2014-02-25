@@ -28,6 +28,6 @@ intersected with the grid to calculate the appropriate
 tiles to download.
 }
 \examples{
-gfc_grid <- gen_grid(-180, 10, 180, -90, 10, 90)
+gfc_tiles <- gen_grid(-180, 10, 180, -60, 10, 80)
 }
 

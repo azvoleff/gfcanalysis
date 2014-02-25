@@ -14,7 +14,7 @@
 #' @param max_y maximum value in y direction
 #' @param crs coordinate system as a crs object (defaults to WGS-84)
 #' @examples
-#' gfc_grid <- gen_grid(-180, 10, 180, -90, 10, 90)
+#' gfc_tiles <- gen_grid(-180, 10, 180, -60, 10, 80)
 gen_grid <- function(origin_x, dx, max_x, origin_y, dy, max_y, 
                            crs=CRS("+init=epsg:4326")) {
     # Based on code at http://bit.ly/1lfUOnV
