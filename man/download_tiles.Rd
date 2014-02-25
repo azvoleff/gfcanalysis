@@ -2,12 +2,12 @@
 \alias{download_tiles}
 \title{Download a set of GFC tiles}
 \usage{
-download_tiles(gfc_tiles, output_folder)
+download_tiles(tiles, output_folder)
 }
 \arguments{
-  \item{gfc_tiles}{\code{SpatialPolygonsDataFrame} with
-  Global Forest Change product tiles to download, as
-  calculated by the \code{calc_gfc_tiles} function.}
+  \item{tiles}{\code{SpatialPolygonsDataFrame} with Global
+  Forest Change product tiles to download, as calculated by
+  the \code{calc_gfc_tiles} function.}
 
   \item{output_folder}{the folder to save output data in}
 }
@@ -17,5 +17,10 @@ used for the side effect of downloading GFC tiles
 \description{
 Function to download a set of Global Forest Change product
 tiles, after verifying that are not present locally.
+}
+\examples{
+output_folder <- 'H:/Data/TEAM/GFC_Product'
+tiles <- calc_gfc_tiles(test_poly, 'H:/Data/TEAM/GFC_Product')
+download_tiles(tiles, output_folder)
 }
 
