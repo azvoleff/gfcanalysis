@@ -2,7 +2,7 @@
 \alias{calc_gfc_tiles}
 \title{Calculate the Global Forest Change product tiles needed for a given AOI}
 \usage{
-calc_gfc_tiles(aoi, aoi_buffer)
+calc_gfc_tiles(aoi, aoi_buffer = 0)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
