@@ -19,8 +19,10 @@ Function to download a set of Global Forest Change product
 tiles, after verifying that are not present locally.
 }
 \examples{
+\dontrun{
 output_folder <- 'H:/Data/TEAM/GFC_Product'
-tiles <- calc_gfc_tiles(test_poly, 'H:/Data/TEAM/GFC_Product')
+tiles <- calc_gfc_tiles(test_poly)
 download_tiles(tiles, output_folder)
+}
 }
 

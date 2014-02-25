@@ -1,4 +1,4 @@
-#' @importFrom RCurl getUrl
+#' @importFrom RCurl getURL
 #' @importFrom stringr str_extract
 verify_download <- function(tile_url, local_path) {
     header <- getURL(tile_url, nobody=1L, header=1L)
@@ -38,9 +38,11 @@ download_tile <- function(tile_url, local_path) {
 #' @param output_folder the folder to save output data in
 #' @return used for the side effect of downloading GFC tiles
 #' @examples
+#' \dontrun{
 #' output_folder <- 'H:/Data/TEAM/GFC_Product'
-#' tiles <- calc_gfc_tiles(test_poly, 'H:/Data/TEAM/GFC_Product')
+#' tiles <- calc_gfc_tiles(test_poly)
 #' download_tiles(tiles, output_folder)
+#' }
 download_tiles <- function(tiles, output_folder) {
     message(paste(nrow(tiles), 'tiles to download/check.'))
     successes <- 0
