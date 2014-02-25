@@ -33,8 +33,9 @@ Arlington, VA 22202
 USA
 
 ## References
-Hansen, M.C., Potapov, P.V., Moore, R., Hancher, M., Turubanova, S.A., 
-Tyukavina, A., Thau, D., Stehman, S.V., Goetz, S.J., Loveland, T.R., 
-Kommareddy, A., Egorov, A., Chini, L., Justice, C.O., Townshend, J.R.G., 2013. 
-High-resolution global maps of 21st-century forest cover change. Science 342, 
-850--853.
+Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. 
+Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, 
+A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. 
+High-Resolution Global Maps of 21st-Century Forest Cover Change. Science 342, 
+(15 November): 850--853. Data available on-line from: 
+http://earthenginepartners.appspot.com/science-2013-global-forest.
