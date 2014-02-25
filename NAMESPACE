@@ -1,6 +1,7 @@
 export(calc_gfc_tiles)
 export(download_tiles)
 export(gen_grid)
+export(gen_stack)
 export(gfc_animate)
 export(gfc_smoothed)
 export(gfc_table)
