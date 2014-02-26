@@ -16,10 +16,10 @@ verify_download <- function(tile_url, local_path) {
 download_tile <- function(tile_url, local_path) {
     ret_code <- download.file(tile_url, local_path, mode="wb")
     if (ret_code != 0) {
-        message(paste('Warning: problem downloading', local_path))
+        message(paste('Warning: problem downloading', basename(local_path)))
         return(1)
     } else if (verify_download(tile_url, local_path) != 0) {
-        message(paste("Warning: verification failed on", local_path))
+        message(paste("Warning: verification failed on", basename(local_path)))
         return(2)
     } else {
         return(0)
@@ -47,7 +47,7 @@ download_tile <- function(tile_url, local_path) {
 #' download_tiles(tiles, output_folder)
 #' }
 download_tiles <- function(tiles, output_folder, first_and_last=FALSE) {
-    message(paste(nrow(tiles), 'tiles to download/check.'))
+    message(paste(length(tiles), 'tiles to download/check.'))
     successes <- 0
     failures <- 0
     skips <- 0
@@ -82,9 +82,9 @@ download_tiles <- function(tiles, output_folder, first_and_last=FALSE) {
             local_path <- local_paths[i]
             if (file.exists(local_path)) {
                 if (verify_download(tile_url, local_path)) {
-                    message(paste(local_path, "exists but doesn't match remote - re-downloading file"))
+                    message(paste(basename(local_path), "exists but doesn't match remote - re-downloading file"))
                 } else {
-                    message(paste(local_path, 'exists and matches remote - skipping download'))
+                    message(paste(basename(local_path), 'exists and matches remote - skipping download'))
                     skips <- skips + 1
                     next
                 }
