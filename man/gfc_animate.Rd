@@ -1,15 +1,21 @@
 \name{gfc_animate}
 \alias{gfc_animate}
-\title{Plot an animation of forest change within a given AOi}
+\title{Plot an animation of forest change within a given AOI}
 \usage{
-gfc_animate(aoi, gfc_stack, out_file, height = 6, width = 6, dpi = 300)
+gfc_animate(aoi, gfc_stack, out_name, site_name = "", type = "gif",
+  height = 3, width = 3, dpi = 300)
 }
 \arguments{
   \item{gfc_stack}{a Global Forest Change product subset as
   a \code{RasterStack} (as output by
   \code{\link{gen_stack}})}
 
-  \item{out_file}{filename for animation}
+  \item{out_name}{basename for animation output}
+
+  \item{site_name}{name of the site (used in making title)}
+
+  \item{type}{type of animation to make. Can be either
+  "gif" or "html"}
 
   \item{height}{desired height of the animation GIF in
   inches}
@@ -25,7 +31,7 @@ gfc_animate(aoi, gfc_stack, out_file, height = 6, width = 6, dpi = 300)
   reprojected to WGS84.}
 }
 \description{
-Plot an animation of forest change within a given AOi
+Plot an animation of forest change within a given AOI
 }
 \examples{
 #TODO: Add examples
