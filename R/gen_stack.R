@@ -1,33 +1,10 @@
-#' Generates an annual stack of forest/non-forest
-#'
-#' Uses the datamask, treecover2000, loss, gain, and lossyear layers to produce 
-#' a raster  stack within the given AOI coded as: 0 - nodata, 1 - forest 
-#' 2 - non-forest, 3 - forest loss, 4 - forest gain, 5 - water
-#'
-#' @export
 #' @import rgdal
 #' @import raster
-#' @importFrom sp bbox spTransform CRS proj4string proj4string<-
-#' @importFrom rgeos gBuffer
-#' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
-#' If the AOI is not in the WGS84 geographic coordinate system, it will be 
-#' reprojected to WGS84.
-#' @param data_folder folder where downloaded GFC product tiles are located 
-#' (see \code{download_tiles} function.
-#' @param aoi_buffer a distance in meters to buffer the AOI by prior to 
-#' intersecting it with the GFC grid.
-#' @param forest_threshold percent woody vegetation to use as a threshold for 
-#' mapping forest/non-forest
-gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
-    if (aoi_buffer > 0) {
-        aoi_utm <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
-        aoi_utm <- gBuffer(aoi_utm, width=aoi_buffer, byid=TRUE)
-        aoi <- aoi_utm
-    }
-
+#' @importFrom sp bbox spTransform CRS proj4string
+make_tile_mosaic <- function(aoi) {
     tiles <- calc_gfc_tiles(aoi)
-
-    aoi <- spTransform(aoi, CRS(proj4string(gfc_tiles)))
+    # Transform aoi to match tiles CRS so it can be used later for cropping
+    aoi <- spTransform(aoi, CRS(proj4string(tiles)))
     file_root <- 'Hansen_GFC2013_'
     bands <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
     tile_stacks <- c()
@@ -65,6 +42,38 @@ gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
         tile_mosaic <- tile_stacks[[1]]
     }
     NAvalue(tile_mosaic) <- 0
+
+    return(tile_mosaic)
+}
+
+#' Generates an annual stack of forest/non-forest
+#'
+#' Uses the datamask, treecover2000, loss, gain, and lossyear layers to produce 
+#' a raster  stack within the given AOI coded as: 0 - nodata, 1 - forest 
+#' 2 - non-forest, 3 - forest loss, 4 - forest gain, 5 - water
+#'
+#' @export
+#' @import rgdal
+#' @import raster
+#' @importFrom sp spTransform CRS proj4string proj4string<-
+#' @importFrom rgeos gBuffer
+#' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
+#' If the AOI is not in the WGS84 geographic coordinate system, it will be 
+#' reprojected to WGS84.
+#' @param data_folder folder where downloaded GFC product tiles are located 
+#' (see \code{download_tiles} function.
+#' @param aoi_buffer a distance in meters to buffer the AOI by prior to 
+#' intersecting it with the GFC grid.
+#' @param forest_threshold percent woody vegetation to use as a threshold for 
+#' mapping forest/non-forest
+gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
+    if (aoi_buffer > 0) {
+        aoi_utm <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
+        aoi_utm <- gBuffer(aoi_utm, width=aoi_buffer, byid=TRUE)
+        aoi <- aoi_utm
+    }
+
+    tile_mosaic <- make_tile_mosaic(aoi)
 
     # Code forest as 1, non-forest as 2
     forest <- (tile_mosaic$treecover2000 > forest_threshold) & (tile_mosaic$datamask == 1)
