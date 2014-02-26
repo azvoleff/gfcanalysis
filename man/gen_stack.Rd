@@ -2,7 +2,7 @@
 \alias{gen_stack}
 \title{Generates an annual stack of forest/non-forest}
 \usage{
-gen_stack(aoi, data_folder, forest_threshold = 50)
+gen_stack(aoi, data_folder, aoi_buffer = 0, forest_threshold = 50)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -12,6 +12,9 @@ gen_stack(aoi, data_folder, forest_threshold = 50)
 
   \item{data_folder}{folder where downloaded GFC product
   tiles are located (see \code{download_tiles} function.}
+
+  \item{aoi_buffer}{a distance in meters to buffer the AOI
+  by prior to intersecting it with the GFC grid.}
 
   \item{forest_threshold}{percent woody vegetation to use
   as a threshold for mapping forest/non-forest}
