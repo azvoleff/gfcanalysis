@@ -23,6 +23,7 @@ calc_gfc_tiles <- function(aoi, aoi_buffer=0) {
     if (aoi_buffer > 0) {
         aoi_utm <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
         aoi_utm <- gBuffer(aoi_utm, width=aoi_buffer, byid=TRUE)
+        aoi <- aoi_utm
     }
     aoi <- spTransform(aoi, CRS(proj4string(gfc_tiles)))
     intersecting <- as.logical(gIntersects(gfc_tiles, 
