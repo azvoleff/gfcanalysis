@@ -84,7 +84,7 @@ download_tiles <- function(tiles, output_folder, first_and_last=FALSE) {
                 if (verify_download(tile_url, local_path)) {
                     message(paste(basename(local_path), "exists but doesn't match remote - re-downloading file"))
                 } else {
-                    message(paste(basename(local_path), 'exists and matches remote - skipping download'))
+                    #message(paste(basename(local_path), 'exists and matches remote - skipping download'))
                     skips <- skips + 1
                     next
                 }
