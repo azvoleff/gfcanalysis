@@ -98,6 +98,6 @@ download_tiles <- function(tiles, output_folder, first_and_last=FALSE) {
         }
     }
 
-    message(paste(successes, "tile(s) succeeded,", skips, "tile(s) skipped,", 
-                failures, "tile(s) failed."))
+    message(paste(successes, "file(s) succeeded,", skips, "file(s) skipped,", 
+                  failures, "file(s) failed."))
 }
