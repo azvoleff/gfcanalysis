@@ -1,8 +1,8 @@
 #' @import ggplot2
 #' @importFrom grid unit
 #' @importFrom rasterVis gplot
-plot_gfc <- function(data_raster, aoi_df, aoi_label, variable, 
-                      title_string='', size_scale=1, maxpixels=50000) {
+plot_gfc <- function(data_raster, aoi_df, variable, title_string='', 
+                     size_scale=1, maxpixels=50000) {
     theme_set(theme_bw(base_size=8*size_scale))
     long=lat=value=NULL # For R CMD CHECK
     gplot(data_raster, maxpixels=maxpixels) +
@@ -30,9 +30,9 @@ plot_gfc <- function(data_raster, aoi_df, aoi_label, variable,
               plot.background=element_blank(), axis.ticks=element_blank(),
               plot.margin=unit(c(.1, .1, .1, .1), 'cm')) +
         geom_path(aes(long, lat), color='black', data=aoi_df, 
-                  size=.9*size_scale, alpha=.3) +
+                  size=.6*size_scale, alpha=.3) +
         geom_path(aes(long, lat, color=Region), data=aoi_df, 
-                  size=.5*size_scale, linetype=2) +
+                  size=.4*size_scale, linetype=2) +
         scale_color_manual(values='black') +
         ggtitle(title_string)
 }
@@ -46,18 +46,18 @@ plot_gfc <- function(data_raster, aoi_df, aoi_label, variable,
 #' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
 #' If the AOI is not in the WGS84 geographic coordinate system, it will be 
 #' reprojected to WGS84.
-#' @param aoi_label label to use in legend for AOI polygon
-#' @param out_name basename for animation output
 #' @param gfc_stack a Global Forest Change product subset as a 
 #' \code{RasterStack} (as output by \code{\link{gen_stack}})
 #' @param out_name basename for animation output
 #' @param site_name name of the site (used in making title)
+#' @param aoi_label label to use in legend for AOI polygon
 #' @param type type of animation to make. Can be either "gif" or "html"
 #' @param height desired height of the animation GIF in inches
 #' @param width desired width of the animation GIF in inches
 #' @param dpi dots per inch for the output image
 gfc_animate <- function(aoi, gfc_stack, out_name, site_name='', 
-                        type='gif', height=3, width=3, dpi=300) {
+                        aoi_label='ZOI', type='gif', height=3, width=3, 
+                        dpi=300) {
     out_name <- basename(out_name)
     out_dir <- dirname(out_name)
     if (!file_test('-d', out_dir)) {
