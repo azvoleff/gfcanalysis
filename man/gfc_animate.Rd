@@ -2,8 +2,8 @@
 \alias{gfc_animate}
 \title{Plot an animation of forest change within a given AOI}
 \usage{
-gfc_animate(aoi, aoi_label, gfc_stack, out_name, site_name = "",
-  type = "gif", height = 3, width = 3, dpi = 300)
+gfc_animate(aoi, gfc_stack, out_name, site_name = "", type = "gif",
+  height = 3, width = 3, dpi = 300)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a

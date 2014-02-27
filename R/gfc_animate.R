@@ -16,12 +16,12 @@ plot_gfc <- function(data_raster, aoi_df, aoi_label, variable,
                                   'Forest gain',
                                   'Water',
                                   'No data'),
-                          values=c('#1ed72f',
-                                   '#d7b14a',
-                                   '#f42b2b',
-                                   '#432bf4',
-                                   '#826d6d',
-                                   '#000000'),
+                          values=c('#008000', # forest
+                                   '#ffa500', # non-forest
+                                   '#ff0000', # forest loss
+                                   '#0000ff', # forest gain
+                                   '#c0c0c0', # water
+                                   '#101010'), # no data
                           drop=FALSE) +
         theme(axis.text.x=element_blank(), axis.text.y=element_blank(),
               axis.title.x=element_blank(), axis.title.y=element_blank(),
@@ -29,9 +29,11 @@ plot_gfc <- function(data_raster, aoi_df, aoi_label, variable,
               panel.grid.major=element_blank(), panel.grid.minor=element_blank(),
               plot.background=element_blank(), axis.ticks=element_blank(),
               plot.margin=unit(c(.1, .1, .1, .1), 'cm')) +
-        geom_path(label=aoi_label, data=aoi_df, aes(long, lat), color='yellow', 
-                  size=.5*size_scale, alpha=.7, linetype=2) +
-        scale_color_discrete(title='') +
+        geom_path(aes(long, lat), color='black', data=aoi_df, 
+                  size=.9*size_scale, alpha=.3) +
+        geom_path(aes(long, lat, color=Region), data=aoi_df, 
+                  size=.5*size_scale, linetype=2) +
+        scale_color_manual(values='black') +
         ggtitle(title_string)
 }
 
@@ -54,7 +56,7 @@ plot_gfc <- function(data_raster, aoi_df, aoi_label, variable,
 #' @param height desired height of the animation GIF in inches
 #' @param width desired width of the animation GIF in inches
 #' @param dpi dots per inch for the output image
-gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='', 
+gfc_animate <- function(aoi, gfc_stack, out_name, site_name='', 
                         type='gif', height=3, width=3, dpi=300) {
     out_name <- basename(out_name)
     out_dir <- dirname(out_name)
@@ -74,10 +76,11 @@ gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='',
         stop('type must be gif or html')
     }
 
-    aoi  <- spTransform(aoi, CRS(proj4string(gfc_stack)))
+    aoi <- spTransform(aoi, CRS(proj4string(gfc_stack)))
     aoi@data$id <- rownames(aoi@data)
     aoi_points <- fortify(aoi, region="id")
     aoi_df <- join(aoi_points, aoi@data, by="id")
+    aoi_df$Region <- aoi_label
 
     dates <- seq(2000, 2012, 1)
 
@@ -87,18 +90,16 @@ gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='',
         out_file <- paste(out_name, '.gif')
         saveGIF({
                     for (n in 1:nlayers(gfc_stack)) {
-                        p <- plot_gfc(gfc_stack[[n]], aoi_df, aoi_label, 
-                                       "Forest cover", dates[n], size_scale=4, 
-                                       maxpixels)
+                        p <- plot_gfc(gfc_stack[[n]], aoi_df, "Forest cover", 
+                                      dates[n], size_scale=4, maxpixels)
                         print(p)
                     }
                 }, interval=0.5, movie.name=out_file)
     } else if (type == 'html') {
         saveHTML({
                     for (n in 1:nlayers(gfc_stack)) {
-                        p <- plot_gfc(gfc_stack[[n]], aoi_df, aoi_label, 
-                                       "Forest cover", dates[n], size_scale=4,
-                                       maxpixels)
+                        p <- plot_gfc(gfc_stack[[n]], aoi_df, "Forest cover", 
+                                      dates[n], size_scale=4, maxpixels)
                         print(p)
                     }
                  },
@@ -110,36 +111,13 @@ gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='',
 
 # library(gfcanalysis)
 # library(raster)
+# library(rasterVis)
 # library(rgdal)
 # library(plyr)
-# aoi <- readOGR('H:/Data/TEAM/BCI/Vectors', 'ZOI_BCI_2013')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BCI_2013_gfcstack.envi')
+# #aoi <- readOGR('H:/Data/TEAM/BCI/Vectors', 'ZOI_BCI_2013')
+# aoi <- readOGR('D:/azvoleff/Data/BCI/Vectors', 'ZOI_BCI_2013')
+# #gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BCI_2013_gfcstack.envi')
+#
 # gfc_animate(aoi, "ZOI", gfc_stack, 'BCI_new/BCI', 'Barro Colorado Nature Monument', 'html')
 #
-# aoi <- readOGR('H:/Data/TEAM/BIF/Vectors', 'ZOI_BIF_2012')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BIF_2012_gfcstack.envi')
-# gfc_animate(aoi, "ZOI", gfc_stack, 'BIF_new/BIF', 'Bwindi Impenetrable Forest', 'html')
-#
-# aoi <- readOGR('H:/Data/TEAM/CAX/Vectors', 'ZOI_CAX_2012')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_CAX_2012_gfcstack.envi')
-# gfc_animate(aoi, "ZOI", gfc_stack, 'CAX_new/CAX', 'Caxiuana', 'html')
-#
-# aoi <- readOGR('H:/Data/TEAM/COU/Vectors', 'ZOI_COU_2012')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_COU_2012_gfcstack.envi')
-# gfc_animate(aoi, "ZOI", gfc_stack, 'COU_new/COU', 'Cocha Cashu', 'html')
-#
-# aoi <- readOGR('H:/Data/TEAM/CSN/Vectors', 'ZOI_CSN_2011')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_CSN_2011_gfcstack.envi')
-# gfc_animate(aoi, "ZOI", gfc_stack, 'CSN_new/CSN', 'Central Surinam', 'html')
-#
-# aoi <- readOGR('H:/Data/TEAM/KRP/Vectors', 'ZOI_KRP_2013')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_KRP_2013_gfcstack.envi')
-# gfc_animate(aoi, "ZOI", gfc_stack, 'KRP_new/KRP', 'Korup', 'html')
-#
-# aoi <- readOGR('H:/Data/TEAM/MAS/Vectors', 'ZOI_MAS_2010')
-# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_MAS_2010_gfcstack.envi')
-# gfc_animate(aoi, "ZOI", gfc_stack, 'MAS_new/MAS', 'Manaus', 'html')
-
-
-#a <- plot_gfc(gfc_stack[[5]], aoi_df, "ZOI", 'Forest cover', 2000, 4)
-
+# plot_gfc(gfc_stack[[5]], aoi_df, "ZOI", 'Forest cover', 2000, 2, 40000)
