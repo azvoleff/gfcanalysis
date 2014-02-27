@@ -1,11 +1,11 @@
 #' @import ggplot2
 #' @importFrom grid unit
 #' @importFrom rasterVis gplot
-plot_year <- function(data_raster, aoi_df, aoi_label, variable, 
-                      title_string='', size_scale=1) {
+plot_gfc <- function(data_raster, aoi_df, aoi_label, variable, 
+                      title_string='', size_scale=1, maxpixels=50000) {
     theme_set(theme_bw(base_size=8*size_scale))
     long=lat=value=NULL # For R CMD CHECK
-    gplot(data_raster, maxpixels=400000) +
+    gplot(data_raster, maxpixels=maxpixels) +
         geom_tile(aes(fill=factor(value, levels=c(1, 2, 3, 4, 5, 0)))) +
         coord_fixed() + 
         scale_fill_manual("Cover",
@@ -31,6 +31,7 @@ plot_year <- function(data_raster, aoi_df, aoi_label, variable,
               plot.margin=unit(c(.1, .1, .1, .1), 'cm')) +
         geom_path(label=aoi_label, data=aoi_df, aes(long, lat), color='yellow', 
                   size=.5*size_scale, alpha=.7, linetype=2) +
+        scale_color_discrete(title='') +
         ggtitle(title_string)
 }
 
@@ -64,6 +65,7 @@ gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='',
     ani.options(outdir=out_dir, ani.width=width*dpi, ani.height=height*dpi, 
                 verbose=FALSE)
 
+
     if (tolower(file_ext(out_name)) != '') {
         stop('out_name should not have an extension')
     }
@@ -79,20 +81,24 @@ gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='',
 
     dates <- seq(2000, 2012, 1)
 
+    # Round maxpixels to nearest 1000
+    maxpixels <- ceiling((width * height * dpi^2)/1000) * 1000
     if (type == 'gif') {
         out_file <- paste(out_name, '.gif')
         saveGIF({
                     for (n in 1:nlayers(gfc_stack)) {
-                        p <- plot_year(gfc_stack[[n]], aoi_df, aoi_label, 
-                                       "Forest cover", dates[n], size_scale=4)
+                        p <- plot_gfc(gfc_stack[[n]], aoi_df, aoi_label, 
+                                       "Forest cover", dates[n], size_scale=4, 
+                                       maxpixels)
                         print(p)
                     }
                 }, interval=0.5, movie.name=out_file)
     } else if (type == 'html') {
         saveHTML({
                     for (n in 1:nlayers(gfc_stack)) {
-                        p <- plot_year(gfc_stack[[n]], aoi_df, aoi_label, 
-                                       "Forest cover", dates[n], size_scale=4)
+                        p <- plot_gfc(gfc_stack[[n]], aoi_df, aoi_label, 
+                                       "Forest cover", dates[n], size_scale=4,
+                                       maxpixels)
                         print(p)
                     }
                  },
@@ -102,36 +108,38 @@ gfc_animate <- function(aoi, aoi_label, gfc_stack, out_name, site_name='',
     }
 }
 
-library(gfcanalysis)
-library(raster)
-library(rgdal)
-aoi <- readOGR('H:/Data/TEAM/BCI/Vectors', 'ZOI_BCI_2013')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BCI_2013_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'BCI_new/BCI', 'Barro Colorado Nature Monument', 'html')
+# library(gfcanalysis)
+# library(raster)
+# library(rgdal)
+# library(plyr)
+# aoi <- readOGR('H:/Data/TEAM/BCI/Vectors', 'ZOI_BCI_2013')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BCI_2013_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'BCI_new/BCI', 'Barro Colorado Nature Monument', 'html')
+#
+# aoi <- readOGR('H:/Data/TEAM/BIF/Vectors', 'ZOI_BIF_2012')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BIF_2012_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'BIF_new/BIF', 'Bwindi Impenetrable Forest', 'html')
+#
+# aoi <- readOGR('H:/Data/TEAM/CAX/Vectors', 'ZOI_CAX_2012')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_CAX_2012_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'CAX_new/CAX', 'Caxiuana', 'html')
+#
+# aoi <- readOGR('H:/Data/TEAM/COU/Vectors', 'ZOI_COU_2012')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_COU_2012_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'COU_new/COU', 'Cocha Cashu', 'html')
+#
+# aoi <- readOGR('H:/Data/TEAM/CSN/Vectors', 'ZOI_CSN_2011')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_CSN_2011_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'CSN_new/CSN', 'Central Surinam', 'html')
+#
+# aoi <- readOGR('H:/Data/TEAM/KRP/Vectors', 'ZOI_KRP_2013')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_KRP_2013_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'KRP_new/KRP', 'Korup', 'html')
+#
+# aoi <- readOGR('H:/Data/TEAM/MAS/Vectors', 'ZOI_MAS_2010')
+# gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_MAS_2010_gfcstack.envi')
+# gfc_animate(aoi, "ZOI", gfc_stack, 'MAS_new/MAS', 'Manaus', 'html')
 
-aoi <- readOGR('H:/Data/TEAM/BIF/Vectors', 'ZOI_BIF_2012')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BIF_2012_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'BIF_new/BIF', 'Bwindi Impenetrable Forest', 'html')
 
-aoi <- readOGR('H:/Data/TEAM/CAX/Vectors', 'ZOI_CAX_2012')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_CAX_2012_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'CAX_new/CAX', 'Caxiuana', 'html')
+#a <- plot_gfc(gfc_stack[[5]], aoi_df, "ZOI", 'Forest cover', 2000, 4)
 
-aoi <- readOGR('H:/Data/TEAM/COU/Vectors', 'ZOI_COU_2012')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_COU_2012_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'COU_new/COU', 'Cocha Cashu', 'html')
-
-aoi <- readOGR('H:/Data/TEAM/CSN/Vectors', 'ZOI_CSN_2011')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_CSN_2011_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'CSN_new/CSN', 'Central Surinam', 'html')
-
-aoi <- readOGR('H:/Data/TEAM/KRP/Vectors', 'ZOI_KRP_2013')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_KRP_2013_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'KRP_new/KRP', 'Korup', 'html')
-
-aoi <- readOGR('H:/Data/TEAM/MAS/Vectors', 'ZOI_MAS_2010')
-gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_MAS_2010_gfcstack.envi')
-gfc_animate(aoi, "ZOI", gfc_stack, 'MAS_new/MAS', 'Manaus', 'html')
-
-
-# # plot_year(gfc_stack[[5]], aoi_df, 'Forest cover', '', 2)
