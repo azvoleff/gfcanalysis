@@ -65,9 +65,3 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
     return(list(loss_table=loss_table, gainarea=gainarea, 
                 lossgainarea=lossgainarea))
 }
-
-library(rgdal)
-aoi <- readOGR('H:/Data/TEAM/COU/Vectors', 'ZOI_COU_2012')
-gfc <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_COU_2012_gfcextract.envi')
-
-gfc_stats(aoi, gfc)
