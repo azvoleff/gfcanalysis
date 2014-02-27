@@ -1,19 +1,16 @@
 #' Generates an annual stack of forest/non-forest
 #'
 #' Uses the datamask, treecover2000, loss, gain, and lossyear layers to produce 
-#' a raster  stack within the given AOI coded as: 0 - nodata, 1 - forest 
+#' a raster stack coded as: 0 - nodata, 1 - forest 
 #' 2 - non-forest, 3 - forest loss, 4 - forest gain, 5 - water
 #'
 #' @export
 #' @import raster
-#' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
-#' If the AOI is not in the WGS84 geographic coordinate system, it will be 
-#' reprojected to WGS84.
 #' @param gfc extract of Global Forest Change product for a given AOI (see 
 #' \code{\link{gfc_extract}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
-gen_stack <- function(aoi, gfc, forest_threshold=50) {
+gen_stack <- function(gfc, forest_threshold=50) {
     # Code forest as 1, non-forest as 2
     forest <- (gfc$treecover2000 > forest_threshold) & (gfc$datamask == 1)
     forest[forest != 1] <- 2

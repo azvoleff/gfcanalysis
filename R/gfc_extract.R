@@ -84,8 +84,8 @@ gfc_extract <- function(aoi, data_folder, aoi_buffer=0) {
                                  method='ngb', datatype='INT1U')
     # Crop to the original AOI, as "tile_mosaic" currently includes 500m buffer
     aoi <- spTransform(aoi, CRS(proj4string(tile_mosaic)))
-    tile_mosaic <- crop(tile_mosaic, aoi)
     NAvalue(tile_mosaic) <- -1
+    tile_mosaic <- crop(tile_mosaic, aoi)
 
     return(tile_mosaic)
 }
