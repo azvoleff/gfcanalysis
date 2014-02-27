@@ -9,17 +9,19 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
         geom_tile(aes(fill=factor(value, levels=c(1, 2, 3, 4, 5, 0)))) +
         coord_fixed() + 
         scale_fill_manual("Cover",
-                         breaks=c("1", "2", "3", "4", "5", "0"),
-                         labels=c('Forest',
-                                  'Non-forest',
-                                  'Forest loss',
-                                  'Forest gain',
-                                  'Water',
-                                  'No data'),
+                         breaks=c("1", "2", "3", "4", "5", "6", "0"),
+                         labels=c('Forest', # 1
+                                  'Non-forest', # 2
+                                  'Forest loss', # 3
+                                  'Forest gain', # 4
+                                  'Loss and gain', # 5
+                                  'Water', # 6
+                                  'No data'), # 0
                           values=c('#008000', # forest
                                    '#ffa500', # non-forest
                                    '#ff0000', # forest loss
                                    '#0000ff', # forest gain
+                                   '#ff00ff', # loss and gain
                                    '#c0c0c0', # water
                                    '#101010'), # no data
                           drop=FALSE) +

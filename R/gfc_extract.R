@@ -86,6 +86,7 @@ gfc_extract <- function(aoi, data_folder, aoi_buffer=0) {
     aoi <- spTransform(aoi, CRS(proj4string(tile_mosaic)))
     NAvalue(tile_mosaic) <- -1
     tile_mosaic <- crop(tile_mosaic, aoi)
-
+    names(tile_mosaic) <- c('treecover2000', 'loss', 'gain', 'lossyear', 
+                            'datamask')
     return(tile_mosaic)
 }
