@@ -41,7 +41,7 @@ make_tile_mosaic <- function(aoi) {
     } else {
         tile_mosaic <- tile_stacks[[1]]
     }
-    NAvalue(tile_mosaic) <- 0
+    NAvalue(tile_mosaic) <- -1
 
     return(tile_mosaic)
 }
@@ -67,13 +67,19 @@ make_tile_mosaic <- function(aoi) {
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
 gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
+    aoi <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
     if (aoi_buffer > 0) {
-        aoi_utm <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
-        aoi_utm <- gBuffer(aoi_utm, width=aoi_buffer, byid=TRUE)
-        aoi <- aoi_utm
+        aoi <- gBuffer(aoi, width=aoi_buffer, byid=TRUE)
     }
 
-    tile_mosaic <- make_tile_mosaic(aoi)
+    # Add an additional small buffer avoid having missing areas on the image 
+    # edge after the below reprojection - this buffer will be removed prior to 
+    # returning the output.
+    aoi_buffered <- gBuffer(spTransform(aoi,
+                                        CRS(utm_zone(aoi, proj4string=TRUE))), 
+                            width=500, byid=TRUE)
+
+    tile_mosaic <- make_tile_mosaic(aoi_buffered)
 
     # Code forest as 1, non-forest as 2
     forest <- (tile_mosaic$treecover2000 > forest_threshold) & (tile_mosaic$datamask == 1)
@@ -111,8 +117,15 @@ gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
     bounding_poly <- as(extent(out), "SpatialPolygons")
     proj4string(bounding_poly) <- proj4string(out)
     utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
+
     # Use nearest neighbor since the data is categorical
     out <- projectRaster(out, crs=utm_proj4string, method='ngb', datatype='INT1U')
+
+    # Crop to the original AOI, as "out" currently includes 500m buffer
+    aoi <- spTransform(aoi, CRS(proj4string(out)))
+    out <- crop(out, aoi)
+
+    NAvalue(out) <- -1
 
     out <- setZ(out, seq(as.Date('2000-1-1'), as.Date('2012-1-1'), by='year'))
 
@@ -121,7 +134,6 @@ gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
 # gen_stack(test_poly, "H:/Data/TEAM/GFC_Product")
 # aoi <- test_poly
 # data_folder <- "H:/Data/TEAM/GFC_Product"
-#
 
 # Note gplot is from rasterVis package
 # gplot(out) + geom_tile(aes(fill=value))
