@@ -13,6 +13,9 @@
 #' \code{\link{gfc_extract}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
+#' @return \code{list} with three elements "loss_table", a \code{data.frame} 
+#' with statistics on forest loss, "gain", the area of forest gain, and 
+#' "lossgain", the area that experienced both loss and gain.
 #' @examples
 #' #TODO: Add examples
 gfc_stats <- function(aoi, gfc, forest_threshold=50) {
@@ -62,6 +65,6 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
 
     gainarea <- cellStats(gain_pixels, 'sum') * pixel_area / 10000
     lossgainarea <- cellStats(lossgain_pixels, 'sum') * pixel_area / 10000
-    return(list(loss_table=loss_table, gainarea=gainarea, 
-                lossgainarea=lossgainarea))
+    return(list(loss_table=loss_table, gain=gainarea, 
+                lossgain=lossgainarea))
 }
