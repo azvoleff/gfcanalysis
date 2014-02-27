@@ -1,5 +1,4 @@
-recode_gfc <- function(this_year, floss, fgain, lossyear, datamask) {
-    this_year[floss == 1 & lossyear == year] <- 3 # loss
+recode_gfc <- function(this_year, floss, fgain, datamask) {
     this_year[fgain] <- 4 # gain (no years attached to gain)
     this_year[fgain & floss] <- 5 # loss and gain
     this_year[datamask == 2] <- 6 # water
@@ -21,24 +20,27 @@ recode_gfc <- function(this_year, floss, fgain, lossyear, datamask) {
 #' mapping forest/non-forest
 gen_stack <- function(gfc, forest_threshold=50) {
     out <- raster(gfc)
-    names(out) <- 'y2000'
-    for (year in 0:12) {
-        if (year == 0) {
+    layer_names <- paste0('y', seq(2000, 2012, 1))
+    for (n in 1:length(layer_names)) {
+        if (n == 1) {
             # Code forest as 1, non-forest as 2
-            forest <- (gfc$treecover2000 > forest_threshold) & (gfc$datamask == 1)
-            forest[forest != 1] <- 2
-            last_year <- forest
+            this_year <- (gfc$treecover2000 > forest_threshold) & (gfc$datamask == 1)
+            this_year[this_year != 1] <- 2
+            this_year <- this_year
         } else {
-            last_year <- raster(out, layer=year)
+            this_year <- raster(out, layer=(n-1))
         }
-        this_year <- overlay(last_year,
+        # First code forest loss
+        this_year[gfc$loss & gfc$lossyear == n] <- 3 # loss
+        # Now code forest gain, loss/gain, water, and no data
+        this_year <- overlay(this_year,
                              gfc$loss, 
                              gfc$gain, 
-                             gfc$lossyear, 
                              gfc$datamask, 
                              fun=recode_gfc, datatype='INT1U')
+        names(this_year) <- layer_names[n]
         out <- addLayer(out, this_year)
-        names(out)[year + 1] <- paste0('y20', sprintf('%02i', year))
+
     }
     out <- setZ(out, seq(as.Date('2000-1-1'), as.Date('2012-1-1'), by='year'))
     return(out)
