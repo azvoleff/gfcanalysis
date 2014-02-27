@@ -15,7 +15,7 @@
 #' mapping forest/non-forest
 #' @examples
 #' #TODO: Add examples
-gfc_table <- function(aoi, gfc, forest_threshold=50) {
+gfc_stats <- function(aoi, gfc, forest_threshold=50) {
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
     if (!gIntersects(gfc_boundpoly, aoi)) {
@@ -70,4 +70,4 @@ library(rgdal)
 aoi <- readOGR('H:/Data/TEAM/COU/Vectors', 'ZOI_COU_2012')
 gfc <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_COU_2012_gfcextract.envi')
 
-gfc_table(aoi, gfc)
+gfc_stats(aoi, gfc)

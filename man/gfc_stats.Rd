@@ -1,8 +1,8 @@
-\name{gfc_table}
-\alias{gfc_table}
+\name{gfc_stats}
+\alias{gfc_stats}
 \title{Make a table of forest cover change for a given AOI}
 \usage{
-gfc_table(aoi, gfc, out_file)
+gfc_stats(aoi, gfc, out_file)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
