@@ -87,6 +87,8 @@ gen_stack <- function(aoi, data_folder, aoi_buffer=0, forest_threshold=50) {
         this_year[fgain == 1 & lossyear == year] <- 4
         # Code water as 5
         this_year[datamask == 2] <- 5
+        # Code no data as 0
+        this_year[datamask == 0] <- 0
         return(this_year)
     }
 
