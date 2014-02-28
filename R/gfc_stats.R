@@ -36,7 +36,7 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
 
     years <- seq(2000, 2012, 1)
     NAs <- rep(NA, length(years))
-    loss_table <- data.frame(year=years, fcover=NAs, loss=NAs)
+    loss_table <- data.frame(year=years, cover=NAs, loss=NAs)
 
     # Will need to convert pixels counts to areas. The gfc_stack is in UTM, so 
     # unit of pixel area is square meters.
@@ -50,9 +50,9 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
 
     # Note that areas are converted to square meters using pixel size, then 
     # converted to hectares
-    init_fc <- cellStats(gfc$treecover2000 > forest_threshold,
+    initial_cover <- cellStats(gfc$treecover2000 > forest_threshold,
                          'sum') * pixel_area / 10000
-    loss_table$fcover[1] <- init_fc
+    loss_table$cover[1] <- initial_cover
 
     # Freq loss is a table of the number of pixels lost by year. Entry '0' is 
     # no data value and can be ignored. 
@@ -61,9 +61,9 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
     loss_table$loss <- loss_table$loss * pixel_area / 10000
 
     for (n in 2:nrow(loss_table)) {
-        loss_table$fcover[n] <- loss_table$fcover[n-1] - loss_table$loss[n]
+        loss_table$cover[n] <- loss_table$cover[n-1] - loss_table$loss[n]
     }
-    loss_table$loss_pct <- (loss_table$loss/loss_table$fcover) * 100
+    loss_table$loss_pct <- (loss_table$loss/loss_table$cover) * 100
 
     gainarea <- cellStats(gain_pixels, 'sum') * pixel_area / 10000
     lossgainarea <- cellStats(lossgain_pixels, 'sum') * pixel_area / 10000
