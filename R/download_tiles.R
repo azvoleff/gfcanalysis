@@ -28,24 +28,23 @@ download_tile <- function(tile_url, local_path) {
 
 #' Download a set of GFC tiles
 #'
-#' Checkes whether each tile a set Global Forest Change (GFC) product tiles, is 
-#' present locally, with file sizes matching the files available on the Google 
-#' server hosting the GFC product. Downloads all tiles that either are not 
-#' present locally, or that are present but have file sizes differing from the 
-#' file on the Google server.
+#' This function first checks whether each tile in a set GFC product tiles is 
+#' present locally, and that local file sizes match the file sizes of the files 
+#' available on the Google server hosting the GFC product. Next, the function 
+#' downloads all tiles that either are not present locally, or that are present 
+#' but have file sizes differing from the file on the Google server.
 #'
-#' @seealso \code{\link{gen_stack}}
+#' @seealso \code{\link{gfc_extract}}
 #'
 #' @export
 #' @importFrom sp bbox
 #' @importFrom stringr str_extract
-#' @param tiles \code{SpatialPolygonsDataFrame} with Global Forest Change 
+#' @param tiles \code{SpatialPolygonsDataFrame} with GFC 
 #' product tiles to download, as calculated by the \code{calc_gfc_tiles} 
 #' function.
 #' @param output_folder the folder to save output data in
 #' @param first_and_last whether to download the composite images for 2000 and 
 #' 2010 (which are substantially larger than the other layers)
-#' @return used for the side effect of downloading GFC tiles
 #' @examples
 #' \dontrun{
 #' output_folder <- 'H:/Data/TEAM/GFC_Product'

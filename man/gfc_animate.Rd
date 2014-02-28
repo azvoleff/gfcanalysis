@@ -11,8 +11,8 @@ gfc_animate(aoi, gfc_stack, out_name, site_name = "", aoi_label = "ZOI",
   WGS84 geographic coordinate system, it will be
   reprojected to WGS84.}
 
-  \item{gfc_stack}{a Global Forest Change product subset as
-  a \code{RasterStack} (as output by
+  \item{gfc_stack}{a GFC product subset as a
+  \code{RasterStack} (as output by
   \code{\link{gen_stack}})}
 
   \item{out_name}{basename for animation output}
@@ -47,6 +47,6 @@ will only work if the imagemagicK software package is
 installed beforehand (this is done outside of R).
 }
 \seealso{
-\code{\link{gen_stack}}, \code{\link{gfc_stats}}
+\code{\link{gen_stack}}
 }
 

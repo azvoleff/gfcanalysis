@@ -8,9 +8,13 @@ recode_gfc <- function(this_year, floss, fgain, datamask) {
 
 #' Generate an annual stack of forest change from GFC product
 #'
-#' Uses the datamask, treecover2000, loss, gain, and lossyear layers to produce 
-#' an annual raster stack from a \code{\link{gfc_extract}}. See Details for the class 
-#' codes used in the annual raster stack.
+#' Uses the GFC data output from \code{\link{gfc_extract}} to make an 
+#' annualized layer stack of forest change. This function uses the datamask, 
+#' treecover2000, loss, gain, and lossyear layers from the GFC product to 
+#' produce an annual raster stack from a \code{\link{gfc_extract}}.  See 
+#' Details for the class codes used in the annual raster stack. The 
+#' \code{\link{gfc_animate}} function can be used to produce an animation of 
+#' forest change from the generated layer stack.
 #' 
 #' The output raster stack uses the following codes to describe forest change 
 #' at each pixel:
@@ -24,12 +28,11 @@ recode_gfc <- function(this_year, floss, fgain, datamask) {
 #'     Water                \tab 6 \cr
 #' }
 #'
-#' @seealso \code{\link{download_tile}}, \code{\link{gfc_animate}}, 
-#' \code{\link{gfc_stats}}
+#' @seealso \code{\link{gfc_extract}}, \code{\link{gfc_animate}}
 #'
 #' @export
 #' @import raster
-#' @param gfc extract of Global Forest Change product for a given AOI (see 
+#' @param gfc extract of GFC product for a given AOI (see 
 #' \code{\link{gfc_extract}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest

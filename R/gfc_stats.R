@@ -8,7 +8,7 @@
 #' basis. Use \code{\link{gfc_extract}} to extract the GFC data for the AOI prior to 
 #' running this function.
 #'
-#' @seealso \code{\link{gen_stack}}, \code{\link{gfc_animate}}
+#' @seealso \code{\link{gfc_extract}}
 #'
 #' @export
 #' @import raster
@@ -17,7 +17,7 @@
 #' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
 #' If the AOI is not in the WGS84 geographic coordinate system, it will be 
 #' reprojected to WGS84
-#' @param gfc extract of Global Forest Change product for a given AOI (see 
+#' @param gfc extract of GFC product for a given AOI (see 
 #' \code{\link{gfc_extract}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest

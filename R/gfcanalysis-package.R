@@ -8,11 +8,11 @@
 #' @docType data
 #' @name test_poly
 NULL
-#' Grid of tiles used for the Global Forest Change product
+#' Grid of tiles used for the GFC product
 #' 
 #' Contains a \code{SpatialPolygonsDataFrame} with a 10 x 10 degree grid in 
 #' WGS84 coordinate system, covering the area from 180W-180E and 80N-60S, the 
-#' tile system used by the Global Forest Change Product.
+#' tile system used by the GFC Product.
 #'
 #' @encoding UTF-8
 #' @docType data

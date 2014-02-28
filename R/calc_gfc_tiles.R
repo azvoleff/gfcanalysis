@@ -1,6 +1,6 @@
-#' Calculate the Global Forest Change product tiles needed for a given AOI
+#' Calculate the GFC product tiles needed for a given AOI
 #'
-#' Intersects an (optionally buffered) AOI with the Global Forest Change 
+#' Intersects an (optionally buffered) AOI with the GFC 
 #' product grid to determine what tiles are need to cover the AOI.
 #'
 #' @export
@@ -30,7 +30,7 @@ calc_gfc_tiles <- function(aoi, aoi_buffer=0) {
                                            gUnaryUnion(aoi), 
                                            byid=TRUE))
     if (sum(intersecting) == 0) {
-        stop('no intersecting Global Forest Change tiles found')
+        stop('no intersecting GFC tiles found')
     } else {
         gfc_tiles <- gfc_tiles[intersecting, ]
     }

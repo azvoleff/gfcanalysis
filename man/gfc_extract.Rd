@@ -27,4 +27,8 @@ series of pre-downloaded GFC tiles. The
 beforehand in order to download the necessary data to the
 specified \code{data_folder}.
 }
+\seealso{
+\code{\link{download_tiles}}, \code{\link{gen_stack}},
+\code{\link{gfc_stats}}
+}
 

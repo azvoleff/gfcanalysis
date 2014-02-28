@@ -10,8 +10,8 @@ gfc_stats(aoi, gfc, forest_threshold = 50)
   WGS84 geographic coordinate system, it will be
   reprojected to WGS84}
 
-  \item{gfc}{extract of Global Forest Change product for a
-  given AOI (see \code{\link{gfc_extract}})}
+  \item{gfc}{extract of GFC product for a given AOI (see
+  \code{\link{gfc_extract}})}
 
   \item{forest_threshold}{percent woody vegetation to use
   as a threshold for mapping forest/non-forest}
@@ -37,6 +37,6 @@ data for the AOI prior to running this function.
 #TODO: Add examples
 }
 \seealso{
-\code{\link{gen_stack}}, \code{\link{gfc_animate}}
+\code{\link{gfc_extract}}
 }
 

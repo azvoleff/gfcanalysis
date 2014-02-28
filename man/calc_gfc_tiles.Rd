@@ -1,6 +1,6 @@
 \name{calc_gfc_tiles}
 \alias{calc_gfc_tiles}
-\title{Calculate the Global Forest Change product tiles needed for a given AOI}
+\title{Calculate the GFC product tiles needed for a given AOI}
 \usage{
 calc_gfc_tiles(aoi, aoi_buffer = 0)
 }
@@ -18,9 +18,9 @@ a \code{SpatialPolygonsDataFrame} of the GFC tiles needed
 to cover the AOI
 }
 \description{
-Intersects an (optionally buffered) AOI with the Global
-Forest Change product grid to determine what tiles are need
-to cover the AOI.
+Intersects an (optionally buffered) AOI with the GFC
+product grid to determine what tiles are need to cover the
+AOI.
 }
 \examples{
 library(sp)

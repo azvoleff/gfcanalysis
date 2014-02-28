@@ -5,9 +5,9 @@
 download_tiles(tiles, output_folder, first_and_last = FALSE)
 }
 \arguments{
-  \item{tiles}{\code{SpatialPolygonsDataFrame} with Global
-  Forest Change product tiles to download, as calculated by
-  the \code{calc_gfc_tiles} function.}
+  \item{tiles}{\code{SpatialPolygonsDataFrame} with GFC
+  product tiles to download, as calculated by the
+  \code{calc_gfc_tiles} function.}
 
   \item{output_folder}{the folder to save output data in}
 
@@ -15,16 +15,14 @@ download_tiles(tiles, output_folder, first_and_last = FALSE)
   images for 2000 and 2010 (which are substantially larger
   than the other layers)}
 }
-\value{
-used for the side effect of downloading GFC tiles
-}
 \description{
-Checkes whether each tile a set Global Forest Change (GFC)
-product tiles, is present locally, with file sizes matching
-the files available on the Google server hosting the GFC
-product. Downloads all tiles that either are not present
-locally, or that are present but have file sizes differing
-from the file on the Google server.
+This function first checks whether each tile in a set GFC
+product tiles is present locally, and that local file sizes
+match the file sizes of the files available on the Google
+server hosting the GFC product. Next, the function
+downloads all tiles that either are not present locally, or
+that are present but have file sizes differing from the
+file on the Google server.
 }
 \examples{
 \dontrun{
@@ -34,6 +32,6 @@ download_tiles(tiles, output_folder)
 }
 }
 \seealso{
-\code{\link{gen_stack}}
+\code{\link{gfc_extract}}
 }
 

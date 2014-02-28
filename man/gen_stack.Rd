@@ -5,17 +5,22 @@
 gen_stack(gfc, forest_threshold = 50)
 }
 \arguments{
-  \item{gfc}{extract of Global Forest Change product for a
-  given AOI (see \code{\link{gfc_extract}})}
+  \item{gfc}{extract of GFC product for a given AOI (see
+  \code{\link{gfc_extract}})}
 
   \item{forest_threshold}{percent woody vegetation to use
   as a threshold for mapping forest/non-forest}
 }
 \description{
-Uses the datamask, treecover2000, loss, gain, and lossyear
-layers to produce an annual raster stack from a
-\code{\link{gfc_extract}}. See Details for the class codes
-used in the annual raster stack.
+Uses the GFC data output from \code{\link{gfc_extract}} to
+make an annualized layer stack of forest change. This
+function uses the datamask, treecover2000, loss, gain, and
+lossyear layers from the GFC product to produce an annual
+raster stack from a \code{\link{gfc_extract}}.  See Details
+for the class codes used in the annual raster stack. The
+\code{\link{gfc_animate}} function can be used to produce
+an animation of forest change from the generated layer
+stack.
 }
 \details{
 The output raster stack uses the following codes to
@@ -25,7 +30,6 @@ loss \tab 3 \cr Forest gain \tab 4 \cr Forest loss and gain
 \tab 5 \cr Water \tab 6 \cr }
 }
 \seealso{
-\code{\link{download_tile}}, \code{\link{gfc_animate}},
-\code{\link{gfc_stats}}
+\code{\link{gfc_extract}}, \code{\link{gfc_animate}}
 }
 

@@ -2,11 +2,11 @@
 \encoding{UTF-8}
 \name{gfc_tiles}
 \alias{gfc_tiles}
-\title{Grid of tiles used for the Global Forest Change product}
+\title{Grid of tiles used for the GFC product}
 \description{
 Contains a \code{SpatialPolygonsDataFrame} with a 10 x 10
 degree grid in WGS84 coordinate system, covering the area
-from 180W-180E and 80N-60S, the tile system used by the
-Global Forest Change Product.
+from 180W-180E and 80N-60S, the tile system used by the GFC
+Product.
 }
 

@@ -52,7 +52,7 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
 #' imagemagicK software package is installed beforehand (this is done outside 
 #' of R).
 #'
-#' @seealso \code{\link{gen_stack}}, \code{\link{gfc_stats}}
+#' @seealso \code{\link{gen_stack}}
 #'
 #' @export
 #' @importFrom tools file_ext
@@ -61,7 +61,7 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
 #' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
 #' If the AOI is not in the WGS84 geographic coordinate system, it will be 
 #' reprojected to WGS84.
-#' @param gfc_stack a Global Forest Change product subset as a 
+#' @param gfc_stack a GFC product subset as a 
 #' \code{RasterStack} (as output by \code{\link{gen_stack}})
 #' @param out_name basename for animation output
 #' @param site_name name of the site (used in making title)
