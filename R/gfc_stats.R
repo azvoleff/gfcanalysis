@@ -21,7 +21,9 @@
 gfc_stats <- function(aoi, gfc, forest_threshold=50) {
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
-    if (!gIntersects(gfc_boundpoly, aoi)) {
+    gfc_boundpoly_wgs84 <- spTransform(gfc_boundpoly, CRS('+init=epsg:4326'))
+    aoi_wgs84 <- spTransform(aoi, CRS('+init=epsg:4326'))
+    if (!gIntersects(gfc_boundpoly_wgs84, aoi_wgs84)) {
         stop('aoi does not intersect supplied GFC extract')
     }
 
