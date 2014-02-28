@@ -45,12 +45,14 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
 #' extent of a given AOI. The AOI polygon is also plotted on the image. The 
 #' \code{gfc_stack} must be pre-calculated using the \code{\link{gen_stack}} 
 #' function. The animation can be either an animated GIF (if \code{type} is set 
-#' to 'gif'} or a series of '.png' files with a corresponding '.html' webpage 
+#' to 'gif') or a series of '.png' files with a corresponding '.html' webpage 
 #' showing a simple viewer and the forest change animation (if \code{type} is 
-#' set to 'html'}. The HTML option is recommended as it requires no additional 
+#' set to 'html'). The HTML option is recommended as it requires no additional 
 #' software to produce it. The animated GIF option will only work if the 
 #' imagemagicK software package is installed beforehand (this is done outside 
 #' of R).
+#'
+#' @seealso \code{\link{gen_stack}}, \code{\link{gfc_stats}}
 #'
 #' @export
 #' @importFrom tools file_ext

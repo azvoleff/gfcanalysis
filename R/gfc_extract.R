@@ -49,7 +49,7 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' Extracts GFC data for a given AOI
 #'
 #' This function extracts a dataset for a given AOI from a series of 
-#' pre-downloaded GFC tiles. The \code{download_tiles} function should be used 
+#' pre-downloaded GFC tiles. The \code{\link{download_tiles}} function should be used 
 #' beforehand in order to download the necessary data to the specified
 #' \code{data_folder}.
 #'
@@ -61,7 +61,7 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' If the AOI is not in the WGS84 geographic coordinate system, it will be 
 #' reprojected to WGS84.
 #' @param data_folder folder where downloaded GFC product tiles are located 
-#' (see \code{download_tiles} function.
+#' (see \code{\link{download_tiles}} function.
 #' @param aoi_buffer a distance in meters to buffer the AOI by prior to 
 #' intersecting it with the GFC grid.
 #' @return \code{RasterStack} with GFC layers

@@ -5,8 +5,10 @@
 #' experienced forest gain and, 2) the total area of pixels that experienced 
 #' both loss and gain over the full 2010-2012 period. Note that forest gain and 
 #' combined loss and gain are not available in the GFC product on an annualized 
-#' basis. Use \code{gfc_extract} to extract the GFC data for the AOI prior to 
+#' basis. Use \code{\link{gfc_extract}} to extract the GFC data for the AOI prior to 
 #' running this function.
+#'
+#' @seealso \code{\link{gen_stack}}, \code{\link{gfc_animate}}
 #'
 #' @export
 #' @import raster

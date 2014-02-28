@@ -14,8 +14,8 @@ gen_stack(gfc, forest_threshold = 50)
 \description{
 Uses the datamask, treecover2000, loss, gain, and lossyear
 layers to produce an annual raster stack from a
-\code{gfc_extract}. See Details for the class codes used in
-the annual raster stack.
+\code{\link{gfc_extract}}. See Details for the class codes
+used in the annual raster stack.
 }
 \details{
 The output raster stack uses the following codes to
@@ -23,5 +23,9 @@ describe forest change at each pixel: \tabular{lc}{ Nodata
 \tab 0 \cr Forest \tab 1 \cr Non-forest \tab 2 \cr Forest
 loss \tab 3 \cr Forest gain \tab 4 \cr Forest loss and gain
 \tab 5 \cr Water \tab 6 \cr }
+}
+\seealso{
+\code{\link{download_tile}}, \code{\link{gfc_animate}},
+\code{\link{gfc_stats}}
 }
 

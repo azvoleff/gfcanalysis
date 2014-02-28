@@ -33,4 +33,7 @@ tiles <- calc_gfc_tiles(test_poly)
 download_tiles(tiles, output_folder)
 }
 }
+\seealso{
+\code{\link{gen_stack}}
+}
 

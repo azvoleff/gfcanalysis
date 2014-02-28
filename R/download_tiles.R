@@ -34,6 +34,8 @@ download_tile <- function(tile_url, local_path) {
 #' present locally, or that are present but have file sizes differing from the 
 #' file on the Google server.
 #'
+#' @seealso \code{\link{gen_stack}}
+#'
 #' @export
 #' @importFrom sp bbox
 #' @importFrom stringr str_extract

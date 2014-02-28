@@ -5,6 +5,8 @@
 #' product is tiled on, so that an AOI polygon can be intersected with the grid 
 #' to calculate the appropriate tiles to download.
 #'
+#' @seealso \code{\link{download_tiles}}
+#'
 #' @export
 #' @importFrom sp CRS GridTopology SpatialGrid
 #' @param origin_x x coordinate of the origin

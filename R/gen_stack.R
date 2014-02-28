@@ -9,7 +9,7 @@ recode_gfc <- function(this_year, floss, fgain, datamask) {
 #' Generate an annual stack of forest change from GFC product
 #'
 #' Uses the datamask, treecover2000, loss, gain, and lossyear layers to produce 
-#' an annual raster stack from a \code{gfc_extract}. See Details for the class 
+#' an annual raster stack from a \code{\link{gfc_extract}}. See Details for the class 
 #' codes used in the annual raster stack.
 #' 
 #' The output raster stack uses the following codes to describe forest change 
@@ -23,6 +23,9 @@ recode_gfc <- function(this_year, floss, fgain, datamask) {
 #'     Forest loss and gain \tab 5 \cr
 #'     Water                \tab 6 \cr
 #' }
+#'
+#' @seealso \code{\link{download_tile}}, \code{\link{gfc_animate}}, 
+#' \code{\link{gfc_stats}}
 #'
 #' @export
 #' @import raster

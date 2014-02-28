@@ -11,7 +11,8 @@ gfc_extract(aoi, data_folder, aoi_buffer = 0)
   reprojected to WGS84.}
 
   \item{data_folder}{folder where downloaded GFC product
-  tiles are located (see \code{download_tiles} function.}
+  tiles are located (see \code{\link{download_tiles}}
+  function.}
 
   \item{aoi_buffer}{a distance in meters to buffer the AOI
   by prior to intersecting it with the GFC grid.}
@@ -22,8 +23,8 @@ gfc_extract(aoi, data_folder, aoi_buffer = 0)
 \description{
 This function extracts a dataset for a given AOI from a
 series of pre-downloaded GFC tiles. The
-\code{download_tiles} function should be used beforehand in
-order to download the necessary data to the specified
-\code{data_folder}.
+\code{\link{download_tiles}} function should be used
+beforehand in order to download the necessary data to the
+specified \code{data_folder}.
 }
 
