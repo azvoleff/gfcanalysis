@@ -63,7 +63,6 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
     for (n in 2:nrow(loss_table)) {
         loss_table$cover[n] <- loss_table$cover[n-1] - loss_table$loss[n]
     }
-    loss_table$loss_pct <- (loss_table$loss/loss_table$cover) * 100
 
     gainarea <- cellStats(gain_pixels, 'sum') * pixel_area / 10000
     lossgainarea <- cellStats(lossgain_pixels, 'sum') * pixel_area / 10000
