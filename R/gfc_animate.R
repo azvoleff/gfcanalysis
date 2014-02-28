@@ -6,7 +6,7 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
     theme_set(theme_bw(base_size=8*size_scale))
     long=lat=value=Region=NULL # For R CMD CHECK
     gplot(data_raster, maxpixels=maxpixels) +
-        geom_tile(aes(fill=factor(value, levels=c(1, 2, 3, 4, 5, 0)))) +
+        geom_tile(aes(fill=factor(value, levels=c(1, 2, 3, 4, 5, 6, 0)))) +
         coord_fixed() + 
         scale_fill_manual("Cover",
                          breaks=c("1", "2", "3", "4", "5", "6", "0"),
