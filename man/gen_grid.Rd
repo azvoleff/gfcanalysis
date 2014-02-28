@@ -1,6 +1,6 @@
 \name{gen_grid}
 \alias{gen_grid}
-\title{Function to generate grid}
+\title{Generate a spatial grid}
 \usage{
 gen_grid(origin_x, dx, max_x, origin_y, dy, max_y, grid_proj4string = NULL)
 }
@@ -21,10 +21,11 @@ gen_grid(origin_x, dx, max_x, origin_y, dy, max_y, grid_proj4string = NULL)
   (defaults to WGS-84)}
 }
 \description{
-Used for producing the 10x10 degree WGS84 grid that the GFC
-product is tiled on, so that an AOI polygon can be
-intersected with the grid to calculate the appropriate
-tiles to download.
+Produces an arbitrary grid in any user-defined coordinate
+system. Used by \code{gfcanalysis} for producing the 10x10
+degree WGS84 grid that the GFC product is tiled on, so that
+an AOI polygon can be intersected with the grid to
+calculate the appropriate tiles to download.
 }
 \examples{
 gfc_tiles <- gen_grid(-180, 10, 180, -60, 10, 80)

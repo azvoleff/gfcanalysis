@@ -3,7 +3,7 @@
 \title{Plot an animation of forest change within a given AOI}
 \usage{
 gfc_animate(aoi, gfc_stack, out_name, site_name = "", aoi_label = "ZOI",
-  type = "gif", height = 3, width = 3, dpi = 300)
+  type = "html", height = 3, width = 3, dpi = 300)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -33,6 +33,17 @@ gfc_animate(aoi, gfc_stack, out_name, site_name = "", aoi_label = "ZOI",
   \item{dpi}{dots per inch for the output image}
 }
 \description{
-Plot an animation of forest change within a given AOI
+Produces an animation of annual forest change in the area
+bounded by the extent of a given AOI. The AOI polygon is
+also plotted on the image. The \code{gfc_stack} must be
+pre-calculated using the \code{\link{gen_stack}} function.
+The animation can be either an animated GIF (if \code{type}
+is set to 'gif'} or a series of '.png' files with a
+corresponding '.html' webpage showing a simple viewer and
+the forest change animation (if \code{type} is set to
+'html'}. The HTML option is recommended as it requires no
+additional software to produce it. The animated GIF option
+will only work if the imagemagicK software package is
+installed beforehand (this is done outside of R).
 }
 

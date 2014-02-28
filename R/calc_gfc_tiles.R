@@ -18,7 +18,7 @@
 #' library(sp)
 #' tiles <- calc_gfc_tiles(test_poly)
 #' plot(tiles)
-#' plot(test_poly, add=TRUE)
+#' plot(test_poly, lt=2, add=TRUE)
 calc_gfc_tiles <- function(aoi, aoi_buffer=0) {
     if (aoi_buffer > 0) {
         aoi_utm <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))

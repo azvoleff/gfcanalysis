@@ -6,11 +6,23 @@ recode_gfc <- function(this_year, floss, fgain, datamask) {
     return(this_year)
 }
 
-#' Generates an annual stack of forest/non-forest
+#' Generate an annual stack of forest change from GFC product
 #'
 #' Uses the datamask, treecover2000, loss, gain, and lossyear layers to produce 
-#' a raster stack coded as: 0 - nodata, 1 - forest, 2 - non-forest, 3 - forest 
-#' loss, 4 - forest gain, 5 - forest loss and gain, 6 - water
+#' an annual raster stack from a \code{gfc_extract}. See Details for the class 
+#' codes used in the annual raster stack.
+#' 
+#' The output raster stack uses the following codes to describe forest change 
+#' at each pixel:
+#' \tabular{lc}{
+#'     Nodata               \tab 0 \cr
+#'     Forest               \tab 1 \cr
+#'     Non-forest           \tab 2 \cr
+#'     Forest loss          \tab 3 \cr
+#'     Forest gain          \tab 4 \cr
+#'     Forest loss and gain \tab 5 \cr
+#'     Water                \tab 6 \cr
+#' }
 #'
 #' @export
 #' @import raster

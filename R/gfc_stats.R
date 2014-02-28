@@ -1,6 +1,12 @@
-#' Make a table of forest cover change for a given AOI
+#' Produce a table of forest cover change statistics for a given AOI
 #'
-#' Output is in hectares.
+#' For a given AOI, this function produces two tables: an annual forest loss 
+#' table (in hectares), and a table specifying 1) the total area of pixels that 
+#' experienced forest gain and, 2) the total area of pixels that experienced 
+#' both loss and gain over the full 2010-2012 period. Note that forest gain and 
+#' combined loss and gain are not available in the GFC product on an annualized 
+#' basis. Use \code{gfc_extract} to extract the GFC data for the AOI prior to 
+#' running this function.
 #'
 #' @export
 #' @import raster

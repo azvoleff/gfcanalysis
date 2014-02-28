@@ -48,6 +48,11 @@ make_tile_mosaic <- function(aoi, data_folder) {
 
 #' Extracts GFC data for a given AOI
 #'
+#' This function extracts a dataset for a given AOI from a series of 
+#' pre-downloaded GFC tiles. The \code{download_tiles} function should be used 
+#' beforehand in order to download the necessary data to the specified
+#' \code{data_folder}.
+#'
 #' @export
 #' @import rgdal
 #' @importFrom sp spTransform CRS proj4string proj4string<-

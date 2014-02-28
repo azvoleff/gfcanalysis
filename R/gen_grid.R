@@ -1,8 +1,9 @@
-#' Function to generate grid
+#' Generate a spatial grid
 #'
-#' Used for producing the 10x10 degree WGS84 grid that the GFC product is tiled 
-#' on, so that an AOI polygon can be intersected with the grid to calculate the 
-#' appropriate tiles to download.
+#' Produces an arbitrary grid in any user-defined coordinate system. Used by 
+#' \code{gfcanalysis} for producing the 10x10 degree WGS84 grid that the GFC 
+#' product is tiled on, so that an AOI polygon can be intersected with the grid 
+#' to calculate the appropriate tiles to download.
 #'
 #' @export
 #' @importFrom sp CRS GridTopology SpatialGrid

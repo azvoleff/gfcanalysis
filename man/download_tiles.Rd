@@ -19,8 +19,12 @@ download_tiles(tiles, output_folder, first_and_last = FALSE)
 used for the side effect of downloading GFC tiles
 }
 \description{
-Function to download a set of Global Forest Change product
-tiles, after verifying that they are not present locally.
+Checkes whether each tile a set Global Forest Change (GFC)
+product tiles, is present locally, with file sizes matching
+the files available on the Google server hosting the GFC
+product. Downloads all tiles that either are not present
+locally, or that are present but have file sizes differing
+from the file on the Google server.
 }
 \examples{
 \dontrun{

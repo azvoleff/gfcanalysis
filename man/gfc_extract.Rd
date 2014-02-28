@@ -20,6 +20,10 @@ gfc_extract(aoi, data_folder, aoi_buffer = 0)
 \code{RasterStack} with GFC layers
 }
 \description{
-Extracts GFC data for a given AOI
+This function extracts a dataset for a given AOI from a
+series of pre-downloaded GFC tiles. The
+\code{download_tiles} function should be used beforehand in
+order to download the necessary data to the specified
+\code{data_folder}.
 }
 
