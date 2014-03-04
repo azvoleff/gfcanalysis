@@ -55,6 +55,7 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
 #' @seealso \code{\link{annual_stack}}
 #'
 #' @export
+#' @import ggplot2
 #' @importFrom tools file_ext
 #' @importFrom plyr join
 #' @import animation
@@ -63,18 +64,21 @@ plot_gfc <- function(data_raster, aoi_df, variable, title_string='',
 #' reprojected to WGS84.
 #' @param gfc_stack a GFC product subset as a 
 #' \code{RasterStack} (as output by \code{\link{annual_stack}})
-#' @param out_name basename for animation output
+#' @param out_dir folder for animation output
+#' @param out_basename basename to use when naming animation files
 #' @param site_name name of the site (used in making title)
 #' @param aoi_label label to use in legend for AOI polygon
 #' @param type type of animation to make. Can be either "gif" or "html"
 #' @param height desired height of the animation GIF in inches
 #' @param width desired width of the animation GIF in inches
 #' @param dpi dots per inch for the output image
-animate_annual <- function(aoi, gfc_stack, out_name, site_name='', 
-                        aoi_label='ZOI', type='html', height=3, width=3, 
-                        dpi=300) {
-    out_name <- basename(out_name)
-    out_dir <- dirname(out_name)
+animate_annual <- function(aoi, gfc_stack, out_dir, out_basename, site_name='', 
+                           aoi_label='AOI', type='html', height=3, width=3, 
+                           dpi=300) {
+    if (nlayers(gfc_stack) != 13) {
+        warning('gfc_stack has ', nlayers(gfc_stack),
+                ' layers - full annual GFC product stack should have 13 layers')
+    }
     if (!file_test('-d', out_dir)) {
         dir.create(out_dir)
     }
@@ -82,9 +86,8 @@ animate_annual <- function(aoi, gfc_stack, out_name, site_name='',
     ani.options(outdir=out_dir, ani.width=width*dpi, ani.height=height*dpi, 
                 verbose=FALSE)
 
-
-    if (tolower(file_ext(out_name)) != '') {
-        stop('out_name should not have an extension')
+    if (tolower(file_ext(out_basename)) != '') {
+        stop('out_basename should not have an extension')
     }
 
     if (!(type %in% c('gif', 'html'))) {
@@ -102,7 +105,7 @@ animate_annual <- function(aoi, gfc_stack, out_name, site_name='',
     # Round maxpixels to nearest 1000
     maxpixels <- ceiling((width * height * dpi^2)/1000) * 1000
     if (type == 'gif') {
-        out_file <- paste(out_name, '.gif')
+        out_file <- paste(out_basename, '.gif')
         saveGIF({
                     for (n in 1:nlayers(gfc_stack)) {
                         p <- plot_gfc(gfc_stack[[n]], aoi_df, "Forest cover", 
@@ -118,21 +121,11 @@ animate_annual <- function(aoi, gfc_stack, out_name, site_name='',
                         print(p)
                     }
                  },
-                 img.name=out_name, imgdir=out_name, outdir=out_dir,
-                 htmlfile=paste0(out_name, ".html"), autobrowse=FALSE,
-                 title=paste("Forest change at", site_name))
+                 img.name=out_basename,
+                 imgdir=paste0(out_basename, '_imgs'),
+                 outdir=out_dir,
+                 htmlfile=paste0(out_basename, ".html"),
+                 autobrowse=FALSE,
+                 title=paste(site_name, 'forest change'))
     }
 }
-
-# library(gfcanalysis)
-# library(raster)
-# library(rasterVis)
-# library(rgdal)
-# library(plyr)
-# #aoi <- readOGR('H:/Data/TEAM/BCI/Vectors', 'ZOI_BCI_2013')
-# aoi <- readOGR('D:/azvoleff/Data/BCI/Vectors', 'ZOI_BCI_2013')
-# #gfc_stack <- brick('C:/Users/azvoleff/Code/TEAM/gfcanalysis_scripts/ZOI_BCI_2013_gfcstack.envi')
-#
-# animate_annual(aoi, "ZOI", gfc_stack, 'BCI_new/BCI', 'Barro Colorado Nature Monument', 'html')
-#
-# plot_gfc(gfc_stack[[5]], aoi_df, "ZOI", 'Forest cover', 2000, 2, 40000)

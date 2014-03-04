@@ -2,8 +2,8 @@
 \alias{animate_annual}
 \title{Plot an animation of forest change within a given AOI}
 \usage{
-animate_annual(aoi, gfc_stack, out_name, site_name = "", aoi_label = "ZOI",
-  type = "html", height = 3, width = 3, dpi = 300)
+animate_annual(aoi, gfc_stack, out_dir, out_basename, site_name = "",
+  aoi_label = "AOI", type = "html", height = 3, width = 3, dpi = 300)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -15,7 +15,10 @@ animate_annual(aoi, gfc_stack, out_name, site_name = "", aoi_label = "ZOI",
   \code{RasterStack} (as output by
   \code{\link{annual_stack}})}
 
-  \item{out_name}{basename for animation output}
+  \item{out_dir}{folder for animation output}
+
+  \item{out_basename}{basename to use when naming animation
+  files}
 
   \item{site_name}{name of the site (used in making title)}
 
