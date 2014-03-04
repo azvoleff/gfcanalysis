@@ -15,7 +15,6 @@
 #' @return a \code{SpatialPolygonsDataFrame} of the GFC tiles needed to cover 
 #' the AOI
 #' @examples
-#' library(sp)
 #' tiles <- calc_gfc_tiles(test_poly)
 #' plot(tiles)
 #' plot(test_poly, lt=2, add=TRUE)
