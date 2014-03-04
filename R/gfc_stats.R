@@ -26,7 +26,7 @@
 #' "lossgain", the area that experienced both loss and gain.
 #' @examples
 #' #TODO: Add examples
-gfc_stats <- function(aoi, gfc, forest_threshold=50) {
+gfc_stats <- function(aoi, gfc, forest_threshold=25) {
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
     gfc_boundpoly_wgs84 <- spTransform(gfc_boundpoly, CRS('+init=epsg:4326'))
@@ -51,9 +51,9 @@ gfc_stats <- function(aoi, gfc, forest_threshold=50) {
     pixel_area <- res(gfc)[1] * res(gfc)[2]
 
     # Don't count as loss pixes that also had gain
-    loss_pixels <- gfc$lossyear * (!gfc$gain)
+    loss_pixels <- gfc$lossyear * (!gfc$gain) * (gfc$treecover2000 > forest_threshold)
     # Similarly, don't count as gain pixes that also had loss
-    gain_pixels <- gfc$gain & !gfc$loss
+    gain_pixels <- gfc$gain & !gfc$loss * (!(gfc$treecover2000 > forest_threshold))
     lossgain_pixels <- gfc$gain & gfc$loss
 
     # Note that areas are converted to square meters using pixel size, then 

@@ -2,7 +2,7 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, forest_threshold = 50)
+gfc_stats(aoi, gfc, forest_threshold = 25)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a

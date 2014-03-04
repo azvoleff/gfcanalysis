@@ -1,5 +1,5 @@
 recode_gfc <- function(this_year, floss, fgain, datamask) {
-    this_year[fgain] <- 4 # gain (no years attached to gain)
+    this_year[(this_year == 0) & fgain] <- 4 # gain (no years attached to gain)
     this_year[fgain & floss] <- 5 # loss and gain
     this_year[datamask == 2] <- 6 # water
     this_year[datamask == 0] <- 0 # no data
@@ -36,7 +36,7 @@ recode_gfc <- function(this_year, floss, fgain, datamask) {
 #' \code{\link{extract_gfc}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
-annual_stack <- function(gfc, forest_threshold=50) {
+annual_stack <- function(gfc, forest_threshold=25) {
     out <- raster(gfc)
     layer_names <- paste0('y', seq(2000, 2012, 1))
     for (n in 1:length(layer_names)) {
@@ -49,7 +49,7 @@ annual_stack <- function(gfc, forest_threshold=50) {
             this_year <- raster(out, layer=(n-1))
         }
         # First code forest loss
-        this_year[gfc$loss & gfc$lossyear == n] <- 3 # loss
+        this_year[(this_year == 1) & gfc$loss & gfc$lossyear == n] <- 3 # loss
         # Now code forest gain, loss/gain, water, and no data
         this_year <- overlay(this_year,
                              gfc$loss, 
