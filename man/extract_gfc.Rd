@@ -1,8 +1,8 @@
-\name{gfc_extract}
-\alias{gfc_extract}
+\name{extract_gfc}
+\alias{extract_gfc}
 \title{Extracts GFC data for a given AOI}
 \usage{
-gfc_extract(aoi, data_folder, aoi_buffer = 0)
+extract_gfc(aoi, data_folder, aoi_buffer = 0)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -28,7 +28,7 @@ beforehand in order to download the necessary data to the
 specified \code{data_folder}.
 }
 \seealso{
-\code{\link{download_tiles}}, \code{\link{gen_stack}},
+\code{\link{download_tiles}}, \code{\link{annual_stack}},
 \code{\link{gfc_stats}}
 }
 

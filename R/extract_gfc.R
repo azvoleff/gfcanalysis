@@ -53,7 +53,7 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' be used beforehand in order to download the necessary data to the specified
 #' \code{data_folder}.
 #'
-#' @seealso \code{\link{download_tiles}}, \code{\link{gen_stack}}, 
+#' @seealso \code{\link{download_tiles}}, \code{\link{annual_stack}}, 
 #' \code{\link{gfc_stats}}
 #'
 #' @export
@@ -68,7 +68,7 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' @param aoi_buffer a distance in meters to buffer the AOI by prior to 
 #' intersecting it with the GFC grid.
 #' @return \code{RasterStack} with GFC layers
-gfc_extract <- function(aoi, data_folder, aoi_buffer=0) {
+extract_gfc <- function(aoi, data_folder, aoi_buffer=0) {
     aoi <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
     if (aoi_buffer > 0) {
         aoi <- gBuffer(aoi, width=aoi_buffer, byid=TRUE)

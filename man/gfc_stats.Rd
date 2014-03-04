@@ -11,7 +11,7 @@ gfc_stats(aoi, gfc, forest_threshold = 50)
   reprojected to WGS84}
 
   \item{gfc}{extract of GFC product for a given AOI (see
-  \code{\link{gfc_extract}})}
+  \code{\link{extract_gfc}})}
 
   \item{forest_threshold}{percent woody vegetation to use
   as a threshold for mapping forest/non-forest}
@@ -30,13 +30,13 @@ forest gain and, 2) the total area of pixels that
 experienced both loss and gain over the full 2010-2012
 period. Note that forest gain and combined loss and gain
 are not available in the GFC product on an annualized
-basis. Use \code{\link{gfc_extract}} to extract the GFC
+basis. Use \code{\link{extract_gfc}} to extract the GFC
 data for the AOI prior to running this function.
 }
 \examples{
 #TODO: Add examples
 }
 \seealso{
-\code{\link{gfc_extract}}
+\code{\link{extract_gfc}}
 }
 

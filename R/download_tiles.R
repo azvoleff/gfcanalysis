@@ -34,7 +34,7 @@ download_tile <- function(tile_url, local_path) {
 #' downloads all tiles that either are not present locally, or that are present 
 #' but have file sizes differing from the file on the Google server.
 #'
-#' @seealso \code{\link{gfc_extract}}
+#' @seealso \code{\link{extract_gfc}}
 #'
 #' @export
 #' @importFrom sp bbox

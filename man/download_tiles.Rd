@@ -32,6 +32,6 @@ download_tiles(tiles, output_folder)
 }
 }
 \seealso{
-\code{\link{gfc_extract}}
+\code{\link{extract_gfc}}
 }
 
