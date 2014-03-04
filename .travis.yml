@@ -11,7 +11,8 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
     # gfcanalysis R imports deps
-  - ./travis-tool.sh install_r_binary raster rgdal RCurl rgeos plyr reshape2 ggplot2 sp stringr
+  - ./travis-tool.sh install_r_binary raster rgdal RCurl plyr reshape2 ggplot2 sp stringr
+  - ./travis-tool.sh install_r rgeos # there is an error with the repo version
     # gfcanalysis R suggested
   - ./travis-tool.sh install_r_binary testthat foreach itertools doSNOW
 
