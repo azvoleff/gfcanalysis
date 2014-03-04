@@ -50,10 +50,11 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25) {
     # unit of pixel area is square meters.
     pixel_area <- res(gfc)[1] * res(gfc)[2]
 
+    forest2000 <- gfc$treecover2000 > forest_threshold
     # Don't count as loss pixes that also had gain
-    loss_pixels <- gfc$lossyear * (!gfc$gain) * (gfc$treecover2000 > forest_threshold)
+    loss_pixels <- gfc$lossyear * (!gfc$gain) * forest2000
     # Similarly, don't count as gain pixes that also had loss
-    gain_pixels <- gfc$gain & !gfc$loss * (!(gfc$treecover2000 > forest_threshold))
+    gain_pixels <- gfc$gain & !gfc$loss & !forest2000
     lossgain_pixels <- gfc$gain & gfc$loss
 
     # Note that areas are converted to square meters using pixel size, then 
