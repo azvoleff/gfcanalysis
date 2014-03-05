@@ -1,0 +1,33 @@
+\name{plot_gfc}
+\alias{plot_gfc}
+\title{Plot forest change (relative to 2000) for a given year}
+\usage{
+plot_gfc(fchg, aoi, title_string = "", size_scale = 1, maxpixels = 50000)
+}
+\arguments{
+  \item{fchg}{a forest change raster layer (a single layer
+  of the layer stack output by \code{\link{annual_stack}}}
+
+  \item{aoi}{one or more AOI polygons as a
+  \code{SpatialPolygonsDataFrame} object.  If there is a
+  'label' field in the dataframe, it will be used to label
+  the polygons in the plots. If the AOI is not in the WGS84
+  geographic coordinate system, it will be reprojected to
+  WGS84.}
+
+  \item{title_string}{the plot title}
+
+  \item{size_scale}{a number used to scale the size of the
+  plot text}
+
+  \item{maxpixels}{the maximum number of pixels from fchg
+  to use in plotting}
+}
+\description{
+Plots a single layer of forest change from a layer stack
+output by \code{\link{annual_stack}}.
+}
+\seealso{
+\code{\link{annual_stack}}, \code{\link{animate_annual}}
+}
+
