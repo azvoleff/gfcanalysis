@@ -44,14 +44,17 @@ download_tile <- function(tile_url, local_path) {
 #' function.
 #' @param output_folder the folder to save output data in
 #' @param first_and_last whether to download the composite images for 2000 and 
-#' 2010 (which are substantially larger than the other layers)
+#' 2012 (which are substantially larger than the other layers).
 #' @examples
 #' \dontrun{
 #' output_folder <- 'H:/Data/TEAM/GFC_Product'
 #' tiles <- calc_gfc_tiles(test_poly)
 #' download_tiles(tiles, output_folder)
 #' }
-download_tiles <- function(tiles, output_folder, first_and_last=FALSE) {
+download_tiles <- function(tiles, output_folder, first_and_last=TRUE) {
+    if (!file_test('-d', output_folder)) {
+        stop('output_folder does not exist')
+    }
     message(paste(length(tiles), 'tiles to download/check.'))
     successes <- 0
     failures <- 0
