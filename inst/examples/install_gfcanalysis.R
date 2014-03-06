@@ -11,6 +11,6 @@
 # install Alex's "gfcanalysis" package.
 if (!require(devtools)) install.packages("devtools")
 
-# Install Alex's gfcanalysis package - you only need to run this line once.
+# Install Alex's gfcanalysis package - you only need to do this once.
+library(devtools)
 install_github('azvoleff/gfcanalysis')
-
