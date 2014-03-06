@@ -61,14 +61,16 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' @importFrom sp spTransform CRS proj4string proj4string<-
 #' @importFrom rgeos gBuffer
 #' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
-#' If the AOI is not in the WGS84 geographic coordinate system, it will be 
-#' reprojected to WGS84.
+#' If the AOI is not in WGS 1984 (EPSG:4326), it will be reprojected to WGS84.
 #' @param data_folder folder where downloaded GFC product tiles are located 
 #' (see \code{\link{download_tiles}} function.
 #' @param aoi_buffer a distance in meters to buffer the AOI by prior to 
 #' intersecting it with the GFC grid.
+#' @param to_UTM if TRUE, then reproject the output into the UTM zone of the 
+#' AOI centroid. If FALSE, retain the original WGS84 projection of the GFC 
+#' tiles.
 #' @return \code{RasterStack} with GFC layers
-extract_gfc <- function(aoi, data_folder, aoi_buffer=0) {
+extract_gfc <- function(aoi, data_folder, aoi_buffer=0, to_UTM=FALSE) {
     aoi <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
     if (aoi_buffer > 0) {
         aoi <- gBuffer(aoi, width=aoi_buffer, byid=TRUE)
@@ -80,16 +82,17 @@ extract_gfc <- function(aoi, data_folder, aoi_buffer=0) {
     aoi_buffered <- gBuffer(spTransform(aoi,
                                         CRS(utm_zone(aoi, proj4string=TRUE))), 
                             width=500, byid=TRUE)
-
     tile_mosaic <- make_tile_mosaic(aoi_buffered, data_folder)
 
-    # Project to utm for plotting and analysis of change in forest area
-    bounding_poly <- as(extent(tile_mosaic), "SpatialPolygons")
-    proj4string(bounding_poly) <- proj4string(tile_mosaic)
-    utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
-    # Use nearest neighbor since the data is categorical
-    tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
-                                 method='ngb', datatype='INT1U')
+    if (to_UTM) {
+        # Project to utm for plotting and analysis of change in forest area
+        bounding_poly <- as(extent(tile_mosaic), "SpatialPolygons")
+        proj4string(bounding_poly) <- proj4string(tile_mosaic)
+        utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
+        # Use nearest neighbor since the data is categorical
+        tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
+                                     method='ngb', datatype='INT1U')
+    }
     # Crop to the original AOI, as "tile_mosaic" currently includes 500m buffer
     aoi <- spTransform(aoi, CRS(proj4string(tile_mosaic)))
     NAvalue(tile_mosaic) <- -1

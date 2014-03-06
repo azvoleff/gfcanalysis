@@ -2,13 +2,12 @@
 \alias{extract_gfc}
 \title{Extracts GFC data for a given AOI}
 \usage{
-extract_gfc(aoi, data_folder, aoi_buffer = 0)
+extract_gfc(aoi, data_folder, aoi_buffer = 0, to_UTM = FALSE)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
-  \code{SpatialPolygons*} object. If the AOI is not in the
-  WGS84 geographic coordinate system, it will be
-  reprojected to WGS84.}
+  \code{SpatialPolygons*} object. If the AOI is not in WGS
+  1984 (EPSG:4326), it will be reprojected to WGS84.}
 
   \item{data_folder}{folder where downloaded GFC product
   tiles are located (see \code{\link{download_tiles}}
@@ -16,6 +15,10 @@ extract_gfc(aoi, data_folder, aoi_buffer = 0)
 
   \item{aoi_buffer}{a distance in meters to buffer the AOI
   by prior to intersecting it with the GFC grid.}
+
+  \item{to_UTM}{if TRUE, then reproject the output into the
+  UTM zone of the AOI centroid. If FALSE, retain the
+  original WGS84 projection of the GFC tiles.}
 }
 \value{
 \code{RasterStack} with GFC layers

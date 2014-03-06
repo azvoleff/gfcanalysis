@@ -11,9 +11,8 @@ plot_gfc(fchg, aoi, title_string = "", size_scale = 1, maxpixels = 50000)
   \item{aoi}{one or more AOI polygons as a
   \code{SpatialPolygonsDataFrame} object.  If there is a
   'label' field in the dataframe, it will be used to label
-  the polygons in the plots. If the AOI is not in the WGS84
-  geographic coordinate system, it will be reprojected to
-  WGS84.}
+  the polygons in the plots. If the AOI is not in WGS 1984
+  (EPSG:4326), it will be reprojected to WGS84.}
 
   \item{title_string}{the plot title}
 

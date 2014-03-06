@@ -20,7 +20,8 @@ gfc_stats(aoi, gfc, forest_threshold = 25)
 \code{list} with three elements "loss_table", a
 \code{data.frame} with statistics on forest loss, "gain",
 the area of forest gain, and "lossgain", the area that
-experienced both loss and gain.
+experienced both loss and gain. The units of the output are
+hectares.
 }
 \description{
 For a given AOI, this function produces two tables: an

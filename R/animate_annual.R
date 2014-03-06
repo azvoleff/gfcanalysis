@@ -13,8 +13,8 @@
 #' stack output by \code{\link{annual_stack}}
 #' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 
 #' object.  If there is a 'label' field  in the dataframe, it will be used to 
-#' label the polygons in the plots. If the AOI is not in the WGS84 geographic 
-#' coordinate system, it will be reprojected to WGS84.
+#' label the polygons in the plots. If the AOI is not in WGS 1984 (EPSG:4326), 
+#' it will be reprojected to WGS84.
 #' @param title_string the plot title
 #' @param size_scale a number used to scale the size of the plot text
 #' @param maxpixels the maximum number of pixels from fchg to use in plotting

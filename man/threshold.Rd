@@ -15,13 +15,11 @@ threshold(gfc, forest_threshold = 25)
 Uses the GFC data output from \code{\link{extract_gfc}} to
 make an thresholded layer stack with five layers:
 treecover2000, loss, gain, lossyear, and datamask layers.
-See Details for the coding used in each layer. The
-\code{\link{annual_stack}} function can be used to produce
-an annual layer stack of forest change.
+See Details for the coding used in each layer.
 }
 \details{
-The output raster stack uses the following codes to
-describe forest change at each pixel.
+The output uses the following codes to describe forest
+change at each pixel:
 
 \bold{Band 1 (forest2000)} \tabular{lc}{ Non-forest \tab 0
 \cr Forest \tab 1 \cr }
@@ -43,6 +41,6 @@ Loss in 2001 \tab 1 \cr Loss in 2002 \tab 2 \cr Loss in
 Land \tab 1 \cr Water \tab 2 \cr }
 }
 \seealso{
-\code{\link{extract_gfc}}, \code{\link{annual_stack}}
+\code{\link{extract_gfc}}
 }
 
