@@ -8,6 +8,7 @@
 #' @importFrom geosphere areaPolygon
 #' @param x a \code{Raster*} object
 pixel_areas <- function(x) {
+    x <- raster(x, layer=1)
     # Construct polygons for a single column of the raster
     xleft <- xmin(x)
     xright <- xmin(x) + xres(x)
@@ -25,5 +26,8 @@ pixel_areas <- function(x) {
     }
     areas <- mapply(poly_areas, xleft, xright, ylower, yupper)
 
-    return(setValues(x, rep(areas, each=ncol(x))))
+    areas <- setValues(x, rep(areas, each=ncol(x)))
+    names(areas) <- 'area'
+
+    return(areas)
 }
