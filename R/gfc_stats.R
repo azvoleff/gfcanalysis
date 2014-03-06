@@ -78,6 +78,7 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25) {
 
     gainarea <- cellStats(gain_pixels, 'sum') * cell_areas / 10000
     lossgainarea <- cellStats(lossgain_pixels, 'sum') * cell_areas / 10000
-    return(list(loss_table=loss_table, gain=gainarea, 
-                lossgain=lossgainarea))
+    gain_table <- data.frame(gain=gainarea, 
+                             lossgain=lossgainarea)
+    return(list(loss_table=loss_table, gain_table=gain_table))
 }
