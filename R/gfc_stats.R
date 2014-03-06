@@ -13,6 +13,7 @@
 #' @export
 #' @import raster
 #' @import rgdal
+#' @importFrom rgeos gIntersects
 #' @importFrom sp spTransform CRS proj4string
 #' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
 #' If the AOI is not in the WGS84 geographic coordinate system, it will be 
@@ -21,12 +22,10 @@
 #' \code{\link{extract_gfc}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
-#' @return \code{list} with three elements "loss_table", a \code{data.frame} 
-#' with statistics on forest loss, "gain", the area of forest gain, and 
-#' "lossgain", the area that experienced both loss and gain. The units of the 
-#' output are hectares.
-#' @examples
-#' #TODO: Add examples
+#' @return \code{list} with two elements "loss_table", a \code{data.frame} with 
+#' statistics on forest loss, and "gain_table", with the area of forest gain, 
+#' and area that experienced both loss and gain. The units of the output are 
+#' hectares.
 gfc_stats <- function(aoi, gfc, forest_threshold=25) {
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
@@ -61,23 +60,20 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25) {
 
     # Note that areas are converted to square meters using pixel size, then 
     # converted to hectares
-    initial_cover <- cellStats((gfc$treecover2000 > forest_threshold) * 
-                               cell_areas,
-                         'sum') / 10000
+    initial_cover <- cellStats(forest2000 * cell_areas, 'sum') / 10000
     loss_table$cover[1] <- initial_cover
 
-    # Freq loss is a table of the number of pixels lost by year. Entry '0' is 
-    # no data value and can be ignored. 
-    freq_loss <- freq(loss_pixels, useNA='no')
-    loss_table$loss <- c(0, freq_loss[2:nrow(loss_table), 2])
-    loss_table$loss <- loss_table$loss * cell_areas / 10000
+    for (n in 1:12) {
+        # n+1 because first row is year 2000, with zero loss
+        loss_table$loss[n + 1] <- cellStats((loss_pixels == n) * cell_areas, 'sum') / 10000
+    }
 
     for (n in 2:nrow(loss_table)) {
         loss_table$cover[n] <- loss_table$cover[n-1] - loss_table$loss[n]
     }
 
-    gainarea <- cellStats(gain_pixels, 'sum') * cell_areas / 10000
-    lossgainarea <- cellStats(lossgain_pixels, 'sum') * cell_areas / 10000
+    gainarea <- cellStats(gain_pixels * cell_areas, 'sum') / 10000
+    lossgainarea <- cellStats(lossgain_pixels * cell_areas, 'sum') / 10000
     gain_table <- data.frame(gain=gainarea, 
                              lossgain=lossgainarea)
     return(list(loss_table=loss_table, gain_table=gain_table))

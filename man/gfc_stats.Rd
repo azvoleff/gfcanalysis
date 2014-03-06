@@ -17,9 +17,9 @@ gfc_stats(aoi, gfc, forest_threshold = 25)
   as a threshold for mapping forest/non-forest}
 }
 \value{
-\code{list} with three elements "loss_table", a
-\code{data.frame} with statistics on forest loss, "gain",
-the area of forest gain, and "lossgain", the area that
+\code{list} with two elements "loss_table", a
+\code{data.frame} with statistics on forest loss, and
+"gain_table", with the area of forest gain, and area that
 experienced both loss and gain. The units of the output are
 hectares.
 }
@@ -33,9 +33,6 @@ period. Note that forest gain and combined loss and gain
 are not available in the GFC product on an annualized
 basis. Use \code{\link{extract_gfc}} to extract the GFC
 data for the AOI prior to running this function.
-}
-\examples{
-#TODO: Add examples
 }
 \seealso{
 \code{\link{extract_gfc}}
