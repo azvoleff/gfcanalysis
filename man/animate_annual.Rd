@@ -2,8 +2,9 @@
 \alias{animate_annual}
 \title{Plot an animation of forest change within a given area of interest (AOI)}
 \usage{
-animate_annual(aoi, gfc_stack, out_dir, out_basename, site_name = "",
-  type = "html", height = 3, width = 3, dpi = 300)
+animate_annual(aoi, gfc_stack, out_dir = getwd(),
+  out_basename = "gfc_animation", site_name = "", type = "html",
+  height = 3, width = 3, dpi = 300)
 }
 \arguments{
   \item{aoi}{one or more AOI polygons as a

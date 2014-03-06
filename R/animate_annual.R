@@ -97,7 +97,8 @@ plot_gfc <- function(fchg, aoi, title_string='',
 #' @param height desired height of the animation GIF in inches
 #' @param width desired width of the animation GIF in inches
 #' @param dpi dots per inch for the output image
-animate_annual <- function(aoi, gfc_stack, out_dir, out_basename, site_name='', 
+animate_annual <- function(aoi, gfc_stack, out_dir=getwd(), 
+                           out_basename='gfc_animation', site_name='', 
                            type='html', height=3, width=3, dpi=300) {
     if (nlayers(gfc_stack) != 13) {
         warning('gfc_stack has ', nlayers(gfc_stack),
