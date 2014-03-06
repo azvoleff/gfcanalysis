@@ -5,10 +5,12 @@
 #'
 #' @seealso \code{\link{annual_stack}}, \code{\link{animate_annual}}
 #' @export
+#' @import rgdal
 #' @import ggplot2
 #' @importFrom plyr join
 #' @importFrom grid unit
 #' @importFrom rasterVis gplot
+#' @importFrom sp spTransform CRS proj4string
 #' @param fchg a forest change raster layer (a single layer of the layer 
 #' stack output by \code{\link{annual_stack}}
 #' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 
@@ -20,7 +22,7 @@
 #' @param maxpixels the maximum number of pixels from fchg to use in plotting
 plot_gfc <- function(fchg, aoi, title_string='', 
                      size_scale=1, maxpixels=50000) {
-    aoi_tr <- spTransform(aoi, CRS(proj4string(gfc_stack)))
+    aoi_tr <- spTransform(aoi, CRS(proj4string(fchg)))
     aoi_tr$ID <- row.names(aoi_tr)
     if (!('label' %in% names(aoi_tr))) {
         aoi_tr$label <- paste('AOI', seq(1:nrow(aoi_tr@data)))

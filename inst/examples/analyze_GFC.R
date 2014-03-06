@@ -3,6 +3,10 @@
 # together by Alex Zvoleff (azvoleff@conservation.org) for working with the 
 # Hansen et al. 2013 Global Forest Change dataset. Contact Alex if you notice 
 # any issues or have problems using the package.
+#
+# See the help files for the functions below for more information. For example, 
+# type "?download_tiles" in R to see the help file for the "download_tiles" 
+# function.
 # 
 # NOTE: the gfcanalysis package must be installed before this script will run.  
 # Run the "install_gfcanalysis.R" script to install/update the gfcanalysis 
@@ -12,8 +16,6 @@
 # Load the gfcanalysis package
 library(gfcanalysis)
 # Load 'rgdal' package, which is used to read/write shapefiles and rasters
-library(rgdal)
-# Load 'raster' package, which is used to read/write/analyze rasters
 library(rgdal)
 
 # Indicate where we want to save GFC tiles downloaded from Google. For any 
