@@ -31,7 +31,7 @@ plot_gfc <- function(fchg, aoi, title_string='',
     aoi_points <- fortify(aoi_tr, region="id")
     aoi_df <- join(aoi_points, aoi_tr@data, by="id")
 
-    long=lat=value=label=NULL # For R CMD CHECK
+    long=lat=value=label=ID=NULL # For R CMD CHECK
     gplot(fchg, maxpixels=maxpixels) +
         geom_tile(aes(fill=factor(value, levels=c(1, 2, 3, 4, 5, 6, 0)))) +
         coord_fixed() + 
