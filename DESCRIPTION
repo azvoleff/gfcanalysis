@@ -11,6 +11,7 @@ Depends:
     methods
 Imports:
     rgdal,
+    geosphere,
     RCurl,
     rgeos,
     plyr,
