@@ -3,10 +3,9 @@
 #' Uses the GFC data output from \code{\link{extract_gfc}} to make an 
 #' annualized layer stack of forest change. This function uses the datamask, 
 #' treecover2000, loss, gain, and lossyear layers from the GFC product to 
-#' produce an annual raster stack from a \code{\link{extract_gfc}}.  See 
-#' Details for the class codes used in the annual raster stack. The 
-#' \code{\link{animate_annual}} function can be used to produce an animation of 
-#' forest change from the generated layer stack.
+#' produce an annual raster stack.  See Details for the class codes used in the 
+#' annual raster stack. The \code{\link{animate_annual}} function can be used 
+#' to produce an animation of forest change from the generated layer stack.
 #' 
 #' The output raster stack uses the following codes to describe forest change 
 #' at each pixel:
