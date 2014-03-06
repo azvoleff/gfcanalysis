@@ -65,7 +65,7 @@ threshold <- function(gfc, forest_threshold=25) {
     # Code loss as 0 for non-forest pixels (nonforested can't lose forest)
     gfc$loss[forest2000 == 0] <- 0
     # Code lossyear as 0 for non-forest pixels (nonforested can't lose forest)
-    gfc$lossyear[gfc$forest2000 == 0] <- 0
+    gfc$lossyear[forest2000 == 0] <- 0
     thresholded <- stack(forest2000, gfc$loss, gfc$gain, gfc$lossyear, 
                          gfc$datamask)
     names(thresholded) <- c('forest2000', 'loss', 'gain', 'lossyear', 
