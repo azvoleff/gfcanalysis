@@ -2,7 +2,7 @@
 \alias{extract_gfc}
 \title{Extracts GFC data for a given AOI}
 \usage{
-extract_gfc(aoi, data_folder, aoi_buffer = 0, to_UTM = FALSE)
+extract_gfc(aoi, data_folder, to_UTM = FALSE)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -12,9 +12,6 @@ extract_gfc(aoi, data_folder, aoi_buffer = 0, to_UTM = FALSE)
   \item{data_folder}{folder where downloaded GFC product
   tiles are located (see \code{\link{download_tiles}}
   function.}
-
-  \item{aoi_buffer}{a distance in meters to buffer the AOI
-  by prior to intersecting it with the GFC grid.}
 
   \item{to_UTM}{if TRUE, then reproject the output into the
   UTM zone of the AOI centroid. If FALSE, retain the
