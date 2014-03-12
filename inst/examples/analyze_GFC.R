@@ -44,6 +44,10 @@ download_tiles(tiles, output_folder, first_and_last=FALSE)
 # Extract the GFC data for this AOI from the downloaded GFC tiles, mosaicing 
 # multiple tiles as necessary (if needed to cover the AOI).
 gfc_data <- extract_gfc(aoi, output_folder)
+gfc_data <- extract_gfc(aoi, output_folder, to_UTM=TRUE)
+aoi <- spTransform(aoi, CRS('+proj=longlat +datum=WGS84 +no_defs'))
+gfc_data <- extract_gfc(aoi, output_folder)
+gfc_data <- extract_gfc(aoi, output_folder, to_UTM=TRUE)
 # Save the output data to a GeoTIFF (can also save in ENVI format, Erdas 
 # format, etc.)
 writeRaster(gfc_data, filename='test_gfc_extract.tif')
