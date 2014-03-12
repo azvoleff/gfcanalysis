@@ -4,10 +4,12 @@
 
 ## Tools for working with Hansen et al. 2013 Global Forest Change dataset
 
-The `gfcanalysis` package is designed to facilitate analyses using the [Global 
-Forest 
+The `gfcanalysis` package facilitates analyses of forest change using the 
+[Global Forest 
 Change](http://earthenginepartners.appspot.com/science-2013-global-forest) 
-dataset released by Hansen et al.
+dataset released by Hansen et al. The package was designed to support the work 
+of the [Tropical Ecology Assessment & Monitoring (TEAM) 
+Network](http://www.teamnetwork.org/).
 
 ## Package Installation
 
@@ -21,6 +23,16 @@ install_github('gfcanalysis', username='azvoleff')
 ```
 
 at the R prompt to install `gfcanalysis`.
+
+## Usage
+
+There are two example scripts demostrating how to use the `gfcanalysis` 
+package.  For those new to R, see the 
+[install_gfcanalysis.R](https://raw.github.com/azvoleff/gfcanalysis/master/inst/examples/install_gfcanalysis.R)
+script. This script provides guidance on how to download and install the 
+package in R. For an example of how to run the package to calculate forest 
+change statistics for a given area of interest (AOI), see the examples in
+[analyze_gfc.R](https://raw.github.com/azvoleff/gfcanalysis/master/inst/examples/analyze_GFC.R).
 
 ## Author Contact Information
 
