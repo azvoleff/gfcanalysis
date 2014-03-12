@@ -71,10 +71,11 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' tiles.
 #' @return \code{RasterStack} with GFC layers
 extract_gfc <- function(aoi, data_folder, aoi_buffer=0, to_UTM=FALSE) {
-    aoi <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
     if (aoi_buffer > 0) {
+        aoi <- spTransform(aoi, CRS(utm_zone(aoi, proj4string=TRUE)))
         aoi <- gBuffer(aoi, width=aoi_buffer, byid=TRUE)
     }
+    aoi <- spTransform(aoi, CRS(proj4string(tile_mosaic)))
 
     # Add an additional small buffer avoid having missing areas on the image 
     # edge after the below reprojection - this buffer will be removed prior to 
