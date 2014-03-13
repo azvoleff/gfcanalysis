@@ -1,12 +1,12 @@
 #' Produce a table of forest cover change statistics for a given AOI
 #'
 #' For a given AOI, this function produces two tables: an annual forest loss 
-#' table (in hectares), and a table specifying 1) the total area of pixels that 
-#' experienced forest gain and, 2) the total area of pixels that experienced 
-#' both loss and gain over the full 2010-2012 period. Note that forest gain and 
-#' combined loss and gain are not available in the GFC product on an annualized 
-#' basis. Use \code{\link{extract_gfc}} to extract the GFC data for the AOI prior to 
-#' running this function.
+#' table (in hectares, by default), and a table specifying 1) the total area of 
+#' pixels that experienced forest gain and, 2) the total area of pixels that 
+#' experienced both loss and gain over the full 2010-2012 period. Note that 
+#' forest gain and combined loss and gain are not available in the GFC product 
+#' on an annualized basis. Use \code{\link{extract_gfc}} to extract the GFC 
+#' data for the AOI prior to running this function.
 #'
 #' @seealso \code{\link{extract_gfc}}
 #'
@@ -15,18 +15,23 @@
 #' @import rgdal
 #' @importFrom rgeos gIntersects
 #' @importFrom sp spTransform CRS proj4string
-#' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
-#' If the AOI is not in the WGS84 geographic coordinate system, it will be 
-#' reprojected to WGS84
+#' @param aoi one or more Area of Interest (AOI) polygon(s) as a 
+#' \code{SpatialPolygons*} object.  If the \code{SpatialPolygons*} object is 
+#' not in the coordinate system of the procided gfc extract, it will be 
+#' reprojected. If there is a "label" attribute, it will be used to label the 
+#' output statistics. Otherwise, unique names ("AOI 1", "AOI 2", etc.) will be 
+#' generated and used to label the output.
 #' @param gfc extract of GFC product for a given AOI (see 
 #' \code{\link{extract_gfc}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
+#' @param scalefactor how to scale the output data (from meters). Defaults to 
+#' .0001 for output in hectares.
 #' @return \code{list} with two elements "loss_table", a \code{data.frame} with 
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 
-#' hectares.
-gfc_stats <- function(aoi, gfc, forest_threshold=25) {
+#' hectares (when \code{scalefactor} is set to .0001).
+gfc_stats <- function(aoi, gfc, forest_threshold=25, scalefactor=.0001) {
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
     gfc_boundpoly_wgs84 <- spTransform(gfc_boundpoly, CRS('+init=epsg:4326'))
@@ -37,44 +42,75 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25) {
 
     names(gfc) <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
 
-    aoi <- spTransform(aoi, CRS(proj4string(gfc)))
-    #TODO: Rewrite to handle multiple polygons, with appended suffixes to stat 
-    # columns for each. Using extract likely best bet for this.
-    gfc <- mask(gfc, aoi)
+    if ((((xmin(gfc) >=-180) & (xmax(gfc) <=180)) || ((xmin(gfc) >=0) & (xmax(gfc) <=360))) &&
+        (ymin(gfc) >=-90) & (ymax(gfc) <= 90)) {
+        # Use the included pixel_areas function to calculate the area of each 
+        # raster cell, allowing for areal estimates of deforestation in square 
+        # meters even from the original imagery in WGS84.
+        message('Data appears to be in latitude/longitude - calculating cell areas on a sphere...')
+        cell_areas <- pixel_areas(gfc)
+    } else {
+        cell_areas <- xres(gfc) * yres(gfc)
+    }
 
-    # Use the included pixel_areas function to calculate the area of each 
-    # raster cell, allowing for areal estimates of deforestation in square 
-    # meters even from the original imagery in WGS84.
-    cell_areas <- pixel_areas(gfc)
+    gain_table <- data.frame(aoi=NA, gain=NA, lossgain=NA)
 
-    years <- seq(2000, 2012, 1)
-    NAs <- rep(NA, length(years))
-    loss_table <- data.frame(year=years, cover=NAs, loss=NAs)
-
-    forest2000 <- gfc$treecover2000 > forest_threshold
+    gfc_recode <- gfc$treecover2000 > forest_threshold
+    names(gfc_recode) <- 'forest2000'
     # Don't count as loss pixels that also had gain
-    loss_pixels <- gfc$lossyear * (!gfc$gain) * forest2000
+    gfc_recode$loss_pixels <- gfc$lossyear * (!gfc$gain) * gfc_recode$forest2000
     # Similarly, don't count as gain pixels that also had loss
-    gain_pixels <- gfc$gain & !gfc$loss & !forest2000
-    lossgain_pixels <- gfc$gain & gfc$loss
+    gfc_recode$gain_pixels <- gfc$gain & !gfc$loss & !gfc_recode$forest2000
+    gfc_recode$lossgain_pixels <- gfc$gain & gfc$loss
 
-    # Note that areas are converted to square meters using pixel size, then 
-    # converted to hectares
-    initial_cover <- cellStats(forest2000 * cell_areas, 'sum') / 10000
-    loss_table$cover[1] <- initial_cover
-
-    for (n in 1:12) {
-        # n+1 because first row is year 2000, with zero loss
-        loss_table$loss[n + 1] <- cellStats((loss_pixels == n) * cell_areas, 'sum') / 10000
+    calc_loss_table <- function(gfc_recode) {
+        years <- seq(2000, 2012, 1)
+        NAs <- rep(NA, length(years))
+        loss_table <- data.frame(year=years, cover=NAs, loss=NAs)
+        # Note that areas are converted to square meters using pixel size, then 
+        # converted to hectares
+        initial_cover <- cellStats(gfc_recode$forest2000 * cell_areas, 'sum') * scalefactor 
+        loss_table$cover[1] <- initial_cover
+        for (i in 1:12) {
+            # n + 1 because first row is year 2000, with zero loss
+            loss_table$loss[i + 1] <- cellStats((gfc_recode$loss_pixels == i) * cell_areas, 'sum') * scalefactor
+        }
+        for (i in 2:nrow(loss_table)) {
+            loss_table$cover[i] <- loss_table$cover[i - 1] - loss_table$loss[i]
+        }
+        return(loss_table)
     }
 
-    for (n in 2:nrow(loss_table)) {
-        loss_table$cover[n] <- loss_table$cover[n-1] - loss_table$loss[n]
+    calc_gain_table <- function(gfc_recode) {
+        gainarea <- cellStats(gfc_recode$gain_pixels * cell_areas, 
+                              'sum') * scalefactor
+        lossgainarea <- cellStats(gfc_recode$lossgain_pixels * 
+                                  cell_areas, 'sum') * scalefactor
+        this_gain_table <- data.frame(period='2000-2012',
+                                      gain=gainarea, lossgain=lossgainarea)
+        return(this_gain_table)
     }
 
-    gainarea <- cellStats(gain_pixels * cell_areas, 'sum') / 10000
-    lossgainarea <- cellStats(lossgain_pixels * cell_areas, 'sum') / 10000
-    gain_table <- data.frame(gain=gainarea, 
-                             lossgain=lossgainarea)
+    aoi <- spTransform(aoi, CRS(proj4string(gfc)))
+    if (!('label' %in% names(aoi))) {
+        aoi$label <- paste('AOI', seq(1:nrow(aoi@data)))
+    }
+
+    for (n in 1:nrow(aoi)) {
+        gfc_recode_cropped <- crop(gfc_recode, aoi[n, ])
+        gfc_recode_cropped <- mask(gfc_recode_cropped, aoi[n, ])
+        this_loss_table <- calc_loss_table(gfc_recode_cropped)
+        this_loss_table$aoi <- aoi[n, ]$label
+        this_gain_table <- calc_gain_table(gfc_recode_cropped)
+        this_gain_table$aoi <- aoi[n, ]$label
+        if (n == 1) {
+            loss_table <- this_loss_table
+            gain_table <- this_gain_table
+        } else {
+            loss_table <- rbind(loss_table, this_loss_table)
+            gain_table <- rbind(gain_table, this_gain_table)
+        }
+    }
+
     return(list(loss_table=loss_table, gain_table=gain_table))
 }

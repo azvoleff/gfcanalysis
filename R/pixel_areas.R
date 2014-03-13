@@ -7,6 +7,7 @@
 #' @import raster
 #' @importFrom geosphere areaPolygon
 #' @param x a \code{Raster*} object
+#' @return \code{RasterLayer} with pixel areas (in meters)
 pixel_areas <- function(x) {
     x <- raster(x, layer=1)
     # Construct polygons for a single column of the raster
