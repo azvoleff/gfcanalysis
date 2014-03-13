@@ -2,12 +2,11 @@
 
 [![Build Status](https://travis-ci.org/azvoleff/gfcanalysis.png)](https://travis-ci.org/azvoleff/gfcanalysis)
 
-## Tools for working with Hansen et al. 2013 Global Forest Change dataset
-
+## Overview
 The `gfcanalysis` package facilitates analyses of forest change using the 
 [Global Forest 
 Change](http://earthenginepartners.appspot.com/science-2013-global-forest) 
-dataset released by Hansen et al. The package was designed to support the work 
+dataset released by Hansen et al. 2013. The package was designed to support the work 
 of the [Tropical Ecology Assessment & Monitoring (TEAM) 
 Network](http://www.teamnetwork.org/).
 
