@@ -11,6 +11,9 @@
 # install Alex's "gfcanalysis" package.
 if (!require(devtools)) install.packages("devtools")
 
-# Install Alex's gfcanalysis package - you only need to do this once.
+# Install the spatial.tools package used to speed spatial analyses
+install.packages("spatial.tools", repos="http://R-Forge.R-project.org")
+
+# Install Alex's gfcanalysis package
 library(devtools)
 install_github('azvoleff/gfcanalysis')

@@ -17,6 +17,14 @@
 library(gfcanalysis)
 # Load 'rgdal' package, which is used to read/write shapefiles and rasters
 library(rgdal)
+# Load 'spatial.tools' package, which is used to process rasters in parallel
+library(spatial.tools)
+
+# Start the parallel processing engine - comment out this line, and the 
+# sfQuickStop() line at the end of this script if you do NOT want gfcanalysis 
+# to use all of the available computing power on your machine (for example if 
+# you need to use the computer for email, etc. while it is processing GFC data)
+sfQuickInit()
 
 # Indicate where we want to save GFC tiles downloaded from Google. For any 
 # given AOI, the script will first check to see if these tiles are available 
@@ -71,3 +79,6 @@ writeRaster(gfc_thresholded_annual, filename='test_gfc_extract_thresholded_annua
 # just an example, and is using the data in WGS84. The data should be projected 
 # for this).
 animate_annual(aoi, gfc_thresholded_annual)
+
+# Stop the parallel processing engine
+sfQuickInit()
