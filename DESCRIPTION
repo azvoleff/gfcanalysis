@@ -19,6 +19,7 @@ Imports:
     grid,
     sp,
     stringr,
+    spatial.tools,
     animation,
     rasterVis
 Suggests:

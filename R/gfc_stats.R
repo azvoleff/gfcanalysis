@@ -13,6 +13,7 @@
 #' @export
 #' @import raster
 #' @import rgdal
+#' @importFrom spatial.tools rasterEngine
 #' @importFrom rgeos gIntersects
 #' @importFrom sp spTransform CRS proj4string
 #' @param aoi one or more Area of Interest (AOI) polygon(s) as a 
@@ -55,13 +56,24 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25, scalefactor=.0001) {
 
     gain_table <- data.frame(aoi=NA, gain=NA, lossgain=NA)
 
-    gfc_recode <- gfc$treecover2000 > forest_threshold
-    names(gfc_recode) <- 'forest2000'
-    # Don't count as loss pixels that also had gain
-    gfc_recode$loss_pixels <- gfc$lossyear * (!gfc$gain) * gfc_recode$forest2000
-    # Similarly, don't count as gain pixels that also had loss
-    gfc_recode$gain_pixels <- gfc$gain & !gfc$loss & !gfc_recode$forest2000
-    gfc_recode$lossgain_pixels <- gfc$gain & gfc$loss
+    recode_gfc <- function(treecover2000, lossyear, gain, forest_threshold, 
+                           ...) {
+        forest2000 <- treecover2000 > forest_threshold
+        # Don't count as loss pixels that also had gain
+        loss_recode <- lossyear * (!gain) * forest2000
+        # Similarly, don't count as gain pixels that also had loss
+        gain_recode <- gain & (!loss_recode) & (!forest2000)
+        lossgain <- gain & loss_recode
+        array(c(forest2000, loss_recode, gain_recode, lossgain),
+              c(nrow(forest2000), ncol(forest2000), 4))
+    }
+
+    gfc_recode <- rasterEngine(treecover2000=gfc$treecover2000, 
+                               lossyear=gfc$lossyear, gain=gfc$gain, 
+                               args=list(forest_threshold=forest_threshold), 
+                               fun=recode_gfc, outbands=4, outfiles=1, 
+                               setMinMax=1)
+    names(gfc_recode) <- c('forest2000', 'loss', 'gain', 'lossgain')
 
     calc_loss_table <- function(gfc_recode) {
         years <- seq(2000, 2012, 1)
@@ -73,7 +85,7 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25, scalefactor=.0001) {
         loss_table$cover[1] <- initial_cover
         for (i in 1:12) {
             # n + 1 because first row is year 2000, with zero loss
-            loss_table$loss[i + 1] <- cellStats((gfc_recode$loss_pixels == i) * cell_areas, 'sum') * scalefactor
+            loss_table$loss[i + 1] <- cellStats((gfc_recode$loss == i) * cell_areas, 'sum') * scalefactor
         }
         for (i in 2:nrow(loss_table)) {
             loss_table$cover[i] <- loss_table$cover[i - 1] - loss_table$loss[i]
@@ -82,9 +94,9 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25, scalefactor=.0001) {
     }
 
     calc_gain_table <- function(gfc_recode) {
-        gainarea <- cellStats(gfc_recode$gain_pixels * cell_areas, 
+        gainarea <- cellStats(gfc_recode$gain * cell_areas, 
                               'sum') * scalefactor
-        lossgainarea <- cellStats(gfc_recode$lossgain_pixels * 
+        lossgainarea <- cellStats(gfc_recode$lossgain * 
                                   cell_areas, 'sum') * scalefactor
         this_gain_table <- data.frame(period='2000-2012',
                                       gain=gainarea, lossgain=lossgainarea)
