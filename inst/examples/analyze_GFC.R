@@ -81,4 +81,4 @@ writeRaster(gfc_thresholded_annual, filename='test_gfc_extract_thresholded_annua
 animate_annual(aoi, gfc_thresholded_annual)
 
 # Stop the parallel processing engine
-sfQuickInit()
+sfQuickStop()
