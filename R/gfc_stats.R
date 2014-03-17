@@ -63,7 +63,7 @@ gfc_stats <- function(aoi, gfc, forest_threshold=25, scalefactor=.0001) {
         loss_recode <- lossyear * (!gain) * forest2000
         # Similarly, don't count as gain pixels that also had loss
         gain_recode <- gain & (!loss_recode) & (!forest2000)
-        lossgain <- gain & loss_recode
+        lossgain <- gain & (lossyear > 0)
         array(c(forest2000, loss_recode, gain_recode, lossgain),
               c(nrow(forest2000), ncol(forest2000), 4))
     }
