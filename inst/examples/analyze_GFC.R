@@ -60,15 +60,15 @@ writeRaster(gfc_data, filename='test_gfc_extract.tif')
 # Performing thresholding and calculating basic statistics
 ###############################################################################
 
+# Calculate and save a thresholded version of the GFC product
+gfc_thresholded <- threshold(gfc_data, forest_threshold=forest_threshold, 
+                             filename="test_gfc_extract_thresholded")
+
 # Calculate annual statistics on forest loss/gain
-gfc_stats <- gfc_stats(aoi, gfc_data, forest_threshold=forest_threshold)
+gfc_stats <- gfc_stats(aoi, gfc_thresholded)
 # Save these statistics to CSV files for use in Excel, etc.
 write.csv(gfc_stats$loss_table, file='test_gfc_extract_losstable.csv', row.names=FALSE)
 write.csv(gfc_stats$gain_table, file='test_gfc_extract_gaintable.csv', row.names=FALSE)
-
-# Calculate and save a thresholded version of the GFC product
-gfc_thresholded <- threshold(gfc_data, forest_threshold=forest_threshold)
-writeRaster(gfc_thresholded, filename='test_gfc_extract_thresholded.tif')
 
 # Calculate and save a thresholded annual layer stack from the GFC product 
 # (useful for simple visualizations, etc.)

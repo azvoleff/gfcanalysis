@@ -2,7 +2,7 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, forest_threshold = 25, scalefactor = 1e-04, ...)
+gfc_stats(aoi, gfc, scalefactor = 1e-04, ...)
 }
 \arguments{
   \item{aoi}{one or more Area of Interest (AOI) polygon(s)
@@ -15,17 +15,11 @@ gfc_stats(aoi, gfc, forest_threshold = 25, scalefactor = 1e-04, ...)
   to label the output.}
 
   \item{gfc}{extract of GFC product for a given AOI (see
-  \code{\link{extract_gfc}})}
-
-  \item{forest_threshold}{percent woody vegetation to use
-  as a threshold for mapping forest/non-forest}
+  \code{\link{extract_gfc}}), recoded using
+  \code{\link{threshold_gfc}}.}
 
   \item{scalefactor}{how to scale the output data (from
   meters). Defaults to .0001 for output in hectares.}
-
-  \item{...}{additional arguments to pass to
-  \code{threshold}, such as \code{filename} or
-  \code{overwrite}}
 }
 \value{
 \code{list} with two elements "loss_table", a
@@ -43,9 +37,10 @@ that experienced both loss and gain over the full 2010-2012
 period. Note that forest gain and combined loss and gain
 are not available in the GFC product on an annualized
 basis. Use \code{\link{extract_gfc}} to extract the GFC
-data for the AOI prior to running this function.
+data for the AOI, and threshold it using
+\code{\link{threshold_gfc}} prior to running this function.
 }
 \seealso{
-\code{\link{extract_gfc}}
+\code{\link{extract_gfc}}, \code{\link{threshold_gfc}}
 }
 

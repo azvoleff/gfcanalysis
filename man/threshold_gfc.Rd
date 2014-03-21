@@ -1,8 +1,8 @@
-\name{threshold}
-\alias{threshold}
+\name{threshold_gfc}
+\alias{threshold_gfc}
 \title{Threshold the GFC product}
 \usage{
-threshold(gfc, forest_threshold = 25, ...)
+threshold_gfc(gfc, forest_threshold = 25, ...)
 }
 \arguments{
   \item{gfc}{extract of GFC product for a given AOI (see
