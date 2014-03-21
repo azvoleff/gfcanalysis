@@ -1,7 +1,8 @@
+#' @import methods
 #' @import rgdal
 #' @import raster
 #' @importFrom sp bbox spTransform CRS proj4string
-make_tile_mosaic <- function(aoi, data_folder) {
+make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
     tiles <- calc_gfc_tiles(aoi)
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
@@ -25,7 +26,7 @@ make_tile_mosaic <- function(aoi, data_folder) {
         file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
         filenames <- file.path(data_folder, paste0(file_root, bands, 
                                                    file_suffix))
-        tile_stack <- crop(stack(filenames), aoi, datatype='INT2S')
+        tile_stack <- crop(stack(filenames), aoi, datatype='INT1U')
         names(tile_stack) <- bands
         tile_stacks <- c(tile_stacks, list(tile_stack))
     }
@@ -33,14 +34,26 @@ make_tile_mosaic <- function(aoi, data_folder) {
     if (length(tile_stacks) > 1) {
         # See http://bit.ly/1dJPIeF re issue in raster that necessitates below 
         # workaround TODO: Contact Hijmans re possible fix
-        mosaicargs <- tile_stacks
-        mosaicargs$fun <- mean
-        mosaicargs$datatype <- 'INT1U'
-        tile_mosaic <- do.call(mosaic, mosaicargs)
-        names(tile_mosaic) <- names(tile_stacks[[1]])
+        setMethod('mosaic', signature(x='list', y='missing'), 
+            function(x, y, fun, datatype, overwrite, tolerance=0.05, filename=""){
+                stopifnot(missing(y))
+                args <- x
+                if (!missing(fun)) args$fun <- fun
+                if (!missing(tolerance)) args$tolerance <- tolerance
+                if (!missing(datatype)) args$datatype <- datatype
+                if (!missing(overwrite)) args$overwrite <- overwrite
+                args$filename <- filename
+                do.call(mosaic, args)
+        })
+        tile_mosaic <- mosaic(tile_stacks, fun='mean', filename=filename, 
+                              datatype='INT1U', ...)
     } else {
         tile_mosaic <- tile_stacks[[1]]
+        if (filename != '') {
+            tile_mosaic <- writeRaster(tile_mosaic, filename=filename, datatype="INT1U", ...)
+        }
     }
+    names(tile_mosaic) <- names(tile_stacks[[1]])
     NAvalue(tile_mosaic) <- -1
 
     return(tile_mosaic)
@@ -67,8 +80,10 @@ make_tile_mosaic <- function(aoi, data_folder) {
 #' @param to_UTM if TRUE, then reproject the output into the UTM zone of the 
 #' AOI centroid. If FALSE, retain the original WGS84 projection of the GFC 
 #' tiles.
+#' @param ... additional arguments to pass to writeRaster, such as 
+#' \code{filename}, or \code{overwrite}
 #' @return \code{RasterStack} with GFC layers
-extract_gfc <- function(aoi, data_folder, to_UTM=FALSE) {
+extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, ...) {
     if (to_UTM) {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder)
         # Project to UTM for plotting and analysis of change in forest area.  
@@ -78,10 +93,10 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE) {
         utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
         # Use nearest neighbor since the data is categorical
         tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
-                                     method='ngb', datatype='INT1U')
+                                     method='ngb', datatype='INT1U', ...)
         NAvalue(tile_mosaic) <- -1
     } else {
-        tile_mosaic <- make_tile_mosaic(aoi, data_folder)
+        tile_mosaic <- make_tile_mosaic(aoi, data_folder, ...)
         NAvalue(tile_mosaic) <- -1
     }
 

@@ -2,7 +2,7 @@
 \alias{extract_gfc}
 \title{Extracts GFC data for a given AOI}
 \usage{
-extract_gfc(aoi, data_folder, to_UTM = FALSE)
+extract_gfc(aoi, data_folder, to_UTM = FALSE, ...)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -16,6 +16,9 @@ extract_gfc(aoi, data_folder, to_UTM = FALSE)
   \item{to_UTM}{if TRUE, then reproject the output into the
   UTM zone of the AOI centroid. If FALSE, retain the
   original WGS84 projection of the GFC tiles.}
+
+  \item{...}{additional arguments to pass to writeRaster,
+  such as \code{filename}, or \code{overwrite}}
 }
 \value{
 \code{RasterStack} with GFC layers

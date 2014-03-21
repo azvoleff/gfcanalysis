@@ -2,7 +2,7 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, forest_threshold = 25, scalefactor = 1e-04)
+gfc_stats(aoi, gfc, forest_threshold = 25, scalefactor = 1e-04, ...)
 }
 \arguments{
   \item{aoi}{one or more Area of Interest (AOI) polygon(s)
@@ -22,6 +22,10 @@ gfc_stats(aoi, gfc, forest_threshold = 25, scalefactor = 1e-04)
 
   \item{scalefactor}{how to scale the output data (from
   meters). Defaults to .0001 for output in hectares.}
+
+  \item{...}{additional arguments to pass to
+  \code{threshold}, such as \code{filename} or
+  \code{overwrite}}
 }
 \value{
 \code{list} with two elements "loss_table", a
