@@ -81,13 +81,14 @@ recode_gfc <- function(treecover2000, lossyear, gain, datamask,
 #' @param ... additional arguments to pass to rasterEngine, such as 
 #' \code{filename} or \code{overwrite}
 #' @return \code{RasterBrick} with thresholded GFC product (see details above)
-threshold <- function(gfc, forest_threshold=25, ...) {
+threshold_gfc <- function(gfc, forest_threshold=25, ...) {
+    names(gfc) <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
     thresholded <- rasterEngine(treecover2000=gfc$treecover2000, 
-                               lossyear=gfc$lossyear, gain=gfc$gain, 
-                               datamask=gfc$datamask,
-                               args=list(forest_threshold=forest_threshold), 
-                               fun=recode_gfc, outbands=5, outfiles=1, 
-                               setMinMax=TRUE, datatype='INT1U', ...)
+                                lossyear=gfc$lossyear, gain=gfc$gain, 
+                                datamask=gfc$datamask,
+                                args=list(forest_threshold=forest_threshold), 
+                                fun=recode_gfc, outbands=5, outfiles=1, 
+                                setMinMax=TRUE, datatype='INT1U', ...)
     names(thresholded) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 
                             'datamask')
     return(thresholded)
