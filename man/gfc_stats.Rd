@@ -2,7 +2,7 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, scalefactor = 1e-04, ...)
+gfc_stats(aoi, gfc, scale_factor = 1e-04, ...)
 }
 \arguments{
   \item{aoi}{one or more Area of Interest (AOI) polygon(s)
@@ -18,7 +18,7 @@ gfc_stats(aoi, gfc, scalefactor = 1e-04, ...)
   \code{\link{extract_gfc}}), recoded using
   \code{\link{threshold_gfc}}.}
 
-  \item{scalefactor}{how to scale the output data (from
+  \item{scale_factor}{how to scale the output data (from
   meters). Defaults to .0001 for output in hectares.}
 }
 \value{
@@ -26,7 +26,7 @@ gfc_stats(aoi, gfc, scalefactor = 1e-04, ...)
 \code{data.frame} with statistics on forest loss, and
 "gain_table", with the area of forest gain, and area that
 experienced both loss and gain. The units of the output are
-hectares (when \code{scalefactor} is set to .0001).
+hectares (when \code{scale_factor} is set to .0001).
 }
 \description{
 For a given AOI, this function produces two tables: an
