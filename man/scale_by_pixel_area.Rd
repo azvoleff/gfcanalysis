@@ -1,0 +1,37 @@
+\name{scale_by_pixel_area}
+\alias{scale_by_pixel_area}
+\title{Scales a raster by the area of each pixel in meters}
+\usage{
+scale_by_pixel_area(x, filename, datatype, pixel_areas = NULL,
+  scale_factor = 1)
+}
+\arguments{
+  \item{x}{a \code{Raster*} object}
+
+  \item{pixel_areas}{a vector giving the area of each cell
+  in a single column of the raster. See
+  \code{\link{calc_pixel_areas}}. If NULL, this vector will
+  be calculated based on the coordinate system of
+  \code{x}.}
+
+  \item{scale_factor}{a value to scale the results by}
+
+  \item{filename}{(optional) filename for output raster}
+
+  \item{datatype}{(optional) datatype for output raster see
+  \code{\link{dataType}} NOT YET SUPPORTED}
+}
+\value{
+\code{RasterLayer} with pixel areas (in meters)
+}
+\description{
+Calculates the area (in meters) of each pixel in a raster,
+scales the value of each pixel by the area, applies the
+desired scale factor, and returns the result as a
+\code{RasterLayer}.  Useful for calculating class areas
+based on a classified raster in a geographic coordinate
+system.  Assumes that raster is not rotated (latitudes of
+every pixel in a given row are identical). Processes block
+by block to support handling very large rasters.
+}
+
