@@ -24,13 +24,14 @@
 #' generated and used to label the output.
 #' @param gfc extract of GFC product for a given AOI (see 
 #' \code{\link{extract_gfc}}), recoded using \code{\link{threshold_gfc}}.
-#' @param scalefactor how to scale the output data (from meters). Defaults to 
+#' @param scale_factor how to scale the output data (from meters). Defaults to 
 #' .0001 for output in hectares.
 #' @return \code{list} with two elements "loss_table", a \code{data.frame} with 
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 
-#' hectares (when \code{scalefactor} is set to .0001).
-gfc_stats <- function(aoi, gfc, scalefactor=.0001, ...) {
+#' hectares (when \code{scale_factor} is set to .0001).
+gfc_stats <- function(aoi, gfc, scale_factor=.0001, ...) {
+    names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
     gfc_boundpoly_wgs84 <- spTransform(gfc_boundpoly, CRS('+init=epsg:4326'))
@@ -41,13 +42,18 @@ gfc_stats <- function(aoi, gfc, scalefactor=.0001, ...) {
 
     if ((((xmin(gfc) >=-180) & (xmax(gfc) <=180)) || ((xmin(gfc) >=0) & (xmax(gfc) <=360))) &&
         (ymin(gfc) >=-90) & (ymax(gfc) <= 90)) {
-        # Use the included pixel_areas function to calculate the area of each 
-        # raster cell, allowing for areal estimates of deforestation in square 
-        # meters even from the original imagery in WGS84.
+        # Use the included calc_pixel_area function to calculate the area of 
+        # one cell in each line of the raster, allowing for accurate areal 
+        # estimates of deforestation in square meters even when imagery is in 
+        # WGS84.
         message('Data appears to be in latitude/longitude. Calculating cell areas on a sphere.')
-        cell_areas <- pixel_areas(gfc)
+        spherical_areas <- TRUE
+        # Calculate the area of a single pixel in each line of the image (to 
+        # avoid repeating this calculation later on)
+        pixel_areas <- calc_pixel_areas(gfc)
     } else {
-        cell_areas <- xres(gfc) * yres(gfc)
+        spherical_areas <- FALSE
+        pixel_areas <- xres(gfc) * yres(gfc)
     }
 
     gain_table <- data.frame(aoi=NA, gain=NA, lossgain=NA)
@@ -58,11 +64,25 @@ gfc_stats <- function(aoi, gfc, scalefactor=.0001, ...) {
         loss_table <- data.frame(year=years, cover=NAs, loss=NAs)
         # Note that areas are converted to square meters using pixel size, then 
         # converted to hectares
-        initial_cover <- cellStats(gfc$forest2000 * cell_areas, 'sum') * scalefactor 
+        if (spherical_areas) {
+            initial_cover_weighted <- scale_by_pixel_area(gfc$forest2000,
+                                                          pixel_areas=pixel_areas, 
+                                                          scale_factor=scale_factor)
+            initial_cover <- cellStats(initial_cover_weighted, 'sum')
+        } else {
+            initial_cover <- cellStats(gfc$forest2000 * pixel_areas, 'sum') * scale_factor 
+        }
         loss_table$cover[1] <- initial_cover
         for (i in 1:12) {
             # n + 1 because first row is year 2000, with zero loss
-            loss_table$loss[i + 1] <- cellStats((gfc$lossyear == i) * cell_areas, 'sum') * scalefactor
+            if (spherical_areas) {
+                loss_weighted <- scale_by_pixel_area(gfc$lossyear == i, 
+                                                     pixel_areas=pixel_areas, 
+                                                     scale_factor=scale_factor)
+                loss_table$loss[i + 1] <- cellStats(loss_weighted, 'sum')
+            } else {
+                loss_table$loss[i + 1] <- cellStats((gfc$lossyear == i) * pixel_areas, 'sum') * scale_factor
+            }
         }
         for (i in 2:nrow(loss_table)) {
             loss_table$cover[i] <- loss_table$cover[i - 1] - loss_table$loss[i]
@@ -72,8 +92,19 @@ gfc_stats <- function(aoi, gfc, scalefactor=.0001, ...) {
     }
 
     calc_gain_table <- function(gfc) {
-        gainarea <- cellStats(gfc$gain * cell_areas, 'sum') * scalefactor
-        lossgainarea <- cellStats(gfc$lossgain * cell_areas, 'sum') * scalefactor
+        if (spherical_areas) {
+            gainarea_weighted <- scale_by_pixel_area(gfc$gain, 
+                                                     pixel_areas=pixel_areas, 
+                                                     scale_factor=scale_factor)
+            gainarea <- cellStats(gainarea_weighted, 'sum')
+            lossgainarea_weighted <- scale_by_pixel_area(gfc$lossgain, 
+                                                         pixel_areas=pixel_areas, 
+                                                         scale_factor=scale_factor)
+            lossgainarea <- cellStats(lossgainarea_weighted, 'sum')
+        } else {
+            gainarea <- cellStats(gfc$gain * pixel_areas, 'sum') * scale_factor
+            lossgainarea <- cellStats(gfc$lossgain * pixel_areas, 'sum') * scale_factor
+        }
         this_gain_table <- data.frame(period='2000-2012',
                                       gain=gainarea, lossgain=lossgainarea)
         return(this_gain_table)
