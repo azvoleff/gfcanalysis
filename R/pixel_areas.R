@@ -3,6 +3,8 @@
 #' @import raster
 #' @importFrom geosphere areaPolygon
 #' @param x a \code{Raster*} object
+#' @return a vector with the area in square meters of the pixels in each line 
+#' of \code{x} (vector has length equal to \code{nrow(x)})
 calc_pixel_areas <- function(x) {
     # Construct polygons for a single column of the raster
     xleft <- xmin(x)

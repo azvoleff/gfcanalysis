@@ -7,6 +7,11 @@ calc_pixel_areas(x)
 \arguments{
   \item{x}{a \code{Raster*} object}
 }
+\value{
+a vector with the area in square meters of the pixels in
+each line of \code{x} (vector has length equal to
+\code{nrow(x)})
+}
 \description{
 Calculates the pixel area for each line of a raster
 }

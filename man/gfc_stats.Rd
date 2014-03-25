@@ -2,7 +2,7 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, scale_factor = 1e-04, ...)
+gfc_stats(aoi, gfc, scale_factor = 1e-04)
 }
 \arguments{
   \item{aoi}{one or more Area of Interest (AOI) polygon(s)
