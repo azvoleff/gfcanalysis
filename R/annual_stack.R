@@ -25,6 +25,7 @@
 #' @param gfc thresholded extract of GFC product for a given AOI (see 
 #' \code{\link{threshold_gfc}})
 annual_stack <- function(gfc) {
+    names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     out <- raster(gfc)
     layer_names <- paste0('y', seq(2000, 2012, 1))
     for (n in 1:length(layer_names)) {
