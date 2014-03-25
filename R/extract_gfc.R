@@ -49,7 +49,8 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
     } else {
         tile_mosaic <- tile_stacks[[1]]
         if (filename != '') {
-            tile_mosaic <- writeRaster(tile_mosaic, filename=filename, datatype="INT1U", ...)
+            tile_mosaic <- writeRaster(tile_mosaic, filename=filename, 
+                                       datatype="INT1U", ...)
         }
     }
     names(tile_mosaic) <- names(tile_stacks[[1]])

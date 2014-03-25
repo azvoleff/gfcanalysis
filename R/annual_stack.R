@@ -31,24 +31,22 @@ annual_stack <- function(gfc) {
         if (n == 1) {
             # Code forest as 1, non-forest as 2
             this_year <- gfc$forest2000
-            this_year[this_year == 0] <- 2
-            # Code missing data
-            this_year[gfc$datamask == 0] <- 0
-            # Code gain as 4 (no years are attributed to gain). Gain can only 
-            # occur on initially non-forested pixels (this_year == 2) where 
-            # loss does not also occur (loss == 0)
-            this_year[gfc$gain & (gfc$lossyear == 0)] <- 4
-            # Code forest loss/gain, and water
-            this_year[gfc$gain & (gfc$lossyear != 0)] <- 5 # loss and gain
-            this_year[gfc$datamask == 2] <- 6 # water
+            this_year[this_year == 0] <- 2 # non-forest
         } else {
             this_year <- raster(out, layer=(n-1))
             # Code forest loss (can't have loss in the first year, 2000)
             this_year[(gfc$lossyear == n) & !(gfc$gain)] <- 3 # loss
         }
+        # Code gain (no years are attributed to gain). Gain can only occur 
+        # where loss does not also occur (loss == 0), as gain and loss is coded 
+        # separately below.
+        this_year[gfc$gain & (gfc$lossyear == 0)] <- 4 # gain
+        this_year[gfc$lossgain] <- 5 # loss and gain
+        this_year[gfc$datamask == 2] <- 6 # water
         names(this_year) <- layer_names[n]
         out <- addLayer(out, this_year)
     }
+    out[gfc$datamask == 0] <- 0 # missing
     out <- setZ(out, seq(as.Date('2000-1-1'), as.Date('2012-1-1'), by='year'))
     names(out) <- layer_names
     return(out)
