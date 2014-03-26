@@ -11,8 +11,8 @@ threshold_gfc(gfc, forest_threshold = 25, ...)
   \item{forest_threshold}{percent woody vegetation to use
   as a threshold for mapping forest/non-forest}
 
-  \item{...}{additional arguments to pass to rasterEngine,
-  such as \code{filename} or \code{overwrite}}
+  \item{...}{additional arguments as for writeRaster, such
+  as \code{filename} or \code{overwrite}}
 }
 \value{
 \code{RasterBrick} with thresholded GFC product (see

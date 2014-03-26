@@ -19,7 +19,6 @@ Imports:
     grid,
     sp,
     stringr,
-    spatial.tools (>= 1.3.8),
     animation,
     rasterVis
 Suggests:

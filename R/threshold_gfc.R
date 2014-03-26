@@ -1,14 +1,3 @@
-recode_gfc <- function(treecover2000, lossyear, gain, datamask, 
-                       forest_threshold) {
-    forest2000 <- treecover2000 > forest_threshold
-    # Note forest2000 is a binary variable
-    lossyear_recode <- lossyear * forest2000
-    gain_recode <- gain & (!forest2000)
-    lossgain <- gain & (lossyear != 0)
-    array(c(forest2000, lossyear_recode, gain_recode, lossgain, datamask),
-          c(nrow(forest2000), ncol(forest2000), 5))
-}
-
 #' Threshold the GFC product
 #'
 #' Uses the GFC data output from \code{\link{extract_gfc}} to make an 
@@ -73,22 +62,28 @@ recode_gfc <- function(treecover2000, lossyear, gain, datamask,
 #'
 #' @export
 #' @import raster
-#' @importFrom spatial.tools rasterEngine
 #' @param gfc extract of GFC product for a given AOI (see 
 #' \code{\link{extract_gfc}})
 #' @param forest_threshold percent woody vegetation to use as a threshold for 
 #' mapping forest/non-forest
-#' @param ... additional arguments to pass to rasterEngine, such as 
-#' \code{filename} or \code{overwrite}
+#' @param ... additional arguments as for writeRaster, such as \code{filename} 
+#' or \code{overwrite}
 #' @return \code{RasterBrick} with thresholded GFC product (see details above)
 threshold_gfc <- function(gfc, forest_threshold=25, ...) {
     names(gfc) <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
-    thresholded <- rasterEngine(treecover2000=gfc$treecover2000, 
-                                lossyear=gfc$lossyear, gain=gfc$gain, 
-                                datamask=gfc$datamask,
-                                args=list(forest_threshold=forest_threshold), 
-                                fun=recode_gfc, outbands=5, outfiles=1, 
-                                setMinMax=TRUE, datatype='INT1U', ...)
+    recode_gfc <- function(treecover2000, loss, gain, lossyear, datamask) {
+        forest2000 <- treecover2000 > forest_threshold
+        # Note forest2000 is a binary variable
+        lossyear_recode <- lossyear * forest2000
+        gain_recode <- gain & (!forest2000)
+        lossgain <- gain & (lossyear_recode != 0)
+        thresholded <- matrix(c(forest2000, lossyear_recode, gain_recode, 
+                                lossgain, datamask),
+                             nrow=length(forest2000),
+                             ncol=5)
+        return(thresholded)
+    }
+    thresholded <- overlay(gfc, fun=recode_gfc, datatype='INT1U', ...)
     names(thresholded) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 
                             'datamask')
     return(thresholded)
