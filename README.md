@@ -12,16 +12,24 @@ Network](http://www.teamnetwork.org/).
 
 ## Package Installation
 
-`gfcanalysis` is not yet listed on [CRAN](http://cran.r-project.org).  The 
-easiest way to install the `gfcanalysis` package is using the 
-[`devtools`](http://cran.r-project.org/web/packages/devtools/index.html) 
-package. After installing `devtools` from CRAN, type:
+## Release Version
+
+To install the release version of `gfcanalysis` in R, just run:
 
 ```R
-install_github('gfcanalysis', username='azvoleff')
+install.packages('gfcanalysis')
 ```
 
-at the R prompt to install `gfcanalysis`.
+## Development Version
+
+The easiest way to install the development version of the `gfcanalysis` package 
+is using the 
+[`devtools`](http://cran.r-project.org/web/packages/devtools/index.html) 
+package. After installing `devtools`, type:
+
+```R
+install_github('azvoleff/gfcanalysis')
+```
 
 ## Usage
 
@@ -31,7 +39,7 @@ package:
 - For those new to R, see the 
 [install_gfcanalysis.R](https://raw.github.com/azvoleff/gfcanalysis/master/inst/examples/install_gfcanalysis.R)
 script. This script provides guidance on how to download and install the 
-package in R.
+(development version) of the package in R.
 
 - For an example of how to run the package to calculate forest 
 change statistics for a given area of interest (AOI), see the examples in
