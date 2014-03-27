@@ -9,6 +9,13 @@
 #' data for the AOI, and threshold it using \code{\link{threshold_gfc}} prior to 
 #' running this function.
 #'
+#' If the\code{aoi} \code{SpatialPolygons*} object is not in the coordinate 
+#' system of \code{gfc}, it will be reprojected. If there is a "label" 
+#' attribute, it will be used to label the output statistics.  Otherwise, 
+#' unique names ("AOI 1", "AOI 2", etc.) will be generated and used to label 
+#' the output. If multiple AOIs share the same labels, statistics will be 
+#' provided for the union of these AOIs.
+#'
 #' @seealso \code{\link{extract_gfc}}, \code{\link{threshold_gfc}}
 #'
 #' @export
@@ -17,11 +24,7 @@
 #' @importFrom rgeos gIntersects
 #' @importFrom sp spTransform CRS proj4string
 #' @param aoi one or more Area of Interest (AOI) polygon(s) as a 
-#' \code{SpatialPolygons*} object.  If the \code{SpatialPolygons*} object is 
-#' not in the coordinate system of the procided gfc extract, it will be 
-#' reprojected. If there is a "label" attribute, it will be used to label the 
-#' output statistics. Otherwise, unique names ("AOI 1", "AOI 2", etc.) will be 
-#' generated and used to label the output.
+#' \code{SpatialPolygons*} object. See Details.
 #' @param gfc extract of GFC product for a given AOI (see 
 #' \code{\link{extract_gfc}}), recoded using \code{\link{threshold_gfc}}.
 #' @param scale_factor how to scale the output data (from meters). Defaults to 
@@ -61,16 +64,17 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
         aoi$label <- paste('AOI', seq(1:nrow(aoi@data)))
     }
 
+    uniq_aoi_labels <- unique(aoi$label)
     years <- seq(2000, 2012, 1)
-    loss_table <- data.frame(year=rep(years, nrow(aoi)),
-                             aoi=rep(aoi$label, each=length(years)))
+    loss_table <- data.frame(year=rep(years, length(uniq_aoi_labels)),
+                             aoi=rep(uniq_aoi_labels, each=length(years)))
     loss_table$cover <- 0
     loss_table$loss <- 0
 
-    gain_table <- data.frame(period=rep('2000-2012', nrow(aoi)),
-                             aoi=rep(aoi$label, nrow(aoi)),
-                             gain=rep(0, nrow(aoi)),
-                             lossgain=rep(0, nrow(aoi)))
+    gain_table <- data.frame(period=rep('2000-2012', length(uniq_aoi_labels)),
+                             aoi=uniq_aoi_labels,
+                             gain=rep(0, length(uniq_aoi_labels)),
+                             lossgain=rep(0, length(uniq_aoi_labels)))
 
     for (n in 1:nrow(aoi)) {
         gfc_masked <- mask(gfc, aoi[n, ], datatype='INT1U')
