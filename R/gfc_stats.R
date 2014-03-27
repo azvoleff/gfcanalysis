@@ -56,79 +56,74 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
         pixel_areas <- xres(gfc) * yres(gfc)
     }
 
-    gain_table <- data.frame(aoi=NA, gain=NA, lossgain=NA)
-
-    calc_loss_table <- function(gfc) {
-        years <- seq(2000, 2012, 1)
-        NAs <- rep(NA, length(years))
-        loss_table <- data.frame(year=years, cover=NAs, loss=NAs)
-        # Note that areas are converted to square meters using pixel size, then 
-        # converted to hectares
-        if (spherical_areas) {
-            initial_cover_weighted <- scale_by_pixel_area(gfc$forest2000,
-                                                          pixel_areas=pixel_areas, 
-                                                          scale_factor=scale_factor)
-            initial_cover <- cellStats(initial_cover_weighted, 'sum')
-        } else {
-            initial_cover <- cellStats(gfc$forest2000 * pixel_areas, 'sum') * scale_factor 
-        }
-        loss_table$cover[1] <- initial_cover
-        for (i in 1:12) {
-            # n + 1 because first row is year 2000, with zero loss
-            if (spherical_areas) {
-                loss_weighted <- scale_by_pixel_area(gfc$lossyear == i, 
-                                                     pixel_areas=pixel_areas, 
-                                                     scale_factor=scale_factor)
-                loss_table$loss[i + 1] <- cellStats(loss_weighted, 'sum')
-            } else {
-                loss_table$loss[i + 1] <- cellStats((gfc$lossyear == i) * pixel_areas, 'sum') * scale_factor
-            }
-        }
-        for (i in 2:nrow(loss_table)) {
-            loss_table$cover[i] <- loss_table$cover[i - 1] - loss_table$loss[i]
-        }
-
-        return(loss_table)
-    }
-
-    calc_gain_table <- function(gfc) {
-        if (spherical_areas) {
-            gainarea_weighted <- scale_by_pixel_area(gfc$gain, 
-                                                     pixel_areas=pixel_areas, 
-                                                     scale_factor=scale_factor)
-            gainarea <- cellStats(gainarea_weighted, 'sum')
-            lossgainarea_weighted <- scale_by_pixel_area(gfc$lossgain, 
-                                                         pixel_areas=pixel_areas, 
-                                                         scale_factor=scale_factor)
-            lossgainarea <- cellStats(lossgainarea_weighted, 'sum')
-        } else {
-            gainarea <- cellStats(gfc$gain * pixel_areas, 'sum') * scale_factor
-            lossgainarea <- cellStats(gfc$lossgain * pixel_areas, 'sum') * scale_factor
-        }
-        this_gain_table <- data.frame(period='2000-2012',
-                                      gain=gainarea, lossgain=lossgainarea)
-        return(this_gain_table)
-    }
-
     aoi <- spTransform(aoi, CRS(proj4string(gfc)))
     if (!('label' %in% names(aoi))) {
         aoi$label <- paste('AOI', seq(1:nrow(aoi@data)))
     }
 
+    years <- seq(2000, 2012, 1)
+    loss_table <- data.frame(year=rep(years, nrow(aoi)),
+                             aoi=rep(aoi$label, each=length(years)))
+    loss_table$cover <- 0
+    loss_table$loss <- 0
+
+    gain_table <- data.frame(period=rep('2000-2012', nrow(aoi)),
+                             aoi=rep(aoi$label, each=nrow(aoi)),
+                             gain=rep(0, nrow(aoi)),
+                             lossgain=rep(0, nrow(aoi)))
+
     for (n in 1:nrow(aoi)) {
-        gfc_cropped <- crop(gfc, aoi[n, ], datatype='INT1U')
-        gfc_cropped <- mask(gfc_cropped, aoi[n, ], datatype='INT1U')
-        this_loss_table <- calc_loss_table(gfc_cropped)
-        this_loss_table$aoi <- aoi[n, ]$label
-        this_gain_table <- calc_gain_table(gfc_cropped)
-        this_gain_table$aoi <- aoi[n, ]$label
-        if (n == 1) {
-            loss_table <- this_loss_table
-            gain_table <- this_gain_table
-        } else {
-            loss_table <- rbind(loss_table, this_loss_table)
-            gain_table <- rbind(gain_table, this_gain_table)
+        gfc_masked <- mask(gfc, aoi[n, ], datatype='INT1U')
+
+        # Find the first row in the loss table that applies to this aoi
+        loss_table_st_row <- match(aoi[n, ]$label, loss_table$aoi)
+        # No loss in first year
+        loss_table$loss[loss_table_st_row] <- NA
+
+        # Find the first row in the loss table that applies to this aoi
+        gain_table_row <- match(aoi[n, ]$label, gain_table$aoi)
+
+        # Process by blocks to avoid unnecessary reads from disk
+        bs <- blockSize(gfc_masked)
+        for (block_num in 1:bs$n) {
+            bl_st_row <- bs$row[block_num]
+            bl_nrows <- bs$nrows[block_num]
+            gfc_bl <- getValuesBlock(gfc_masked, bl_st_row, bl_nrows)
+
+            if (spherical_areas) {
+                bl_pixel_areas <- rep(pixel_areas[bl_st_row:(bl_st_row + bl_nrows - 1)], each=ncol(gfc))
+            } else {
+                bl_pixel_areas <- pixel_areas
+            }
+
+            # Calculate initial cover, note that areas are converted to square 
+            # meters using pixel size, then converted using scale_factor 
+            # (default output units are hectares)
+            forest2000_col <- which(names(gfc) == 'forest2000')
+            loss_table$cover[loss_table_st_row] <- loss_table$cover[loss_table_st_row] +
+                sum(gfc_bl[, forest2000_col] * bl_pixel_areas * scale_factor)
+
+            for (i in 1:12) {
+                lossyear_col <- which(names(gfc) == 'lossyear')
+                # n + 1 because first row is year 2000, with zero loss
+                loss_table$loss[loss_table_st_row + i] <- loss_table$loss[loss_table_st_row + i] +
+                    sum((gfc_bl[, lossyear_col] == i) * bl_pixel_areas * scale_factor)
+            }
+
+            gain_col <- which(names(gfc) == 'gain')
+            lossgain_col <- which(names(gfc) == 'lossgain')
+            gain_table[gain_table_row, ]$gain <- gain_table[gain_table_row, ]$gain +
+                sum(gfc_bl[, gain_col] * bl_pixel_areas * scale_factor)
+            gain_table[gain_table_row, ]$lossgain <- gain_table[gain_table_row, ]$lossgain +
+                sum(gfc_bl[, lossgain_col] * bl_pixel_areas * scale_factor)
         }
+
+        # Calculate cover for each year by accounting for loss in prior years
+        for (i in 1:12) {
+            this_row <- loss_table_st_row + i
+            loss_table$cover[this_row] <- loss_table$cover[this_row - 1] - loss_table$loss[this_row]
+        }
+
     }
 
     return(list(loss_table=loss_table, gain_table=gain_table))
