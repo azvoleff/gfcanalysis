@@ -68,7 +68,7 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
     loss_table$loss <- 0
 
     gain_table <- data.frame(period=rep('2000-2012', nrow(aoi)),
-                             aoi=rep(aoi$label, each=nrow(aoi)),
+                             aoi=rep(aoi$label, nrow(aoi)),
                              gain=rep(0, nrow(aoi)),
                              lossgain=rep(0, nrow(aoi)))
 
