@@ -101,21 +101,21 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
             # (default output units are hectares)
             forest2000_col <- which(names(gfc) == 'forest2000')
             loss_table$cover[loss_table_st_row] <- loss_table$cover[loss_table_st_row] +
-                sum(gfc_bl[, forest2000_col] * bl_pixel_areas * scale_factor)
+                sum(gfc_bl[, forest2000_col] * bl_pixel_areas * scale_factor, na.rm=TRUE)
 
             for (i in 1:12) {
                 lossyear_col <- which(names(gfc) == 'lossyear')
                 # n + 1 because first row is year 2000, with zero loss
                 loss_table$loss[loss_table_st_row + i] <- loss_table$loss[loss_table_st_row + i] +
-                    sum((gfc_bl[, lossyear_col] == i) * bl_pixel_areas * scale_factor)
+                    sum((gfc_bl[, lossyear_col] == i) * bl_pixel_areas * scale_factor, na.rm=TRUE)
             }
 
             gain_col <- which(names(gfc) == 'gain')
             lossgain_col <- which(names(gfc) == 'lossgain')
             gain_table[gain_table_row, ]$gain <- gain_table[gain_table_row, ]$gain +
-                sum(gfc_bl[, gain_col] * bl_pixel_areas * scale_factor)
+                sum(gfc_bl[, gain_col] * bl_pixel_areas * scale_factor, na.rm=TRUE)
             gain_table[gain_table_row, ]$lossgain <- gain_table[gain_table_row, ]$lossgain +
-                sum(gfc_bl[, lossgain_col] * bl_pixel_areas * scale_factor)
+                sum(gfc_bl[, lossgain_col] * bl_pixel_areas * scale_factor, na.rm=TRUE)
         }
 
         # Calculate cover for each year by accounting for loss in prior years
