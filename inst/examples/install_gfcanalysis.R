@@ -11,8 +11,8 @@
 # install Alex's "gfcanalysis" package.
 if (!require(devtools)) install.packages("devtools")
 
-# Install the spatial.tools package used to speed spatial analyses
-install.packages("spatial.tools", repos="http://R-Forge.R-project.org")
+# Install the snow package used to speed spatial analyses
+if (!require(snow)) install.packages("snow")
 
 # Install Alex's gfcanalysis package
 library(devtools)
