@@ -1,4 +1,9 @@
 gfcanalysis 1.0
 ===============
 
-*  Initial release to CRAN.
+*  Suggest "parallel" instead of "snow".
+
+gfcanalysis 1.0
+===============
+
+*  Initial upload to CRAN.
