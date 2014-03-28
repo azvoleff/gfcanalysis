@@ -18,7 +18,7 @@ before_install:
   - ./travis-tool.sh install_r_binary raster rgdal geosphere RCurl plyr reshape2 ggplot2 sp stringr
   - ./travis-tool.sh install_r rgeos spatial.tools # there is an error with the repo version
     # gfcanalysis R suggested
-  - ./travis-tool.sh install_r_binary testthat foreach itertools doSNOW
+  - ./travis-tool.sh install_r_binary snow
 
 install:
   - ./travis-tool.sh install_deps
