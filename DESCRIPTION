@@ -22,7 +22,7 @@ Imports:
     animation,
     rasterVis
 Suggests:
-    snow
+    parallel
 Description: The gfcanalysis package supports analyses using the Global
     Forest Change dataset released by Hansen et al. 2013. gfcanalysis was
     written by the Tropical Ecology Assessment and Monitoring (TEAM) Network
