@@ -76,7 +76,7 @@ threshold_gfc <- function(gfc, forest_threshold=25, ...) {
         # Note forest2000 is a binary variable
         lossyear_recode <- lossyear * forest2000
         gain_recode <- gain & (!forest2000)
-        lossgain <- gain & (lossyear_recode != 0)
+        lossgain <- gain & (lossyear != 0)
         thresholded <- matrix(c(forest2000, lossyear_recode, gain_recode, 
                                 lossgain, datamask),
                              nrow=length(forest2000),
