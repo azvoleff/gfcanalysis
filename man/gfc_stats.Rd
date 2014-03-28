@@ -6,13 +6,7 @@ gfc_stats(aoi, gfc, scale_factor = 1e-04)
 }
 \arguments{
   \item{aoi}{one or more Area of Interest (AOI) polygon(s)
-  as a \code{SpatialPolygons*} object.  If the
-  \code{SpatialPolygons*} object is not in the coordinate
-  system of the procided gfc extract, it will be
-  reprojected. If there is a "label" attribute, it will be
-  used to label the output statistics. Otherwise, unique
-  names ("AOI 1", "AOI 2", etc.) will be generated and used
-  to label the output.}
+  as a \code{SpatialPolygons*} object. See Details.}
 
   \item{gfc}{extract of GFC product for a given AOI (see
   \code{\link{extract_gfc}}), recoded using
@@ -39,6 +33,16 @@ are not available in the GFC product on an annualized
 basis. Use \code{\link{extract_gfc}} to extract the GFC
 data for the AOI, and threshold it using
 \code{\link{threshold_gfc}} prior to running this function.
+}
+\details{
+If the\code{aoi} \code{SpatialPolygons*} object is not in
+the coordinate system of \code{gfc}, it will be
+reprojected. If there is a "label" attribute, it will be
+used to label the output statistics.  Otherwise, unique
+names ("AOI 1", "AOI 2", etc.) will be generated and used
+to label the output. If multiple AOIs share the same
+labels, statistics will be provided for the union of these
+AOIs.
 }
 \seealso{
 \code{\link{extract_gfc}}, \code{\link{threshold_gfc}}
