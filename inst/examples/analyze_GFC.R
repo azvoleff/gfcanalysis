@@ -18,10 +18,10 @@ library(gfcanalysis)
 # Load 'rgdal' package, which is used to read/write shapefiles and rasters
 library(rgdal)
 
-# Start a cluster for parallel processing - comment out this line, and the 
-# endCluster() line at the end of this script if you do NOT want gfcanalysis to 
-# run in parallel.
-beginCluster()
+# Start a cluster for parallel processing. You must install the "snow" package 
+# for this to work. Comment out this line, and the endCluster() line at the end 
+# of this script, if you do NOT want gfcanalysis to run in parallel.
+if (require(snow)) beginCluster()
 
 # Indicate where we want to save GFC tiles downloaded from Google. For any 
 # given AOI, the script will first check to see if these tiles are available 
@@ -87,4 +87,4 @@ writeRaster(gfc_thresholded_annual, filename='gfc_NAK_extract_thresholded_annual
 animate_annual(aoi, gfc_thresholded_annual)
 
 # Stop the parallel processing cluster
-endCluster()
+if (require(snow)) endCluster()

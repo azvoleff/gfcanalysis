@@ -1,5 +1,5 @@
 Package: gfcanalysis
-Version: 1.0
+Version: 1.1
 Date: 2014-03-28
 Title: Tools for working with Hansen et al. 2013 Global Forest Change dataset
 Authors@R: c(person("Alex", "Zvoleff", email="azvoleff@conservation.org",
@@ -21,8 +21,7 @@ Imports:
     stringr,
     animation,
     rasterVis
-Suggests:
-    snow
+Enhances: snow
 Description: The gfcanalysis package supports analyses using the Global
     Forest Change dataset released by Hansen et al. 2013. gfcanalysis was
     written by the Tropical Ecology Assessment and Monitoring (TEAM) Network
