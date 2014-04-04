@@ -22,7 +22,9 @@ details above)
 Uses the GFC data output from \code{\link{extract_gfc}} to
 make an thresholded layer stack with five layers:
 treecover2000, loss, gain, lossyear, and datamask layers.
-See Details for the coding used in each layer.
+See Details for the coding used in each layer. Note that
+the output file format is fixed as GeoTIFF with LZW
+compression.
 }
 \details{
 The output uses the following codes to describe forest

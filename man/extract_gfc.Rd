@@ -28,7 +28,8 @@ This function extracts a dataset for a given AOI from a
 series of pre-downloaded GFC tiles. The
 \code{\link{download_tiles}} function should be used
 beforehand in order to download the necessary data to the
-specified \code{data_folder}.
+specified \code{data_folder}. Note that the output file
+format is fixed as GeoTIFF with LZW compression.
 }
 \seealso{
 \code{\link{download_tiles}}, \code{\link{annual_stack}},

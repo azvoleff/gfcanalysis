@@ -77,7 +77,8 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
                              lossgain=rep(0, length(uniq_aoi_labels)))
 
     for (n in 1:nrow(aoi)) {
-        gfc_masked <- mask(gfc, aoi[n, ], datatype='INT1U')
+        gfc_masked <- mask(gfc, aoi[n, ], datatype='INT1U', format="GTiff", 
+                           options="COMPRESS=LZW")
 
         # Find the first row in the loss table that applies to this aoi
         loss_table_st_row <- match(aoi[n, ]$label, loss_table$aoi)

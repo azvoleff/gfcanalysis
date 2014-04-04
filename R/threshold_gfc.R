@@ -3,7 +3,8 @@
 #' Uses the GFC data output from \code{\link{extract_gfc}} to make an 
 #' thresholded layer stack with five layers: treecover2000, loss, gain,
 #' lossyear, and datamask layers. See Details for the coding used in each 
-#' layer.
+#' layer. Note that the output file format is fixed as GeoTIFF with LZW 
+#' compression.
 #' 
 #' The output uses the following codes to describe forest change at each pixel:
 #'
@@ -83,7 +84,8 @@ threshold_gfc <- function(gfc, forest_threshold=25, ...) {
                              ncol=5)
         return(thresholded)
     }
-    thresholded <- overlay(gfc, fun=recode_gfc, datatype='INT1U', ...)
+    thresholded <- overlay(gfc, fun=recode_gfc, datatype='INT1U', 
+                           format='GTiff', options="COMPRESS=LZW", ...)
     names(thresholded) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 
                             'datamask')
     return(thresholded)

@@ -26,7 +26,8 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
         file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
         filenames <- file.path(data_folder, paste0(file_root, bands, 
                                                    file_suffix))
-        tile_stack <- crop(stack(filenames), aoi, datatype='INT1U')
+        tile_stack <- crop(stack(filenames), aoi, datatype='INT1U', 
+                           format='GTiff', options="COMPRESS=LZW")
         names(tile_stack) <- bands
         tile_stacks <- c(tile_stacks, list(tile_stack))
     }
@@ -34,23 +35,27 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
     if (length(tile_stacks) > 1) {
         # See http://bit.ly/1dJPIeF re issue in raster that necessitates below 
         # workaround TODO: Contact Hijmans re possible fix
-        mosaic_list <- function(x, fun, datatype, overwrite, tolerance=0.05, 
-                                filename="") {
+        mosaic_list <- function(x, fun, datatype, format, options, overwrite, 
+                                tolerance=0.05, filename="") {
             mosaic_args <- x
             if (!missing(fun)) mosaic_args$fun <- fun
             if (!missing(tolerance)) mosaic_args$tolerance <- tolerance
             if (!missing(datatype)) mosaic_args$datatype <- datatype
+            if (!missing(format)) mosaic_args$format <- format
+            if (!missing(options)) mosaic_args$options <- options
             if (!missing(overwrite)) mosaic_args$overwrite <- overwrite
             mosaic_args$filename <- filename
             do.call(mosaic, mosaic_args)
         }
         tile_mosaic <- mosaic_list(tile_stacks, fun='mean', filename=filename, 
-                                   datatype='INT1U', ...)
+                                   datatype='INT1U', format='GTiff', 
+                                   options='COMPRESS=LZW', ...)
     } else {
         tile_mosaic <- tile_stacks[[1]]
         if (filename != '') {
             tile_mosaic <- writeRaster(tile_mosaic, filename=filename, 
-                                       datatype="INT1U", ...)
+                                       datatype="INT1U", format="GTiff", 
+                                       options="COMPRESS=LZW", ...)
         }
     }
     names(tile_mosaic) <- names(tile_stacks[[1]])
@@ -64,7 +69,8 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
 #' This function extracts a dataset for a given AOI from a series of 
 #' pre-downloaded GFC tiles. The \code{\link{download_tiles}} function should 
 #' be used beforehand in order to download the necessary data to the specified
-#' \code{data_folder}.
+#' \code{data_folder}. Note that the output file format is fixed as GeoTIFF 
+#' with LZW compression.
 #'
 #' @seealso \code{\link{download_tiles}}, \code{\link{annual_stack}}, 
 #' \code{\link{gfc_stats}}
@@ -93,7 +99,9 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, ...) {
         utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
         # Use nearest neighbor since the data is categorical
         tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
-                                     method='ngb', datatype='INT1U', ...)
+                                     method='ngb', datatype='INT1U', 
+                                     format='GTiff', options="COMPRESS=LZW", 
+                                     ...)
         NAvalue(tile_mosaic) <- -1
     } else {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder, ...)

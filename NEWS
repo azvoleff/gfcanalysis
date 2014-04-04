@@ -1,3 +1,9 @@
+gfcanalysis 1.2
+===============
+
+*  Fix output as GeoTIFF with LZW compression. Smaller file sizes are 
+   advantageous when analyzing large areas.
+
 gfcanalysis 1.1
 ===============
 
