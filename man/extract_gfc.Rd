@@ -3,8 +3,29 @@
 \title{Extracts GFC data for a given AOI}
 \usage{
 extract_gfc(aoi, data_folder, to_UTM = FALSE, ...)
+
+extract_gfc(aoi, data_folder, to_UTM = FALSE, ...)
 }
 \arguments{
+  \item{aoi}{an Area of Interest (AOI) as a
+  \code{SpatialPolygons*} object. If the AOI is not in WGS
+  1984 (EPSG:4326), it will be reprojected to WGS84.}
+
+  \item{data_folder}{folder where downloaded GFC product
+  tiles are located (see \code{\link{download_tiles}}
+  function.}
+
+  \item{to_UTM}{if TRUE, then reproject the output into the
+  UTM zone of the AOI centroid. If FALSE, retain the
+  original WGS84 projection of the GFC tiles.}
+
+  \item{stack}{the layers to extract from the GFC product.
+  Defaults to "change". See Details.}
+
+  \item{...}{additional arguments as for
+  \code{\link{writeRaster}}, such as \code{filename}, or
+  \code{overwrite}.}
+
   \item{aoi}{an Area of Interest (AOI) as a
   \code{SpatialPolygons*} object. If the AOI is not in WGS
   1984 (EPSG:4326), it will be reprojected to WGS84.}
@@ -22,6 +43,8 @@ extract_gfc(aoi, data_folder, to_UTM = FALSE, ...)
 }
 \value{
 \code{RasterStack} with GFC layers
+
+\code{RasterStack} with GFC layers
 }
 \description{
 This function extracts a dataset for a given AOI from a
@@ -30,8 +53,26 @@ series of pre-downloaded GFC tiles. The
 beforehand in order to download the necessary data to the
 specified \code{data_folder}. Note that the output file
 format is fixed as GeoTIFF with LZW compression.
+
+This function extracts a dataset for a given AOI from a
+series of pre-downloaded GFC tiles. The
+\code{\link{download_tiles}} function should be used
+beforehand in order to download the necessary data to the
+specified \code{data_folder}. Note that the output file
+format is fixed as GeoTIFF with LZW compression.
+}
+\details{
+The \code{stack} option can be "change" (the default),
+"first", or "last". When set to "change", the forest change
+layers (treecover2000, loss, gain, lossyear, and datamask)
+will be extracted for the given \code{aoi}. The "first" and
+"last" options will mosaic the 2000 or 2012 composite
+surface reflectance images (respectively).
 }
 \seealso{
+\code{\link{download_tiles}}, \code{\link{annual_stack}},
+\code{\link{gfc_stats}}
+
 \code{\link{download_tiles}}, \code{\link{annual_stack}},
 \code{\link{gfc_stats}}
 }

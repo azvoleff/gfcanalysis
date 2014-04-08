@@ -2,12 +2,25 @@
 #' @import rgdal
 #' @import raster
 #' @importFrom sp bbox spTransform CRS proj4string
-make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
+make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change", 
+                             ...) {
     tiles <- calc_gfc_tiles(aoi)
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
     file_root <- 'Hansen_GFC2013_'
-    bands <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
+
+    if (stack == 'change') {
+        image_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
+    } else if (stack == 'first') {
+        image_names <- 'first'
+        band_names <- c('Band2', 'Band3', 'Band4')
+    } else if (stack == 'last') {
+        image_names <- 'first'
+        band_names <- c('Band2', 'Band3', 'Band4')
+    } else {
+        stop('"stack" must be equal to "change", "first", or "last"')
+    }
+
     tile_stacks <- c()
     for (n in 1:length(tiles)) {
         tile <- tiles[n]
@@ -24,11 +37,11 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
             max_y <- paste0(sprintf('%02i', max_y), 'N')
         }
         file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
-        filenames <- file.path(data_folder, paste0(file_root, bands, 
+        filenames <- file.path(data_folder, paste0(file_root, image_names, 
                                                    file_suffix))
         tile_stack <- crop(stack(filenames), aoi, datatype='INT1U', 
                            format='GTiff', options="COMPRESS=LZW")
-        names(tile_stack) <- bands
+        names(tile_stack) <- band_names
         tile_stacks <- c(tile_stacks, list(tile_stack))
     }
 
@@ -58,7 +71,7 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
                                        options="COMPRESS=LZW", ...)
         }
     }
-    names(tile_mosaic) <- names(tile_stacks[[1]])
+    names(tile_mosaic) <- band_names
     NAvalue(tile_mosaic) <- -1
 
     return(tile_mosaic)
@@ -71,6 +84,12 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
 #' be used beforehand in order to download the necessary data to the specified
 #' \code{data_folder}. Note that the output file format is fixed as GeoTIFF 
 #' with LZW compression.
+#'
+#' The \code{stack} option can be "change" (the default), "first", or "last".  
+#' When set to "change", the forest change layers (treecover2000, loss, gain, 
+#' lossyear, and datamask) will be extracted for the given \code{aoi}. The 
+#' "first" and "last" options will mosaic the 2000 or 2012 composite surface 
+#' reflectance images (respectively).
 #'
 #' @seealso \code{\link{download_tiles}}, \code{\link{annual_stack}}, 
 #' \code{\link{gfc_stats}}
@@ -86,29 +105,32 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", ...) {
 #' @param to_UTM if TRUE, then reproject the output into the UTM zone of the 
 #' AOI centroid. If FALSE, retain the original WGS84 projection of the GFC 
 #' tiles.
-#' @param ... additional arguments to pass to writeRaster, such as 
-#' \code{filename}, or \code{overwrite}
+#' @param stack the layers to extract from the GFC product. Defaults to 
+#' "change". See Details.
+#' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
+#' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
-extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, ...) {
+extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
     if (to_UTM) {
-        tile_mosaic <- make_tile_mosaic(aoi, data_folder)
+        tile_mosaic <- make_tile_mosaic(aoi, data_folder=stack, stack=stack, 
+                                        ...)
         # Project to UTM for plotting and analysis of change in forest area.  
         # Calculate UTM zone based on bounding polygon of tile mosaic.
         bounding_poly <- as(extent(tile_mosaic), "SpatialPolygons")
         proj4string(bounding_poly) <- proj4string(tile_mosaic)
         utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
         # Use nearest neighbor since the data is categorical
+        band_name <- names(tile_mosaic)
         tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
                                      method='ngb', datatype='INT1U', 
                                      format='GTiff', options="COMPRESS=LZW", 
                                      ...)
+        names(tile_mosaic) <- band_names
         NAvalue(tile_mosaic) <- -1
     } else {
-        tile_mosaic <- make_tile_mosaic(aoi, data_folder, ...)
+        tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, ...)
         NAvalue(tile_mosaic) <- -1
     }
 
-    names(tile_mosaic) <- c('treecover2000', 'loss', 'gain', 'lossyear', 
-                            'datamask')
     return(tile_mosaic)
 }
