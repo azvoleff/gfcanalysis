@@ -78,6 +78,36 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
     return(tile_mosaic)
 }
 
+#' Scale the first or last top of atmosphere (TOA) reflectance images
+#'
+#' This function applies the scale factors provided by Hansen et al. to rescale 
+#' the first and last TOA reflectance images from integer to floating point.  
+#' The following scale factors are used: band 3, 508; band 4, 254; band 5, 363; 
+#' band 7, 423.  The output datatype is FLT4S.
+#'
+#' @export
+#' @param x the "first" or "last" image for a given aoi as a \code{RasterStack} 
+#' (see \code{stack} option for \code{\link{gfc_extract}}).
+#' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
+#' \code{filename}, or \code{overwrite}.
+#' @seealso \code{\link{gfc_extract}}
+#' @return \code{RasterStack} of TOA reflectance values
+scale_toar <- function(x, ...) {
+    if (!nlayers(x) == 4) {
+        stop('input image should have 4 bands')
+    }
+    scale_func <- function(b3, b4, b5, b7) {
+        b3 <- (b3 - 1) / 508
+        b4 <- (b4 - 1) / 254
+        b5 <- (b5 - 1) / 363
+        b7 <- (b7 - 1) / 423
+        return(cbind(b3, b4, b5, b7))
+    }
+    x <- overlay(x, fun=scale_func, datatype='FLT4S',
+                 format='GTiff', options="COMPRESS=LZW", ...)
+    return(x)
+}
+
 #' Extracts GFC data for a given AOI
 #'
 #' This function extracts a dataset for a given AOI from a series of 

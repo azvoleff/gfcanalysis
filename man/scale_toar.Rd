@@ -1,0 +1,29 @@
+\name{scale_toar}
+\alias{scale_toar}
+\title{Scale the first or last top of atmosphere (TOA) reflectance images}
+\usage{
+scale_toar(x, ...)
+}
+\arguments{
+  \item{x}{the "first" or "last" image for a given aoi as a
+  \code{RasterStack} (see \code{stack} option for
+  \code{\link{gfc_extract}}).}
+
+  \item{...}{additional arguments as for
+  \code{\link{writeRaster}}, such as \code{filename}, or
+  \code{overwrite}.}
+}
+\value{
+\code{RasterStack} of TOA reflectance values
+}
+\description{
+This function applies the scale factors provided by Hansen
+et al. to rescale the first and last TOA reflectance images
+from integer to floating point. The following scale factors
+are used: band 3, 508; band 4, 254; band 5, 363; band 7,
+423.  The output datatype is FLT4S.
+}
+\seealso{
+\code{\link{gfc_extract}}
+}
+
