@@ -11,12 +11,13 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
 
     if (stack == 'change') {
         image_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
+        band_names <- image_names
     } else if (stack == 'first') {
         image_names <- 'first'
-        band_names <- c('Band2', 'Band3', 'Band4')
+        band_names <- c('Band3', 'Band4', 'Band5', 'Band7')
     } else if (stack == 'last') {
-        image_names <- 'first'
-        band_names <- c('Band2', 'Band3', 'Band4')
+        image_names <- 'last'
+        band_names <- c('Band3', 'Band4', 'Band5', 'Band7')
     } else {
         stop('"stack" must be equal to "change", "first", or "last"')
     }
@@ -110,7 +111,8 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
 #' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
-extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
+extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
+                        rescale=FALSE, ...) {
     if (to_UTM) {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder=stack, stack=stack, 
                                         ...)
