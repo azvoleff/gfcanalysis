@@ -89,8 +89,8 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
 #' The \code{stack} option can be "change" (the default), "first", or "last".  
 #' When set to "change", the forest change layers (treecover2000, loss, gain, 
 #' lossyear, and datamask) will be extracted for the given \code{aoi}. The 
-#' "first" and "last" options will mosaic the 2000 or 2012 composite surface 
-#' reflectance images (respectively).
+#' "first" and "last" options will mosaic the 2000 or 2012 composite top of 
+#' atmosphere (TOA) reflectance images (respectively).
 #'
 #' @seealso \code{\link{download_tiles}}, \code{\link{annual_stack}}, 
 #' \code{\link{gfc_stats}}
@@ -111,8 +111,7 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
 #' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
-extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
-                        rescale=FALSE, ...) {
+extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
     if (to_UTM) {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder=stack, stack=stack, 
                                         ...)

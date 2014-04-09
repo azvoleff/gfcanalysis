@@ -2,8 +2,7 @@
 \alias{extract_gfc}
 \title{Extracts GFC data for a given AOI}
 \usage{
-extract_gfc(aoi, data_folder, to_UTM = FALSE, stack = "change",
-  rescale = FALSE, ...)
+extract_gfc(aoi, data_folder, to_UTM = FALSE, stack = "change", ...)
 }
 \arguments{
   \item{aoi}{an Area of Interest (AOI) as a
@@ -41,8 +40,8 @@ The \code{stack} option can be "change" (the default),
 "first", or "last". When set to "change", the forest change
 layers (treecover2000, loss, gain, lossyear, and datamask)
 will be extracted for the given \code{aoi}. The "first" and
-"last" options will mosaic the 2000 or 2012 composite
-surface reflectance images (respectively).
+"last" options will mosaic the 2000 or 2012 composite top
+of atmosphere (TOA) reflectance images (respectively).
 }
 \seealso{
 \code{\link{download_tiles}}, \code{\link{annual_stack}},
