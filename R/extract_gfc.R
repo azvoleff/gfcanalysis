@@ -2,15 +2,11 @@
 #' @import rgdal
 #' @import raster
 #' @importFrom sp bbox spTransform CRS proj4string
-make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change", 
-                             ...) {
-    tiles <- calc_gfc_tiles(aoi)
-    # Transform aoi to match tiles CRS so it can be used later for cropping
-    aoi <- spTransform(aoi, CRS(proj4string(tiles)))
-    file_root <- 'Hansen_GFC2013_'
-
+make_tile_mosaic <- function(aoi, data_folder, filename="",
+                             stack="change", ...) {
     if (stack == 'change') {
-        image_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
+        image_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 
+                         'datamask')
         band_names <- image_names
     } else if (stack == 'first') {
         image_names <- 'first'
@@ -21,6 +17,11 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
     } else {
         stop('"stack" must be equal to "change", "first", or "last"')
     }
+
+    tiles <- calc_gfc_tiles(aoi)
+    # Transform aoi to match tiles CRS so it can be used later for cropping
+    aoi <- spTransform(aoi, CRS(proj4string(tiles)))
+    file_root <- 'Hansen_GFC2013_'
 
     tile_stacks <- c()
     for (n in 1:length(tiles)) {
@@ -87,10 +88,10 @@ make_tile_mosaic <- function(aoi, data_folder, filename="", stack="change",
 #'
 #' @export
 #' @param x the "first" or "last" image for a given aoi as a \code{RasterStack} 
-#' (see \code{stack} option for \code{\link{gfc_extract}}).
+#' (see \code{stack} option for \code{\link{extract_gfc}}).
 #' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
 #' \code{filename}, or \code{overwrite}.
-#' @seealso \code{\link{gfc_extract}}
+#' @seealso \code{\link{extract_gfc}}
 #' @return \code{RasterStack} of TOA reflectance values
 scale_toar <- function(x, ...) {
     if (!nlayers(x) == 4) {
@@ -142,6 +143,17 @@ scale_toar <- function(x, ...) {
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
 extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
+    if (stack == 'change') {
+        band_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 
+                        'datamask')
+    } else if (stack == 'first') {
+        band_names <- c('Band3', 'Band4', 'Band5', 'Band7')
+    } else if (stack == 'last') {
+        band_names <- c('Band3', 'Band4', 'Band5', 'Band7')
+    } else {
+        stop('"stack" must be equal to "change", "first", or "last"')
+    }
+
     if (to_UTM) {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder=stack, stack=stack, 
                                         ...)
