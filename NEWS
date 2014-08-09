@@ -1,8 +1,8 @@
 gfcanalysis 1.2
 ===============
 
-*  Fix output as GeoTIFF with LZW compression. Smaller file sizes are 
-   advantageous when analyzing large areas.
+* Fix output as GeoTIFF with LZW compression. Smaller file sizes are 
+  advantageous when analyzing large areas.
 
 * Upgrade to roxygen2 > 4.0.0
 
