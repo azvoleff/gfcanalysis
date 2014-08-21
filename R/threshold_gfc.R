@@ -34,8 +34,8 @@
 #'
 #' \bold{Band 3 (gain)}
 #' \tabular{lc}{
-#'     No loss \tab 0 \cr
-#'     Loss    \tab 1 \cr
+#'     No gain \tab 0 \cr
+#'     Gain    \tab 1 \cr
 #' }
 #' Note that gain is zero for pixels that were forested in 2000
 #'
