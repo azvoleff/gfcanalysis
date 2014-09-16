@@ -6,7 +6,6 @@
 #' Based on the code on gis.stackexchange.com at http://bit.ly/17SdcuN.
 #'
 #' @export utm_zone
-#' @docType methods
 #' @import methods
 #' @param x a longitude (with western hemisphere longitudes negative), or a 
 #' \code{Spatial} object
@@ -66,6 +65,7 @@ utm_zone_calc <- function(x, y, proj4string) {
     }
 }
 
+#' @rdname utm_zone
 #' @aliases utm_zone,numeric,numeric,logical-method
 setMethod("utm_zone", signature("numeric", "numeric"),
     function(x, y, proj4string) {
@@ -73,6 +73,7 @@ setMethod("utm_zone", signature("numeric", "numeric"),
     }
 )
 
+#' @rdname utm_zone
 #' @importFrom rgeos gCentroid
 #' @importFrom sp Spatial coordinates spTransform
 #' @aliases utm_zone,Spatial,missing,logical-method
