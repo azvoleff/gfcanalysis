@@ -19,7 +19,7 @@
 calc_gfc_tiles <- function(aoi) {
     aoi <- spTransform(aoi, CRS(proj4string(gfc_tiles)))
     intersecting <- as.logical(gIntersects(gfc_tiles, 
-                                           gUnaryUnion(aoi), 
+                                           gConvexHull(aoi), 
                                            byid=TRUE))
     if (sum(intersecting) == 0) {
         stop('no intersecting GFC tiles found')
