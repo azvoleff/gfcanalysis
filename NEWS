@@ -6,6 +6,9 @@ gfcanalysis 1.2
 
 * Upgrade to roxygen2 > 4.0.2
 
+* Switch to gConvexHull in calc_gfc_tiles to avoid potential errors from 
+  gUnaryUnion.
+
 gfcanalysis 1.1
 ===============
 
