@@ -80,10 +80,6 @@ download_tiles <- function(tiles, output_folder,
         }
         file_root <- 'Hansen_GFC2013_'
         file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
-        images <- c('treecover2000', 'loss', 'gain', 'lossyear', 'datamask')
-        if (first_and_last == TRUE) {
-            images <- c(images, 'first', 'last')
-        }
         filenames <- paste0(file_root, images, file_suffix)
         tile_urls <- paste0('http://commondatastorage.googleapis.com/earthenginepartners-hansen/GFC2013/',
                       filenames)
