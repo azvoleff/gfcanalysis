@@ -3,7 +3,8 @@
 \alias{download_tiles}
 \title{Download a set of GFC tiles}
 \usage{
-download_tiles(tiles, output_folder, first_and_last = TRUE)
+download_tiles(tiles, output_folder, images = c("treecover2000", "loss",
+  "gain", "lossyear", "datamask"))
 }
 \arguments{
 \item{tiles}{\code{SpatialPolygonsDataFrame} with GFC
@@ -12,8 +13,8 @@ function.}
 
 \item{output_folder}{the folder to save output data in}
 
-\item{first_and_last}{whether to download the composite images for 2000 and
-2012 (which are substantially larger than the other layers).}
+\item{images}{which images to download. Can be any of 'treecover2000',
+'loss', 'gain', 'lossyear', 'datamask', 'first', and 'last'.}
 }
 \description{
 This function first checks whether each tile in a set GFC product tiles is
