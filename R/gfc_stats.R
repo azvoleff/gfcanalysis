@@ -1,13 +1,30 @@
+gen_year_list <- function(data_year) {
+    if (data_year == 2013) {
+        years <- seq(2000, 2012, 1)
+    } else if (data_year == 2014) {
+        years <- seq(2000, 2013, 1)
+    } else if (data_year == 2015) {
+        years <- seq(2000, 2014, 1)
+    } else if (data_year > 2015) {
+        years <- seq(2000, data_year - 1, 1)
+        warning('data_year ', data_year, ' is not offically supported')
+    } else {
+        stop('data_year ', data_year, ' is not supported')
+    }
+    return(years)
+}
+
 #' Produce a table of forest cover change statistics for a given AOI
 #'
 #' For a given AOI, this function produces two tables: an annual forest loss 
 #' table (in hectares, by default), and a table specifying 1) the total area of 
 #' pixels that experienced forest gain and, 2) the total area of pixels that 
-#' experienced both loss and gain over the full 2010-2012 period. Note that 
-#' forest gain and combined loss and gain are not available in the GFC product 
-#' on an annualized basis. Use \code{\link{extract_gfc}} to extract the GFC 
-#' data for the AOI, and threshold it using \code{\link{threshold_gfc}} prior to 
-#' running this function.
+#' experienced both loss and gain over the full period (from 2000 through the 
+#' end date of the specific product you are using, depending on the chosen 
+#' \code{data_year}).  Note that forest gain and combined loss and gain are not 
+#' available in the GFC product on an annualized basis.  Use 
+#' \code{\link{extract_gfc}} to extract the GFC data for the AOI, and threshold 
+#' it using \code{\link{threshold_gfc}} prior to running this function.
 #'
 #' If the\code{aoi} \code{SpatialPolygons*} object is not in the coordinate 
 #' system of \code{gfc}, it will be reprojected. If there is a "label" 
@@ -29,11 +46,12 @@
 #' \code{\link{extract_gfc}}), recoded using \code{\link{threshold_gfc}}.
 #' @param scale_factor how to scale the output data (from meters). Defaults to 
 #' .0001 for output in hectares.
+#' @param data_year which version of the Hansen data was used when
 #' @return \code{list} with two elements "loss_table", a \code{data.frame} with 
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 
 #' hectares (when \code{scale_factor} is set to .0001).
-gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
+gfc_stats <- function(aoi, gfc, scale_factor=.0001, data_year=2015) {
     names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
@@ -65,13 +83,17 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
     }
 
     uniq_aoi_labels <- unique(aoi$label)
-    years <- seq(2000, 2012, 1)
+
+    years <- gen_year_list(data_year)
+
     loss_table <- data.frame(year=rep(years, length(uniq_aoi_labels)),
                              aoi=rep(uniq_aoi_labels, each=length(years)))
     loss_table$cover <- 0
     loss_table$loss <- 0
 
-    gain_table <- data.frame(period=rep('2000-2012', length(uniq_aoi_labels)),
+    n_years <- max(years) - 2000
+
+    gain_table <- data.frame(period=rep(paste0('2000-', max(years)), length(uniq_aoi_labels)),
                              aoi=uniq_aoi_labels,
                              gain=rep(0, length(uniq_aoi_labels)),
                              lossgain=rep(0, length(uniq_aoi_labels)))
@@ -108,7 +130,7 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
             loss_table$cover[loss_table_st_row] <- loss_table$cover[loss_table_st_row] +
                 sum(gfc_bl[, forest2000_col] * bl_pixel_areas * scale_factor, na.rm=TRUE)
 
-            for (i in 1:12) {
+            for (i in 1:n_years) {
                 lossyear_col <- which(names(gfc) == 'lossyear')
                 # n + 1 because first row is year 2000, with zero loss
                 loss_table$loss[loss_table_st_row + i] <- loss_table$loss[loss_table_st_row + i] +
@@ -124,7 +146,7 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001) {
         }
 
         # Calculate cover for each year by accounting for loss in prior years
-        for (i in 1:12) {
+        for (i in 1:n_years) {
             this_row <- loss_table_st_row + i
             loss_table$cover[this_row] <- loss_table$cover[this_row - 1] - loss_table$loss[this_row]
         }

@@ -29,8 +29,13 @@
 #'     Loss in 2010 \tab 10 \cr
 #'     Loss in 2011 \tab 11 \cr
 #'     Loss in 2012 \tab 12 \cr
+#'     Loss in 2013 \tab 13 \cr
+#'     Loss in 2014 \tab 14 \cr
 #' }
-#' Note that lossyear is zero for pixels that were not forested in 2000
+#' Note that lossyear is zero for pixels that were not forested in 2000, and 
+#' that the 2013 and 2014 loss layers are not available in the original 2013 
+#' Hansen dataset (the 2013 loss layer is available in the 2014 and 2015 
+#' updates, while the 2014 loss layer is available in the 2015 update only).
 #'
 #' \bold{Band 3 (gain)}
 #' \tabular{lc}{

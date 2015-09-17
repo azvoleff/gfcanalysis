@@ -2,7 +2,7 @@
 #' @import rgdal
 #' @import raster
 #' @importFrom sp bbox spTransform CRS proj4string
-make_tile_mosaic <- function(aoi, data_folder, filename="",
+make_tile_mosaic <- function(aoi, data_folder, data_year, filename="",
                              stack="change", ...) {
     if (stack == 'change') {
         image_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 
@@ -21,7 +21,7 @@ make_tile_mosaic <- function(aoi, data_folder, filename="",
     tiles <- calc_gfc_tiles(aoi)
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
-    file_root <- 'Hansen_GFC2014_'
+    file_root <- paste0('Hansen_GFC', data_year, '_')
 
     tile_stacks <- c()
     for (n in 1:length(tiles)) {
@@ -120,8 +120,8 @@ scale_toar <- function(x, ...) {
 #' The \code{stack} option can be "change" (the default), "first", or "last".  
 #' When set to "change", the forest change layers (treecover2000, loss, gain, 
 #' lossyear, and datamask) will be extracted for the given \code{aoi}. The 
-#' "first" and "last" options will mosaic the 2000 or 2012 composite top of 
-#' atmosphere (TOA) reflectance images (respectively).
+#' "first" and "last" options will mosaic the 2000 or last year composite top 
+#' of atmosphere (TOA) reflectance images (respectively).
 #'
 #' @seealso \code{\link{download_tiles}}, \code{\link{annual_stack}}, 
 #' \code{\link{gfc_stats}}
@@ -139,10 +139,12 @@ scale_toar <- function(x, ...) {
 #' tiles.
 #' @param stack the layers to extract from the GFC product. Defaults to 
 #' "change". See Details.
+#' @param data_year which version of the Hansen data to use
 #' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
-extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
+extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
+                        data_year=2015, ...) {
     if (stack == 'change') {
         band_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 
                         'datamask')
@@ -155,8 +157,8 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
     }
 
     if (to_UTM) {
-        tile_mosaic <- make_tile_mosaic(aoi, data_folder=stack, stack=stack, 
-                                        ...)
+        tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, 
+                                        data_year=data_year, ...)
         # Project to UTM for plotting and analysis of change in forest area.  
         # Calculate UTM zone based on bounding polygon of tile mosaic.
         bounding_poly <- as(extent(tile_mosaic), "SpatialPolygons")
@@ -171,7 +173,8 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", ...) {
         names(tile_mosaic) <- band_names
         NAvalue(tile_mosaic) <- -1
     } else {
-        tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, ...)
+        tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, 
+                                        data_year=data_year, ...)
         NAvalue(tile_mosaic) <- -1
     }
 
