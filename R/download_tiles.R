@@ -78,10 +78,10 @@ download_tiles <- function(tiles, output_folder,
         } else {
             max_y <- paste0(sprintf('%02i', max_y), 'N')
         }
-        file_root <- 'Hansen_GFC2013_'
+        file_root <- 'Hansen_GFC2014_'
         file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
         filenames <- paste0(file_root, images, file_suffix)
-        tile_urls <- paste0('http://commondatastorage.googleapis.com/earthenginepartners-hansen/GFC2013/',
+        tile_urls <- paste0('http://commondatastorage.googleapis.com/earthenginepartners-hansen/GFC2014/',
                       filenames)
         local_paths <- file.path(output_folder, filenames)
 

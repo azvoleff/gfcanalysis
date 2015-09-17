@@ -21,7 +21,7 @@ make_tile_mosaic <- function(aoi, data_folder, filename="",
     tiles <- calc_gfc_tiles(aoi)
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
-    file_root <- 'Hansen_GFC2013_'
+    file_root <- 'Hansen_GFC2014_'
 
     tile_stacks <- c()
     for (n in 1:length(tiles)) {
