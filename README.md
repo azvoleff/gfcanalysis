@@ -48,8 +48,8 @@ change statistics for a given area of interest (AOI), see the examples in
 ## Author Contact Information
 
 [Alex Zvoleff](mailto:azvoleff@conservation.org)  
-Postdoctoral Associate  
-Tropical Ecology Assessment and Monitoring (TEAM) Network  
+Director, Data Science  
+Vital Signs  
 Conservation International  
 2011 Crystal Dr. Suite 500  
 Arlington, VA 22202  
