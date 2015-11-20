@@ -1,9 +1,8 @@
 language: r
 sudo: required
 
-aptget_install:
- - libgdal-dev
- - libproj-dev
+before_install:
+ - sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
 
 r_binary_install:
  - raster
