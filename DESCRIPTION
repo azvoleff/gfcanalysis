@@ -1,7 +1,7 @@
 Package: gfcanalysis
 Version: 1.3
-Date: 2015-09-17
-Title: Tools for working with Hansen et al. Global Forest Change dataset
+Date: 2015-11-20
+Title: Tools for Working with Hansen et al. Global Forest Change Dataset
 Authors@R: c(person("Alex", "Zvoleff", email="azvoleff@conservation.org",
     role=c("aut", "cre")))
 Maintainer: Alex Zvoleff <azvoleff@conservation.org>
@@ -23,13 +23,13 @@ Imports:
     rasterVis
 Enhances: snow
 Description: The gfcanalysis package supports analyses using the Global
-    Forest Change dataset released by Hansen et al. 2013. gfcanalysis was
-    written by the Tropical Ecology Assessment and Monitoring (TEAM) Network
+    Forest Change dataset released by Hansen et al.. gfcanalysis was
+    written for the Tropical Ecology Assessment and Monitoring (TEAM) Network
     (http://www.teamnetwork.org). For additional details on the Global Forest
     Change dataset, see: Hansen, M. et al. 2013.  "High-Resolution Global Maps
     of 21st-Century Forest Cover Change." Science 342 (15 November): 850-53.
-    Data available on-line from:
-    http://earthenginepartners.appspot.com/science-2013-global-forest
+    Data and more information is available on-line from:
+    http://earthenginepartners.appspot.com
 License: GPL (>= 3)
 URL: http://azvoleff.com/gfcanalysis
 BugReports: https://github.com/azvoleff/gfcanalysis/issues
