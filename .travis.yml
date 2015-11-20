@@ -4,28 +4,22 @@
 # see the wiki:
 #   https://github.com/craigcitro/r-travis/wiki
 
-language: c
+language: r
+sudo: required
 
-before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
-  - sudo apt-get update -qq
-  - ./travis-tool.sh bootstrap
-    # gfcanalysis R imports deps
-  - ./travis-tool.sh install_r_binary raster rgdal geosphere RCurl plyr reshape2 ggplot2 sp stringr
-  - ./travis-tool.sh install_r rgeos spatial.tools # there is an error with the repo version
-    # gfcanalysis R suggested
-  - ./travis-tool.sh install_r_binary snow
-
-install:
-  - ./travis-tool.sh install_deps
-
-script: ./travis-tool.sh run_tests
-
-on_failure:
-  - ./travis-tool.sh dump_logs
+r_binary_install:
+ - raster
+ - rgdal
+ - geosphere
+ - RCurl
+ - plyr
+ - reshape2
+ - ggplot2
+ - sp
+ - stringr
+ - rgeos
+ - spatial.tools # there is an error with the repo version
+ - snow
 
 notifications:
   email:
