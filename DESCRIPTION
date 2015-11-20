@@ -24,10 +24,10 @@ Imports:
 Enhances: snow
 Encoding: latin1
 Description: The gfcanalysis package supports analyses using the Global
-    Forest Change dataset released by Hansen et al.. gfcanalysis was
+    Forest Change dataset released by Hansen et al. gfcanalysis was
     written for the Tropical Ecology Assessment and Monitoring (TEAM) Network
     (http://www.teamnetwork.org). For additional details on the Global Forest
-    Change dataset, see: Hansen, M. et al. 2013.  "High-Resolution Global Maps
+    Change dataset, see: Hansen, M. et al. 2013. "High-Resolution Global Maps
     of 21st-Century Forest Cover Change." Science 342 (15 November): 850-53.
     Data and more information is available on-line from:
     http://earthenginepartners.appspot.com
