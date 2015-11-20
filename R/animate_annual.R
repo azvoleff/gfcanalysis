@@ -102,6 +102,7 @@ plot_gfc <- function(fchg, aoi, title_string='',
 #'
 #' @export
 #' @importFrom tools file_ext
+#' @importFrom utils file_test
 #' @import animation
 #' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 
 #' object.  If there is a 'label' field  in the dataframe, it will be used to 

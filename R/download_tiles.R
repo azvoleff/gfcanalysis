@@ -13,6 +13,7 @@ verify_download <- function(tile_url, local_path) {
     }
 }
 
+#' @importFrom utils download.file
 download_tile <- function(tile_url, local_path) {
     ret_code <- download.file(tile_url, local_path, mode="wb")
     if (ret_code != 0) {
@@ -39,6 +40,7 @@ download_tile <- function(tile_url, local_path) {
 #' @export
 #' @importFrom sp bbox
 #' @importFrom stringr str_extract
+#' @importFrom utils file_test
 #' @param tiles \code{SpatialPolygonsDataFrame} with GFC 
 #' product tiles to download, as calculated by the \code{calc_gfc_tiles} 
 #' function.
