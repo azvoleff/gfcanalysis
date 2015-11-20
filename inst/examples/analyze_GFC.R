@@ -18,21 +18,12 @@ library(gfcanalysis)
 # Load 'rgdal' package, which is used to read/write shapefiles and rasters
 library(rgdal)
 
-# Start a cluster for parallel processing. You must install the "snow" package 
-# for this to work. Comment out this line, and the endCluster() line at the end 
-# of this script, if you do NOT want gfcanalysis to run in parallel.
-if (require(snow)) beginCluster()
-
 # Indicate where we want to save GFC tiles downloaded from Google. For any 
 # given AOI, the script will first check to see if these tiles are available 
 # locally (in the below folder) before downloading them from the server - so I 
 # recommend storing ALL of your GFC tiles in the same folder. For this example 
 # we will save files in the current working directory folder.
-output_folder <- '.'
-
-# Set the threshold for forest/non-forest based on the treecover2000 layer in 
-# the GFC product
-forest_threshold <- 90
+data_folder <- '.'
 
 ###############################################################################
 # Download data from Google server for a given AOI
@@ -47,22 +38,19 @@ tiles <- calc_gfc_tiles(aoi)
 
 # Check to see if these tiles are already present locally, and download them if 
 # they are not.
-download_tiles(tiles, output_folder, first_and_last=FALSE)
+download_tiles(tiles, data_folder)
 
 # Extract the GFC data for this AOI from the downloaded GFC tiles, mosaicing 
-# multiple tiles as necessary (if needed to cover the AOI).
-gfc_data <- extract_gfc(aoi, output_folder)
-
-# Save the output data to a GeoTIFF (can also save in ENVI format, Erdas 
-# format, etc.)
-gfc_data <- writeRaster(gfc_data, filename='gfc_NAK_extract.tif')
+# multiple tiles as necessary (if needed to cover the AOI), and saving  the 
+# output data to a GeoTIFF (can also save in ENVI format, Erdas format, etc.).
+gfc_data <- extract_gfc(aoi, data_folder, filename='gfc_NAK_extract.tif')
 
 ###############################################################################
 # Performing thresholding and calculate basic statistics
 ###############################################################################
 
 # Calculate and save a thresholded version of the GFC product
-gfc_thresholded <- threshold_gfc(gfc_data, forest_threshold=forest_threshold, 
+gfc_thresholded <- threshold_gfc(gfc_data, forest_threshold=90, 
                                  filename="gfc_NAK_extract_thresholded.tif")
 
 # Calculate annual statistics on forest loss/gain
@@ -85,6 +73,3 @@ writeRaster(gfc_thresholded_annual, filename='gfc_NAK_extract_thresholded_annual
 # just an example, and is using the data in WGS84. The data should be projected 
 # for this).
 animate_annual(aoi, gfc_thresholded_annual)
-
-# Stop the parallel processing cluster
-if (require(snow)) endCluster()
