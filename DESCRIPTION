@@ -35,3 +35,4 @@ License: GPL (>= 3)
 URL: http://azvoleff.com/gfcanalysis
 BugReports: https://github.com/azvoleff/gfcanalysis/issues
 LazyData: true
+RoxygenNote: 5.0.1
