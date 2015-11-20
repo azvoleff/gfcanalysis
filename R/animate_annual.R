@@ -10,8 +10,6 @@ verify_layer_count <- function(gfc_stack, data_year) {
                 ' layers - full annual GFC product stack from 2015 Hansen dataset should have 15 layers')
     } else if (data_year > 2015) {
         warning('data_year ', data_year, ' is not officially supported')
-    } else {
-        stop('data_year ', data_year, ' is not supported')
     }
 }
 
