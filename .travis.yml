@@ -7,8 +7,13 @@
 language: r
 sudo: required
 
+aptget_install:
+ - libgdal-dev
+ - libproj-dev
+
 r_binary_install:
  - raster
+ - rgdal
  - rgdal
  - geosphere
  - RCurl
