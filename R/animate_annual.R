@@ -21,9 +21,10 @@ verify_layer_count <- function(gfc_stack, data_year) {
 #' @seealso \code{\link{annual_stack}}, \code{\link{animate_annual}}
 #' @export
 #' @import rgdal
-#' @import ggplot2
-#' @importFrom plyr join
 #' @importFrom grid unit
+#' @importFrom ggplot2 fortify geom_tile aes coord_fixed scale_fill_manual 
+#' theme_bw theme element_blank geom_path guides guide_legend ggtitle
+#' @importFrom plyr join
 #' @importFrom rasterVis gplot
 #' @importFrom sp spTransform CRS proj4string
 #' @param fchg a forest change raster layer (a single layer of the layer 
