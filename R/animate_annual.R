@@ -23,6 +23,7 @@ verify_layer_count <- function(gfc_stack, data_year) {
 #' @import rgdal
 #' @import ggplot2
 #' @importFrom plyr join
+#' @importFrom grid unit
 #' @importFrom rasterVis gplot
 #' @importFrom sp spTransform CRS proj4string
 #' @param fchg a forest change raster layer (a single layer of the layer 
