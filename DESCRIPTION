@@ -22,7 +22,7 @@ Imports:
     animation,
     rasterVis
 Enhances: snow
-Encoding: latin1
+Encoding: UTF-8
 Description: The gfcanalysis package supports analyses using the Global
     Forest Change dataset released by Hansen et al. gfcanalysis was
     written for the Tropical Ecology Assessment and Monitoring (TEAM) Network
