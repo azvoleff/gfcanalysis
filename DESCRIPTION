@@ -1,5 +1,5 @@
 Package: gfcanalysis
-Version: 1.3
+Version: 1.4
 Date: 2015-11-20
 Title: Tools for Working with Hansen et al. Global Forest Change Dataset
 Authors@R: c(person("Alex", "Zvoleff", email="azvoleff@conservation.org",

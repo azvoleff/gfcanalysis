@@ -1,3 +1,12 @@
+gfcanalysis 1.4
+===============
+
+* Add option to download only certain layers.
+
+* Add data_year argument to support new dataset versions.
+
+* Misc doc and CRAN check fixes.
+
 gfcanalysis 1.2
 ===============
 
