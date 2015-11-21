@@ -4,6 +4,9 @@ sudo: required
 before_install:
  - sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
 
+apt_packages:
+ - libgdal-dev
+
 r_binary_install:
  - raster
  - rgdal
