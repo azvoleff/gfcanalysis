@@ -5,9 +5,13 @@ gen_year_list <- function(data_year) {
         years <- seq(2000, 2013, 1)
     } else if (data_year == 2015) {
         years <- seq(2000, 2014, 1)
-    } else if (data_year > 2015) {
+    } else if (data_year == 2016) {
+        years <- seq(2000, 2015, 1)
+    } else if (data_year == 2017) {
+        years <- seq(2000, 2016, 1)
+    } else if (data_year > 2017) {
         years <- seq(2000, data_year - 1, 1)
-        warning('data_year ', data_year, ' is not offically supported')
+        warning('data_year ', data_year, ' is not offically supported. Check that statistics output matches expected (in particular the years in the output table).')
     } else {
         stop('data_year ', data_year, ' is not supported')
     }
@@ -21,7 +25,7 @@ gen_year_list <- function(data_year) {
 #' pixels that experienced forest gain and, 2) the total area of pixels that 
 #' experienced both loss and gain over the full period (from 2000 through the 
 #' end date of the specific product you are using, depending on the chosen 
-#' \code{data_year}).  Note that forest gain and combined loss and gain are not 
+#' \code{dataset}).  Note that forest gain and combined loss and gain are not 
 #' available in the GFC product on an annualized basis.  Use 
 #' \code{\link{extract_gfc}} to extract the GFC data for the AOI, and threshold 
 #' it using \code{\link{threshold_gfc}} prior to running this function.
@@ -38,6 +42,7 @@ gen_year_list <- function(data_year) {
 #' @export
 #' @import raster
 #' @import rgdal
+#' @importFrom stringr str_extract
 #' @importFrom rgeos gIntersects
 #' @importFrom sp spTransform CRS proj4string
 #' @param aoi one or more Area of Interest (AOI) polygon(s) as a 
@@ -46,12 +51,12 @@ gen_year_list <- function(data_year) {
 #' \code{\link{extract_gfc}}), recoded using \code{\link{threshold_gfc}}.
 #' @param scale_factor how to scale the output data (from meters). Defaults to 
 #' .0001 for output in hectares.
-#' @param data_year which version of the Hansen data was used when
+#' @param dataset which version of the Hansen data was used
 #' @return \code{list} with two elements "loss_table", a \code{data.frame} with 
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 
 #' hectares (when \code{scale_factor} is set to .0001).
-gfc_stats <- function(aoi, gfc, scale_factor=.0001, data_year=2015) {
+gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2017-v1.5') {
     names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
@@ -84,6 +89,7 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001, data_year=2015) {
 
     uniq_aoi_labels <- unique(aoi$label)
 
+    data_year <- as.numeric(str_extract(dataset, '(?<=GFC-)[0-9]{4}'))
     years <- gen_year_list(data_year)
 
     loss_table <- data.frame(year=rep(years, length(uniq_aoi_labels)),

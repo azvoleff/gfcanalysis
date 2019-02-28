@@ -2,10 +2,10 @@
 #' @import rgdal
 #' @import raster
 #' @importFrom sp bbox spTransform CRS proj4string
-make_tile_mosaic <- function(aoi, data_folder, data_year, filename="",
+make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
                              stack="change", ...) {
     if (stack == 'change') {
-        image_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 
+        image_names <- c('treecover2000', 'lossyear', 'gain', 
                          'datamask')
         band_names <- image_names
     } else if (stack == 'first') {
@@ -21,7 +21,7 @@ make_tile_mosaic <- function(aoi, data_folder, data_year, filename="",
     tiles <- calc_gfc_tiles(aoi)
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
-    file_root <- paste0('Hansen_GFC', data_year, '_')
+    file_root <- paste0('Hansen_', dataset, '_')
 
     tile_stacks <- c()
     for (n in 1:length(tiles)) {
@@ -139,14 +139,14 @@ scale_toar <- function(x, ...) {
 #' tiles.
 #' @param stack the layers to extract from the GFC product. Defaults to 
 #' "change". See Details.
-#' @param data_year which version of the Hansen data to use
+#' @param dataset which version of the Hansen data to use
 #' @param ... additional arguments as for \code{\link{writeRaster}}, such as 
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
 extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
-                        data_year=2015, ...) {
+                        dataset='GFC-2017-v1.5', ...) {
     if (stack == 'change') {
-        band_names <- c('treecover2000', 'loss', 'gain', 'lossyear', 
+        band_names <- c('treecover2000', 'lossyear', 'gain', 
                         'datamask')
     } else if (stack == 'first') {
         band_names <- c('Band3', 'Band4', 'Band5', 'Band7')
@@ -158,7 +158,7 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change",
 
     if (to_UTM) {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, 
-                                        data_year=data_year, ...)
+                                        dataset=dataset, ...)
         # Project to UTM for plotting and analysis of change in forest area.  
         # Calculate UTM zone based on bounding polygon of tile mosaic.
         bounding_poly <- as(extent(tile_mosaic), "SpatialPolygons")
@@ -174,7 +174,7 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change",
         NAvalue(tile_mosaic) <- -1
     } else {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, 
-                                        data_year=data_year, ...)
+                                        dataset=dataset, ...)
         NAvalue(tile_mosaic) <- -1
     }
 
