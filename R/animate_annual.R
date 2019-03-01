@@ -142,7 +142,7 @@ animate_annual <- function(aoi, gfc_stack, out_dir=getwd(),
         stop('out_basename should not have an extension')
     }
 
-    iiiiiif (!(type %in% c('gif', 'html'))) {
+    if (!(type %in% c('gif', 'html'))) {
         stop('type must be gif or html')
     }
 
