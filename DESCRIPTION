@@ -1,9 +1,9 @@
 Package: gfcanalysis
 Version: 1.5
-Date: 2015-11-21
+Date: 2019-02-28
 Title: Tools for Working with Hansen et al. Global Forest Change Dataset
-Authors@R: c(person("Alex", "Zvoleff", email="azvoleff@conservation.org",
-    role=c("aut", "cre")))
+Authors@R: c(person("Matthew", "Cooper", email="mattcoop@terpmail.umd.edu", role=c("cre")),
+    person("Alex", "Zvoleff", email="azvoleff@conservation.org", role=c("aut")))
 Maintainer: Alex Zvoleff <azvoleff@conservation.org>
 Depends:
     R (>= 2.10.0),
@@ -31,7 +31,7 @@ Description: Supports analyses using the Global Forest Change dataset released
     information on the product is available at 
     http://earthenginepartners.appspot.com.
 License: GPL (>= 3)
-URL: http://azvoleff.com/gfcanalysis
+URL: https://github.com/azvoleff/gfcanalysis
 BugReports: https://github.com/azvoleff/gfcanalysis/issues
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1

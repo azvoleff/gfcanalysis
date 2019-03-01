@@ -6,9 +6,9 @@
 The `gfcanalysis` package facilitates analyses of forest change using the 
 [Global Forest 
 Change](http://earthenginepartners.appspot.com/science-2013-global-forest) 
-dataset released by Hansen et al. 2013. The package was designed to support the work 
-of the [Tropical Ecology Assessment & Monitoring (TEAM) 
-Network](http://www.teamnetwork.org/).
+dataset released by Hansen et al. 2013, and subsequent versions of that data. 
+The package was originally designed to support the work of the [Tropical 
+Ecology Assessment & Monitoring (TEAM) Network](http://www.teamnetwork.org).
 
 ## Package Installation
 
@@ -47,11 +47,16 @@ change statistics for a given area of interest (AOI), see the examples in
 
 ## Author Contact Information
 
-[Alex Zvoleff](mailto:azvoleff@conservation.org)  
-Director, Data Science  
-Vital Signs  
+[Matt Cooper](mailto:mattcoop@terpmail.umd.edu) (current author and maintainer)  
+PhD Student
+Department of Geographical Sciences
+University of Maryland
+
+[Alex Zvoleff](mailto:azvoleff@conservation.org) (original author)  
+Senior Director, Resilience Science  
+Moore Center for Science
 Conservation International  
-2011 Crystal Dr. Suite 500  
+2011 Crystal Dr. Suite 600  
 Arlington, VA 22202  
 USA
 
