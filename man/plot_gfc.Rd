@@ -4,7 +4,8 @@
 \alias{plot_gfc}
 \title{Plot forest change (relative to 2000) for a given year}
 \usage{
-plot_gfc(fchg, aoi, title_string = "", size_scale = 1, maxpixels = 50000)
+plot_gfc(fchg, aoi, title_string = "", size_scale = 1,
+  maxpixels = 50000)
 }
 \arguments{
 \item{fchg}{a forest change raster layer (a single layer of the layer 
@@ -28,4 +29,3 @@ Plots a single layer of forest change from a layer stack output by
 \seealso{
 \code{\link{annual_stack}}, \code{\link{animate_annual}}
 }
-

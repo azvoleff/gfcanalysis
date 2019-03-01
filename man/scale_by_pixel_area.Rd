@@ -32,4 +32,3 @@ a classified raster in a geographic coordinate system.  Assumes that raster
 is not rotated (latitudes of every pixel in a given row are identical).  
 Processes block by block to support handling very large rasters.
 }
-

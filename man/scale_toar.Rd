@@ -25,4 +25,3 @@ band 7, 423.  The output datatype is FLT4S.
 \seealso{
 \code{\link{extract_gfc}}
 }
-

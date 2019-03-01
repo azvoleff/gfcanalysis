@@ -16,4 +16,3 @@ of \code{x} (vector has length equal to \code{nrow(x)})
 \description{
 Calculates the pixel area for each line of a raster
 }
-

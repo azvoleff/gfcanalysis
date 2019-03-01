@@ -4,13 +4,13 @@
 \alias{annual_stack}
 \title{Generate an annual stack of forest change from GFC product}
 \usage{
-annual_stack(gfc, data_year = 2015)
+annual_stack(gfc, dataset = "GFC-2017-v1.5")
 }
 \arguments{
 \item{gfc}{thresholded extract of GFC product for a given AOI (see 
 \code{\link{threshold_gfc}})}
 
-\item{data_year}{which version of the Hansen data was used when}
+\item{dataset}{which version of the Hansen data to use}
 }
 \description{
 Uses thresholded GFC data as output by \code{\link{threshold_gfc}} to make 
@@ -35,4 +35,3 @@ at each pixel:
 \seealso{
 \code{\link{threshold_gfc}}, \code{\link{animate_annual}}
 }
-

@@ -10,4 +10,3 @@ Contains a \code{SpatialPolygonsDataFrame} with a 10 x 10 degree grid in
 WGS84 coordinate system, covering the area from 180W-180E and 80N-60S, the 
 tile system used by the GFC Product.
 }
-

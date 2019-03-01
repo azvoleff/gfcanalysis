@@ -24,8 +24,9 @@
 #' @import raster
 #' @param gfc thresholded extract of GFC product for a given AOI (see 
 #' \code{\link{threshold_gfc}})
-#' @param data_year which version of the Hansen data was used when
-annual_stack <- function(gfc, data_year=2015) {
+#' @param dataset which version of the Hansen data to use
+annual_stack <- function(gfc, dataset='GFC-2017-v1.5') {
+    data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
     names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     out <- raster(gfc)
     layer_names <- paste0('y', gen_year_list(data_year))

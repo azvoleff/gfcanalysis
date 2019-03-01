@@ -3,10 +3,10 @@
 \docType{methods}
 \name{utm_zone}
 \alias{utm_zone}
-\alias{utm_zone,Spatial,missing,logical-method}
-\alias{utm_zone,Spatial,missing-method}
-\alias{utm_zone,numeric,numeric,logical-method}
 \alias{utm_zone,numeric,numeric-method}
+\alias{utm_zone,numeric,numeric,logical-method}
+\alias{utm_zone,Spatial,missing-method}
+\alias{utm_zone,Spatial,missing,logical-method}
 \title{Given a spatial object, calculate the UTM zone of the centroid}
 \usage{
 utm_zone(x, y, proj4string = FALSE)
@@ -38,4 +38,3 @@ utm_zone(45, 10)
 utm_zone(45, -10)
 utm_zone(45, 10, proj4string=TRUE)
 }
-

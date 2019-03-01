@@ -88,4 +88,3 @@ layers, respectively.
 \seealso{
 \code{\link{extract_gfc}}
 }
-

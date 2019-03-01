@@ -4,7 +4,7 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, scale_factor = 1e-04, data_year = 2015)
+gfc_stats(aoi, gfc, scale_factor = 1e-04, dataset = "GFC-2017-v1.5")
 }
 \arguments{
 \item{aoi}{one or more Area of Interest (AOI) polygon(s) as a 
@@ -16,7 +16,7 @@ gfc_stats(aoi, gfc, scale_factor = 1e-04, data_year = 2015)
 \item{scale_factor}{how to scale the output data (from meters). Defaults to 
 .0001 for output in hectares.}
 
-\item{data_year}{which version of the Hansen data was used when}
+\item{dataset}{which version of the Hansen data to use}
 }
 \value{
 \code{list} with two elements "loss_table", a \code{data.frame} with 
@@ -30,7 +30,7 @@ table (in hectares, by default), and a table specifying 1) the total area of
 pixels that experienced forest gain and, 2) the total area of pixels that 
 experienced both loss and gain over the full period (from 2000 through the 
 end date of the specific product you are using, depending on the chosen 
-\code{data_year}).  Note that forest gain and combined loss and gain are not 
+\code{dataset}).  Note that forest gain and combined loss and gain are not 
 available in the GFC product on an annualized basis.  Use 
 \code{\link{extract_gfc}} to extract the GFC data for the AOI, and threshold 
 it using \code{\link{threshold_gfc}} prior to running this function.
@@ -46,4 +46,3 @@ provided for the union of these AOIs.
 \seealso{
 \code{\link{extract_gfc}}, \code{\link{threshold_gfc}}
 }
-

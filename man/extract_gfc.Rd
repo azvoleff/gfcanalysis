@@ -5,7 +5,7 @@
 \title{Extracts GFC data for a given AOI}
 \usage{
 extract_gfc(aoi, data_folder, to_UTM = FALSE, stack = "change",
-  data_year = 2015, ...)
+  dataset = "GFC-2017-v1.5", ...)
 }
 \arguments{
 \item{aoi}{an Area of Interest (AOI) as a \code{SpatialPolygons*} object.
@@ -21,7 +21,7 @@ tiles.}
 \item{stack}{the layers to extract from the GFC product. Defaults to 
 "change". See Details.}
 
-\item{data_year}{which version of the Hansen data to use}
+\item{dataset}{which version of the Hansen data to use}
 
 \item{...}{additional arguments as for \code{\link{writeRaster}}, such as 
 \code{filename}, or \code{overwrite}.}
@@ -47,4 +47,3 @@ of atmosphere (TOA) reflectance images (respectively).
 \code{\link{download_tiles}}, \code{\link{annual_stack}}, 
 \code{\link{gfc_stats}}
 }
-

@@ -122,7 +122,7 @@ plot_gfc <- function(fchg, aoi, title_string='',
 #' @param height desired height of the animation GIF in inches
 #' @param width desired width of the animation GIF in inches
 #' @param dpi dots per inch for the output image
-#' @param dataset which version of the Hansen data was used
+#' @param dataset which version of the Hansen data to use
 #' \code{\link{annual_stack}} was run
 animate_annual <- function(aoi, gfc_stack, out_dir=getwd(), 
                            out_basename='gfc_animation', site_name='', 

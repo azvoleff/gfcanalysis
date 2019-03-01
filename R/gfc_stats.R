@@ -51,7 +51,7 @@ gen_year_list <- function(data_year) {
 #' \code{\link{extract_gfc}}), recoded using \code{\link{threshold_gfc}}.
 #' @param scale_factor how to scale the output data (from meters). Defaults to 
 #' .0001 for output in hectares.
-#' @param dataset which version of the Hansen data was used
+#' @param dataset which version of the Hansen data to use
 #' @return \code{list} with two elements "loss_table", a \code{data.frame} with 
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 

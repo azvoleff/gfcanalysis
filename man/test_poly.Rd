@@ -10,4 +10,3 @@ Contains a \code{SpatialPolygonsDataFrame} with a simplified polygon of the
 area within the Tropical Ecology Assessment and Monitoring (TEAM) network 
 site in Caxiuanã, Brazil.
 }
-

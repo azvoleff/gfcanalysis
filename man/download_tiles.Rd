@@ -4,8 +4,8 @@
 \alias{download_tiles}
 \title{Download a set of GFC tiles}
 \usage{
-download_tiles(tiles, output_folder, images = c("treecover2000", "loss",
-  "gain", "lossyear", "datamask"), data_year = 2015)
+download_tiles(tiles, output_folder, images = c("treecover2000",
+  "lossyear", "gain", "datamask"), dataset = "GFC-2017-v1.5")
 }
 \arguments{
 \item{tiles}{\code{SpatialPolygonsDataFrame} with GFC 
@@ -17,7 +17,7 @@ function.}
 \item{images}{which images to download. Can be any of 'treecover2000', 
 'loss', 'gain', 'lossyear', 'datamask', 'first', and 'last'.}
 
-\item{data_year}{which version of the Hansen data to use}
+\item{dataset}{which version of the Hansen data to use}
 }
 \description{
 This function first checks whether each tile in a set GFC product tiles is 
@@ -36,4 +36,3 @@ download_tiles(tiles, output_folder)
 \seealso{
 \code{\link{extract_gfc}}
 }
-

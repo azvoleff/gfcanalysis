@@ -24,4 +24,3 @@ tiles <- calc_gfc_tiles(test_poly)
 plot(tiles)
 plot(test_poly, lt=2, add=TRUE)
 }
-
