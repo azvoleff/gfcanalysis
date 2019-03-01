@@ -8,8 +8,14 @@ verify_layer_count <- function(gfc_stack, data_year) {
     } else if (data_year == 2015 & nlayers(gfc_stack) != 15) {
         warning('gfc_stack has ', nlayers(gfc_stack),
                 ' layers - full annual GFC product stack from 2015 Hansen dataset should have 15 layers')
-    } else if (data_year > 2015) {
-        warning('data_year ', data_year, ' is not officially supported')
+    } else if (data_year == 2016 & nlayers(gfc_stack) != 16) {
+        warning('gfc_stack has ', nlayers(gfc_stack),
+                ' layers - full annual GFC product stack from 2016 Hansen dataset should have 16 layers')
+    } else if (data_year == 2017 & nlayers(gfc_stack) != 17) {
+        warning('gfc_stack has ', nlayers(gfc_stack),
+                ' layers - full annual GFC product stack from 2017 Hansen dataset should have 17 layers')
+    } else if (data_year > 2017) {
+        warning('data_year ', data_year, ' is not officially supported. Check that output matches was is expected (in particular the years in the animation output).')
     }
 }
 
@@ -116,12 +122,13 @@ plot_gfc <- function(fchg, aoi, title_string='',
 #' @param height desired height of the animation GIF in inches
 #' @param width desired width of the animation GIF in inches
 #' @param dpi dots per inch for the output image
-#' @param data_year which version of the Hansen data was used when 
+#' @param dataset which version of the Hansen data was used
 #' \code{\link{annual_stack}} was run
 animate_annual <- function(aoi, gfc_stack, out_dir=getwd(), 
                            out_basename='gfc_animation', site_name='', 
                            type='html', height=3, width=3, dpi=300,
-                           data_year=2015) {
+                           dataset='GFC-2017-v1.5') {
+    data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
     verify_layer_count(gfc_stack, data_year)
 
     if (!file_test('-d', out_dir)) {
@@ -135,7 +142,7 @@ animate_annual <- function(aoi, gfc_stack, out_dir=getwd(),
         stop('out_basename should not have an extension')
     }
 
-    if (!(type %in% c('gif', 'html'))) {
+    iiiiiif (!(type %in% c('gif', 'html'))) {
         stop('type must be gif or html')
     }
 

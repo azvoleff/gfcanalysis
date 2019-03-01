@@ -89,7 +89,7 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2017-v1.5') {
 
     uniq_aoi_labels <- unique(aoi$label)
 
-    data_year <- as.numeric(str_extract(dataset, '(?<=GFC-)[0-9]{4}'))
+    data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
     years <- gen_year_list(data_year)
 
     loss_table <- data.frame(year=rep(years, length(uniq_aoi_labels)),
