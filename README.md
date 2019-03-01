@@ -48,9 +48,9 @@ change statistics for a given area of interest (AOI), see the examples in
 ## Author Contact Information
 
 [Matt Cooper](mailto:mattcoop@terpmail.umd.edu) (current author and maintainer)  
-PhD Student
-Department of Geographical Sciences
-University of Maryland
+PhD Student  
+Department of Geographical Sciences  
+University of Maryland  
 
 [Alex Zvoleff](mailto:azvoleff@conservation.org) (original author)  
 Senior Director, Resilience Science  
