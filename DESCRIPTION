@@ -24,13 +24,12 @@ Imports:
     rasterVis
 Encoding: UTF-8
 Description: Supports analyses using the Global Forest Change dataset released
-    by Hansen et al. gfcanalysis was written for the Tropical Ecology 
-    Assessment and Monitoring (TEAM) Network (<http://www.teamnetwork.org>). For 
-    additional details on the Global Forest Change dataset, see: Hansen, M. et 
-    al. 2013. "High-Resolution Global Maps of 21st-Century Forest Cover 
-    Change." Science 342 (15 November): 850-53. The forest change data and more 
-    information on the product is available at 
-    <http://earthenginepartners.appspot.com>.
+    by Hansen et al. gfcanalysis was originally written for the Tropical Ecology 
+    Assessment and Monitoring (TEAM) Network. For additional details on the 
+    Global Forest Change dataset, see: Hansen, M. et al. 2013. "High-Resolution 
+    Global Maps of 21st-Century Forest Cover Change." Science 342 (15 
+    November): 850-53. The forest change data and more information on the 
+    product is available at <http://earthenginepartners.appspot.com>.
 License: GPL (>= 3)
 URL: https://github.com/azvoleff/gfcanalysis
 BugReports: https://github.com/azvoleff/gfcanalysis/issues
