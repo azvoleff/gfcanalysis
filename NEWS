@@ -1,3 +1,10 @@
+gfcanalysis 1.5
+===============
+
+* Support latest Hansen datasets using "datatset" parameter
+
+* Change maintainer from Alex Zvoleff to Matthe Cooper
+
 gfcanalysis 1.4
 ===============
 
