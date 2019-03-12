@@ -24,7 +24,7 @@ install.packages('gfcanalysis')
 
 The easiest way to install the development version of the `gfcanalysis` package 
 is using the 
-[`devtools`](http://cran.r-project.org/web/packages/devtools/index.html) 
+[`devtools`](https://CRAN.R-project.org/package=devtools)
 package. After installing `devtools`, type:
 
 ```R
