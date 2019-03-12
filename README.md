@@ -47,7 +47,7 @@ change statistics for a given area of interest (AOI), see the examples in
 
 ## Author Contact Information
 
-[Matt Cooper](mailto:mattcoop@terpmail.umd.edu) (current author and maintainer)  
+[Matt Cooper](mailto:mw.coop.r@gmail.com) (current author and maintainer)  
 PhD Student  
 Department of Geographical Sciences  
 University of Maryland  
