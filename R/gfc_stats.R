@@ -9,7 +9,9 @@ gen_year_list <- function(data_year) {
         years <- seq(2000, 2015, 1)
     } else if (data_year == 2017) {
         years <- seq(2000, 2016, 1)
-    } else if (data_year > 2017) {
+    } else if (data_year == 2018) {
+		years <- seq(2000, 2017, 1)
+	} else if (data_year > 2018) {
         years <- seq(2000, data_year - 1, 1)
         warning('data_year ', data_year, ' is not offically supported. Check that statistics output matches expected (in particular the years in the output table).')
     } else {
@@ -56,7 +58,7 @@ gen_year_list <- function(data_year) {
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 
 #' hectares (when \code{scale_factor} is set to .0001).
-gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2017-v1.5') {
+gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2018-v1.6') {
     names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)

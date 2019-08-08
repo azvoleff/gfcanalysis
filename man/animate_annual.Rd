@@ -6,7 +6,7 @@
 \usage{
 animate_annual(aoi, gfc_stack, out_dir = getwd(),
   out_basename = "gfc_animation", site_name = "", type = "html",
-  height = 3, width = 3, dpi = 300, dataset = "GFC-2017-v1.5")
+  height = 3, width = 3, dpi = 300, dataset = "GFC-2018-v1.6")
 }
 \arguments{
 \item{aoi}{one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 

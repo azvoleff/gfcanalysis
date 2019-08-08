@@ -5,7 +5,7 @@
 \title{Extracts GFC data for a given AOI}
 \usage{
 extract_gfc(aoi, data_folder, to_UTM = FALSE, stack = "change",
-  dataset = "GFC-2017-v1.5", ...)
+  dataset = "GFC-2018-v1.6", ...)
 }
 \arguments{
 \item{aoi}{an Area of Interest (AOI) as a \code{SpatialPolygons*} object.

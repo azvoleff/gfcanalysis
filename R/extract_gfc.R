@@ -144,7 +144,7 @@ scale_toar <- function(x, ...) {
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
 extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
-                        dataset='GFC-2017-v1.5', ...) {
+                        dataset='GFC-2018-v1.6', ...) {
     if (stack == 'change') {
         band_names <- c('treecover2000', 'lossyear', 'gain', 
                         'datamask')

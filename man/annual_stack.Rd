@@ -4,7 +4,7 @@
 \alias{annual_stack}
 \title{Generate an annual stack of forest change from GFC product}
 \usage{
-annual_stack(gfc, dataset = "GFC-2017-v1.5")
+annual_stack(gfc, dataset = "GFC-2018-v1.6")
 }
 \arguments{
 \item{gfc}{thresholded extract of GFC product for a given AOI (see 
