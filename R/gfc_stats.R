@@ -1,18 +1,8 @@
 gen_year_list <- function(data_year) {
-    if (data_year == 2013) {
-        years <- seq(2000, 2012, 1)
-    } else if (data_year == 2014) {
-        years <- seq(2000, 2013, 1)
-    } else if (data_year == 2015) {
-        years <- seq(2000, 2014, 1)
-    } else if (data_year == 2016) {
-        years <- seq(2000, 2015, 1)
-    } else if (data_year == 2017) {
-        years <- seq(2000, 2016, 1)
-    } else if (data_year == 2018) {
-		years <- seq(2000, 2017, 1)
-	} else if (data_year > 2018) {
-        years <- seq(2000, data_year - 1, 1)
+    if (data_year >= 2013 | data_year <= 2018){
+        years <- seq(2000, data_year, 1)
+    } else if (data_year > 2018) {
+        years <- seq(2000, data_year, 1)
         warning('data_year ', data_year, ' is not offically supported. Check that statistics output matches expected (in particular the years in the output table).')
     } else {
         stop('data_year ', data_year, ' is not supported')
