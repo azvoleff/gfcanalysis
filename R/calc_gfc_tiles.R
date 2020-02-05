@@ -6,7 +6,7 @@
 #' @export
 #' @import rgdal
 #' @importFrom sp spTransform CRS proj4string
-#' @importFrom rgeos gOverlaps gConvexHull
+#' @importFrom rgeos gIntersects gConvexHull gTouches
 #' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
 #' If the AOI is not in the WGS84 geographic coordinate system, it will be 
 #' reprojected to WGS84.
@@ -18,7 +18,7 @@
 #' plot(test_poly, lt=2, add=TRUE)
 calc_gfc_tiles <- function(aoi) {
     aoi <- spTransform(aoi, CRS(proj4string(gfc_tiles)))
-    intersecting <- as.logical(gOverlaps(gfc_tiles, gConvexHull(aoi), byid=TRUE))
+    intersecting <- as.logical(gIntersects(gfc_tiles, gConvexHull(aoi), byid=TRUE) & !gTouches(gfc_tiles, gConvexHull(aoi), byid=TRUE))
     if (sum(intersecting) == 0) {
         stop('no intersecting GFC tiles found')
     } else {

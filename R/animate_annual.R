@@ -1,22 +1,22 @@
 verify_layer_count <- function(gfc_stack, data_year) {
-    if (data_year == 2013 & nlayers(gfc_stack) != 13) {
+    if (data_year == 2013 & nlayers(gfc_stack) != 14) {
         warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2013 Hansen dataset should have 13 layers')
-    } else if (data_year == 2014 & nlayers(gfc_stack) != 14) {
+                ' layers - full annual GFC product stack from 2013 Hansen dataset should have 14 layers')
+    } else if (data_year == 2014 & nlayers(gfc_stack) != 15) {
         warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2014 Hansen dataset should have 14 layers')
-    } else if (data_year == 2015 & nlayers(gfc_stack) != 15) {
+                ' layers - full annual GFC product stack from 2014 Hansen dataset should have 15 layers')
+    } else if (data_year == 2015 & nlayers(gfc_stack) != 16) {
         warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2015 Hansen dataset should have 15 layers')
-    } else if (data_year == 2016 & nlayers(gfc_stack) != 16) {
+                ' layers - full annual GFC product stack from 2015 Hansen dataset should have 16 layers')
+    } else if (data_year == 2016 & nlayers(gfc_stack) != 17) {
         warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2016 Hansen dataset should have 16 layers')
-    } else if (data_year == 2017 & nlayers(gfc_stack) != 17) {
+                ' layers - full annual GFC product stack from 2016 Hansen dataset should have 17 layers')
+    } else if (data_year == 2017 & nlayers(gfc_stack) != 18) {
         warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2017 Hansen dataset should have 17 layers')
-    } else if (data_year == 2018 & nlayers(gfc_stack) != 18) {
+                ' layers - full annual GFC product stack from 2017 Hansen dataset should have 18 layers')
+    } else if (data_year == 2018 & nlayers(gfc_stack) != 19) {
         warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2018 Hansen dataset should have 18 layers')
+                ' layers - full annual GFC product stack from 2018 Hansen dataset should have 19 layers')
 	} else if (data_year > 2017) {
         warning('data_year ', data_year, ' is not officially supported. Check that output matches was is expected (in particular the years in the animation output).')
     }
