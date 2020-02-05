@@ -1,9 +1,16 @@
 gfcanalysis 1.5
 ===============
 
+* Support latest Hansen datasets (up to 2018 data)
+
+* Fix bug arising when aoi falls on the boundary of gfc tiles
+
+gfcanalysis 1.5
+===============
+
 * Support latest Hansen datasets using "datatset" parameter
 
-* Change maintainer from Alex Zvoleff to Matthe Cooper
+* Change maintainer from Alex Zvoleff to Matthew Cooper
 
 gfcanalysis 1.4
 ===============

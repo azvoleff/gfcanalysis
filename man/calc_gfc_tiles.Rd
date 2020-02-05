@@ -16,7 +16,7 @@ a \code{SpatialPolygonsDataFrame} of the GFC tiles needed to cover
 the AOI
 }
 \description{
-Intersects an (optionally buffered) AOI with the GFC 
+Intersects an AOI with the GFC 
 product grid to determine what tiles are need to cover the AOI.
 }
 \examples{
