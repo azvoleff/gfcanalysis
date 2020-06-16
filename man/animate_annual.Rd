@@ -4,12 +4,21 @@
 \alias{animate_annual}
 \title{Plot an animation of forest change within a given area of interest (AOI)}
 \usage{
-animate_annual(aoi, gfc_stack, out_dir = getwd(),
-  out_basename = "gfc_animation", site_name = "", type = "html",
-  height = 3, width = 3, dpi = 300, dataset = "GFC-2018-v1.6")
+animate_annual(
+  aoi,
+  gfc_stack,
+  out_dir = getwd(),
+  out_basename = "gfc_animation",
+  site_name = "",
+  type = "html",
+  height = 3,
+  width = 3,
+  dpi = 300,
+  dataset = "GFC-2019-v1.7"
+)
 }
 \arguments{
-\item{aoi}{one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 
+\item{aoi}{one or more AOI polygons as a \code{SpatialPolygonsDataFrame} or \code{sf}
 object.  If there is a 'label' field  in the dataframe, it will be used to 
 label the polygons in the plots. If the AOI is not in the WGS84 geographic 
 coordinate system, it will be reprojected to WGS84.}

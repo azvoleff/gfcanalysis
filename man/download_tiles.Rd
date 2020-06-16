@@ -4,8 +4,12 @@
 \alias{download_tiles}
 \title{Download a set of GFC tiles}
 \usage{
-download_tiles(tiles, output_folder, images = c("treecover2000",
-  "lossyear", "gain", "datamask"), dataset = "GFC-2018-v1.6")
+download_tiles(
+  tiles,
+  output_folder,
+  images = c("treecover2000", "lossyear", "gain", "datamask"),
+  dataset = "GFC-2019-v1.7"
+)
 }
 \arguments{
 \item{tiles}{\code{SpatialPolygonsDataFrame} with GFC 

@@ -18,6 +18,8 @@ make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
         stop('"stack" must be equal to "change", "first", or "last"')
     }
 
+    aoi <- check_aoi(aoi)
+
     tiles <- calc_gfc_tiles(aoi)
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
@@ -130,7 +132,7 @@ scale_toar <- function(x, ...) {
 #' @import rgdal
 #' @importFrom sp spTransform CRS proj4string proj4string<-
 #' @importFrom rgeos gBuffer
-#' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} object.  
+#' @param aoi an Area of Interest (AOI) as a \code{SpatialPolygons*} or \code{sf} object.  
 #' If the AOI is not in WGS 1984 (EPSG:4326), it will be reprojected to WGS84.
 #' @param data_folder folder where downloaded GFC product tiles are located 
 #' (see \code{\link{download_tiles}} function.
@@ -144,7 +146,7 @@ scale_toar <- function(x, ...) {
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
 extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
-                        dataset='GFC-2018-v1.6', ...) {
+                        dataset='GFC-2019-v1.7', ...) {
     if (stack == 'change') {
         band_names <- c('treecover2000', 'lossyear', 'gain', 
                         'datamask')

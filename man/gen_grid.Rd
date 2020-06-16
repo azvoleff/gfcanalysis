@@ -4,8 +4,7 @@
 \alias{gen_grid}
 \title{Generate a spatial grid}
 \usage{
-gen_grid(origin_x, dx, max_x, origin_y, dy, max_y,
-  grid_proj4string = NULL)
+gen_grid(origin_x, dx, max_x, origin_y, dy, max_y, grid_proj4string = NULL)
 }
 \arguments{
 \item{origin_x}{x coordinate of the origin}

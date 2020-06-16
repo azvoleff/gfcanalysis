@@ -4,11 +4,11 @@
 \alias{gfc_stats}
 \title{Produce a table of forest cover change statistics for a given AOI}
 \usage{
-gfc_stats(aoi, gfc, scale_factor = 1e-04, dataset = "GFC-2018-v1.6")
+gfc_stats(aoi, gfc, scale_factor = 1e-04, dataset = "GFC-2019-v1.7")
 }
 \arguments{
 \item{aoi}{one or more Area of Interest (AOI) polygon(s) as a 
-\code{SpatialPolygons*} object. See Details.}
+\code{SpatialPolygons*}. See Details.}
 
 \item{gfc}{extract of GFC product for a given AOI (see 
 \code{\link{extract_gfc}}), recoded using \code{\link{threshold_gfc}}.}
@@ -36,7 +36,7 @@ available in the GFC product on an annualized basis.  Use
 it using \code{\link{threshold_gfc}} prior to running this function.
 }
 \details{
-If the\code{aoi} \code{SpatialPolygons*} object is not in the coordinate 
+If the\code{aoi} object is not in the coordinate 
 system of \code{gfc}, it will be reprojected. If there is a "label" 
 attribute, it will be used to label the output statistics.  Otherwise, 
 unique names ("AOI 1", "AOI 2", etc.) will be generated and used to label 
