@@ -75,7 +75,7 @@
 #' @param ... additional arguments as for writeRaster, such as \code{filename} 
 #' or \code{overwrite}
 #' @return \code{RasterBrick} with thresholded GFC product (see details above)
-threshold_gfc <- function(gfc, forest_threshold=25,n, ...) {
+threshold_gfc <- function(gfc, forest_threshold=25,clusters=NULL, ...) {
     names(gfc) <- c('treecover2000', 'lossyear', 'gain', 'datamask')
      
     recode_gfc <- function(treecover2000, lossyear, gain, datamask) {
@@ -90,18 +90,18 @@ threshold_gfc <- function(gfc, forest_threshold=25,n, ...) {
                              ncol=5)
         return(thresholded)
     }
-    if (missing(n)) {
+    if (!(clusters>=2)) {
     thresholded <- overlay(gfc, fun=recode_gfc, datatype='INT1U', 
                            format='GTiff', options="COMPRESS=LZW", ...)
         }else{
-        if (n>=parallel::detectCores()) {
+        if (clusters>=parallel::detectCores()) {
         cores <- parallel::detectCores()
 		message(cores, ' cores detected, using ', cores-1)
-		n <- cores-1
+		clusters <- cores-1
         }else{
         message(cores, ' cores detected, using ', n)
         }    
-        beginCluster(n)
+        beginCluster(clusters)
   thresholded<-clusterR(gfc,overlay,args=list(fun=recode_gfc2), export='forest_threshold',progress='text',options="COMPRESS=LZW",datatype='INT1U',format='GTiff',...)
   endCluster()
         }
