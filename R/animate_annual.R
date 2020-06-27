@@ -17,7 +17,10 @@ verify_layer_count <- function(gfc_stack, data_year) {
     } else if (data_year == 2018 & nlayers(gfc_stack) != 19) {
         warning('gfc_stack has ', nlayers(gfc_stack),
                 ' layers - full annual GFC product stack from 2018 Hansen dataset should have 19 layers')
-	} else if (data_year > 2017) {
+    } else if (data_year == 2019 & nlayers(gfc_stack) != 20) {
+        warning('gfc_stack has ', nlayers(gfc_stack),
+                ' layers - full annual GFC product stack from 2019 Hansen dataset should have 20 layers')
+    } else if (data_year > 2019) {
         warning('data_year ', data_year, ' is not officially supported. Check that output matches was is expected (in particular the years in the animation output).')
     }
 }
@@ -38,7 +41,7 @@ verify_layer_count <- function(gfc_stack, data_year) {
 #' @importFrom sp spTransform CRS proj4string
 #' @param fchg a forest change raster layer (a single layer of the layer 
 #' stack output by \code{\link{annual_stack}}
-#' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 
+#' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} or \code{sf}
 #' object.  If there is a 'label' field  in the dataframe, it will be used to 
 #' label the polygons in the plots. If the AOI is not in WGS 1984 (EPSG:4326), 
 #' it will be reprojected to WGS84.
@@ -47,6 +50,7 @@ verify_layer_count <- function(gfc_stack, data_year) {
 #' @param maxpixels the maximum number of pixels from fchg to use in plotting
 plot_gfc <- function(fchg, aoi, title_string='', 
                      size_scale=1, maxpixels=50000) {
+    aoi <- check_aoi(aoi)
     aoi_tr <- spTransform(aoi, CRS(proj4string(fchg)))
     aoi_tr$ID <- row.names(aoi_tr)
     if (!('label' %in% names(aoi_tr))) {
@@ -112,7 +116,7 @@ plot_gfc <- function(fchg, aoi, title_string='',
 #' @importFrom tools file_ext
 #' @importFrom utils file_test
 #' @import animation
-#' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} 
+#' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} or \code{sf}
 #' object.  If there is a 'label' field  in the dataframe, it will be used to 
 #' label the polygons in the plots. If the AOI is not in the WGS84 geographic 
 #' coordinate system, it will be reprojected to WGS84.
@@ -130,7 +134,8 @@ plot_gfc <- function(fchg, aoi, title_string='',
 animate_annual <- function(aoi, gfc_stack, out_dir=getwd(), 
                            out_basename='gfc_animation', site_name='', 
                            type='html', height=3, width=3, dpi=300,
-                           dataset='GFC-2018-v1.6') {
+                           dataset='GFC-2019-v1.7') {
+    aoi <- check_aoi(aoi)
     data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
     verify_layer_count(gfc_stack, data_year)
 

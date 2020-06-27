@@ -4,8 +4,13 @@
 \alias{scale_by_pixel_area}
 \title{Scales a raster by the area of each pixel in meters}
 \usage{
-scale_by_pixel_area(x, filename, datatype, pixel_areas = NULL,
-  scale_factor = 1)
+scale_by_pixel_area(
+  x,
+  filename,
+  datatype,
+  pixel_areas = NULL,
+  scale_factor = 1
+)
 }
 \arguments{
 \item{x}{a \code{Raster*} object}

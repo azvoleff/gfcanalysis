@@ -1,9 +1,11 @@
-gfcanalysis 1.5
+gfcanalysis 1.6
 ===============
 
-* Support latest Hansen datasets (up to 2018 data)
+* Support latest Hansen datasets (up to 2019 data)
 
 * Fix bug arising when aoi falls on the boundary of gfc tiles
+
+* AOI can now be defined using a sf file
 
 gfcanalysis 1.5
 ===============
