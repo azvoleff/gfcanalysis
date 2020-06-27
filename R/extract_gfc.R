@@ -3,7 +3,7 @@
 #' @import raster
 #' @importFrom sp bbox spTransform CRS proj4string
 make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
-                             stack="change", ...) {
+                             stack="change",clusters, ...) {
     if (stack == 'change') {
         image_names <- c('treecover2000', 'lossyear', 'gain', 
                          'datamask')
@@ -22,7 +22,7 @@ make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
     # Transform aoi to match tiles CRS so it can be used later for cropping
     aoi <- spTransform(aoi, CRS(proj4string(tiles)))
     file_root <- paste0('Hansen_', dataset, '_')
-
+if (!(clusters>=2)) {
     tile_stacks <- c()
     for (n in 1:length(tiles)) {
         tile <- tiles[n]
@@ -45,8 +45,32 @@ make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
                            format='GTiff', options="COMPRESS=LZW")
         names(tile_stack) <- band_names
         tile_stacks <- c(tile_stacks, list(tile_stack))
+    }}else{
+  cl <- parallel::makeCluster(clusters) 
+  doParallel::registerDoParallel(cl)
+  tile_stacks<-foreach::foreach(n = 1:length(tiles),.export=c("tiles","file_root","image_names","band_names","data_folder"),.packages=c("raster","sp"),.verbose=TRUE) %dopar% {
+    tile <- tiles[n]
+    min_x <- sp::bbox(tile)[1, 1]
+    max_y <- sp::bbox(tile)[2, 2]
+    if (min_x < 0) {
+      min_x <- paste0(sprintf('%03i', abs(min_x)), 'W')
+    } else {
+      min_x <- paste0(sprintf('%03i', min_x), 'E')
     }
-
+    if (max_y < 0) {
+      max_y <- paste0(sprintf('%02i', abs(max_y)), 'S')
+    } else {
+      max_y <- paste0(sprintf('%02i', max_y), 'N')
+    }
+    file_suffix <- paste0('_', max_y, '_', min_x, '.tif')
+    filenames <- file.path(data_folder, paste0(file_root, image_names, 
+                                               file_suffix))
+    tile_stack <- raster::crop(raster::stack(filenames), aoi, datatype='INT1U', 
+                       format='GTiff', options="COMPRESS=LZW")
+    names(tile_stack) <- band_names
+    tile_stack
+  }}
+  stopCluster(cl)
     if (length(tile_stacks) > 1) {
         # See http://bit.ly/1dJPIeF re issue in raster that necessitates below 
         # workaround TODO: Contact Hijmans re possible fix
@@ -75,7 +99,6 @@ make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
     }
     names(tile_mosaic) <- band_names
     NAvalue(tile_mosaic) <- -1
-
     return(tile_mosaic)
 }
 
@@ -144,7 +167,7 @@ scale_toar <- function(x, ...) {
 #' \code{filename}, or \code{overwrite}.
 #' @return \code{RasterStack} with GFC layers
 extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change", 
-                        dataset='GFC-2018-v1.6', ...) {
+                        dataset='GFC-2018-v1.6',clusters=NULL, ...) {
     if (stack == 'change') {
         band_names <- c('treecover2000', 'lossyear', 'gain', 
                         'datamask')
@@ -158,7 +181,7 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change",
 
     if (to_UTM) {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, 
-                                        dataset=dataset, ...)
+                                        dataset=dataset,clusters=clusters, ...)
         # Project to UTM for plotting and analysis of change in forest area.  
         # Calculate UTM zone based on bounding polygon of tile mosaic.
         bounding_poly <- as(extent(tile_mosaic), "SpatialPolygons")
@@ -166,15 +189,25 @@ extract_gfc <- function(aoi, data_folder, to_UTM=FALSE, stack="change",
         utm_proj4string <- utm_zone(bounding_poly, proj4string=TRUE)
         # Use nearest neighbor since the data is categorical
         band_name <- names(tile_mosaic)
+      if (!(clusters>=2)) {
         tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
                                      method='ngb', datatype='INT1U', 
                                      format='GTiff', options="COMPRESS=LZW", 
                                      ...)
+      }else{
+        beginCluster(n=clusters)
+        tile_mosaic <- projectRaster(tile_mosaic, crs=utm_proj4string, 
+                                     method='ngb', datatype='INT1U', 
+                                     format='GTiff', options="COMPRESS=LZW", 
+                                     ...)
+        endCluster()
+        }
+      
         names(tile_mosaic) <- band_names
         NAvalue(tile_mosaic) <- -1
     } else {
         tile_mosaic <- make_tile_mosaic(aoi, data_folder, stack=stack, 
-                                        dataset=dataset, ...)
+                                        dataset=dataset,clusters=clusters, ...)
         NAvalue(tile_mosaic) <- -1
     }
 
