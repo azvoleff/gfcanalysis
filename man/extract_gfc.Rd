@@ -9,7 +9,7 @@ extract_gfc(
   data_folder,
   to_UTM = FALSE,
   stack = "change",
-  dataset = "GFC-2019-v1.7",
+  dataset = "GFC-2020-v1.8",
   ...
 )
 }
@@ -31,6 +31,10 @@ tiles.}
 
 \item{...}{additional arguments as for \code{\link{writeRaster}}, such as 
 \code{filename}, or \code{overwrite}.}
+
+\item{parallel}{whether to run data processing in parallel, accepts \code{FALSE},
+\code{TRUE}, or a specified number of cores.  If \code{TRUE} is given instead of 
+a specific number of cores, R will use one less than is available on the machine.}
 }
 \value{
 \code{RasterStack} with GFC layers

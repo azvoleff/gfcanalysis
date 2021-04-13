@@ -14,7 +14,7 @@ animate_annual(
   height = 3,
   width = 3,
   dpi = 300,
-  dataset = "GFC-2019-v1.7"
+  dataset = "GFC-2020-v1.8"
 )
 }
 \arguments{

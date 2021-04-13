@@ -3,6 +3,7 @@
 export(animate_annual)
 export(annual_stack)
 export(calc_gfc_tiles)
+export(calc_pixel_areas)
 export(download_tiles)
 export(extract_gfc)
 export(gen_grid)

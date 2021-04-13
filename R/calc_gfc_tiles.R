@@ -18,7 +18,11 @@
 #' plot(test_poly, lt=2, add=TRUE)
 calc_gfc_tiles <- function(aoi) {
     aoi <- check_aoi(aoi)
-    aoi <- spTransform(aoi, CRS(proj4string(gfc_tiles)))
+    if (!identical(crs(aoi), crs(gfc_tiles))){
+      warning("aoi and gfc do not have identical crs. aoi will be reprojected for analysis, 
+              but may not overlap with results when plotting")
+      aoi <- spTransform(aoi, crs(gfc_tiles))
+    }
     intersecting <- as.logical(gIntersects(gfc_tiles, gConvexHull(aoi), byid=TRUE) & !gTouches(gfc_tiles, gConvexHull(aoi), byid=TRUE))
     if (sum(intersecting) == 0) {
         stop('no intersecting GFC tiles found')
