@@ -20,7 +20,10 @@ verify_layer_count <- function(gfc_stack, data_year) {
     } else if (data_year == 2019 & nlayers(gfc_stack) != 20) {
         warning('gfc_stack has ', nlayers(gfc_stack),
                 ' layers - full annual GFC product stack from 2019 Hansen dataset should have 20 layers')
-    } else if (data_year > 2019) {
+    } else if (data_year == 2020 & nlayers(gfc_stack) != 21) {
+        warning('gfc_stack has ', nlayers(gfc_stack),
+                ' layers - full annual GFC product stack from 2020 Hansen dataset should have 21 layers')
+    } else if (data_year > 2020) {
         warning('data_year ', data_year, ' is not officially supported. Check that output matches was is expected (in particular the years in the animation output).')
     }
 }
@@ -134,7 +137,7 @@ plot_gfc <- function(fchg, aoi, title_string='',
 animate_annual <- function(aoi, gfc_stack, out_dir=getwd(), 
                            out_basename='gfc_animation', site_name='', 
                            type='html', height=3, width=3, dpi=300,
-                           dataset='GFC-2019-v1.7') {
+                           dataset='GFC-2020-v1.8') {
     aoi <- check_aoi(aoi)
     data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
     verify_layer_count(gfc_stack, data_year)

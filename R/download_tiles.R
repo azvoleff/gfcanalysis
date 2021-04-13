@@ -57,7 +57,7 @@ download_tile <- function(tile_url, local_path) {
 download_tiles <- function(tiles, output_folder,
                            images=c('treecover2000', 'lossyear', 'gain', 
                                     'datamask'),
-                           dataset='GFC-2019-v1.7') {
+                           dataset='GFC-2020-v1.8') {
     stopifnot(all(images %in% c('treecover2000', 'lossyear', 'gain',
                                 'datamask', 'first', 'last')))
     if (!file_test('-d', output_folder)) {

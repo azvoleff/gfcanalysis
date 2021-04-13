@@ -48,7 +48,7 @@ gen_year_list <- function(data_year) {
 #' statistics on forest loss, and "gain_table", with the area of forest gain, 
 #' and area that experienced both loss and gain. The units of the output are 
 #' hectares (when \code{scale_factor} is set to .0001).
-gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2019-v1.7') {
+gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2020-v1.8') {
     names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     gfc_boundpoly <- as(extent(gfc), 'SpatialPolygons')
     proj4string(gfc_boundpoly) <- proj4string(gfc)
