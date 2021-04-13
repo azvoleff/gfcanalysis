@@ -1,7 +1,5 @@
 # gfcanalysis
 
-[![Build Status](https://travis-ci.org/azvoleff/gfcanalysis.png)](https://travis-ci.org/azvoleff/gfcanalysis)
-
 ## Overview
 The `gfcanalysis` package facilitates analyses of forest change using the 
 [Global Forest 
