@@ -1,5 +1,6 @@
 #' Calculates the pixel area for each line of a raster
 #'
+#' @export
 #' @import raster
 #' @importFrom geosphere areaPolygon
 #' @param x a \code{Raster*} object
