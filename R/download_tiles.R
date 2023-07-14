@@ -38,10 +38,10 @@ download_tile <- function(tile_url, local_path) {
 #' @seealso \code{\link{extract_gfc}}
 #'
 #' @export
-#' @importFrom sp bbox
+#' @importFrom sf st_bbox
 #' @importFrom stringr str_extract
 #' @importFrom utils file_test
-#' @param tiles \code{SpatialPolygonsDataFrame} with GFC 
+#' @param tiles \code{sf} with GFC 
 #' product tiles to download, as calculated by the \code{calc_gfc_tiles} 
 #' function.
 #' @param output_folder the folder to save output data in
@@ -57,7 +57,7 @@ download_tile <- function(tile_url, local_path) {
 download_tiles <- function(tiles, output_folder,
                            images=c('treecover2000', 'lossyear', 'gain', 
                                     'datamask'),
-                           dataset='GFC-2020-v1.8') {
+                           dataset='GFC-2022-v1.10') {
     stopifnot(all(images %in% c('treecover2000', 'lossyear', 'gain',
                                 'datamask', 'first', 'last')))
     if (!file_test('-d', output_folder)) {
@@ -70,8 +70,8 @@ download_tiles <- function(tiles, output_folder,
 
     for (n in 1:length(tiles)) {
         gfc_tile <- tiles[n,]
-        min_x <- bbox(gfc_tile)[1, 1]
-        max_y <- bbox(gfc_tile)[2, 2]
+        min_x <- st_bbox(gfc_tile)[1]
+        max_y <- st_bbox(gfc_tile)[4]
         if (min_x < 0) {
             min_x <- paste0(sprintf('%03i', abs(min_x)), 'W')
         } else {

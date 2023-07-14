@@ -3,7 +3,7 @@
 \name{check_aoi}
 \alias{check_aoi}
 \title{Check if aoi is an sf or sp type object
-If sf, convert to sp and return}
+If sp, convert to sf and return}
 \usage{
 check_aoi(aoi)
 }
@@ -12,5 +12,5 @@ check_aoi(aoi)
 }
 \description{
 Check if aoi is an sf or sp type object
-If sf, convert to sp and return
+If sp, convert to sf and return
 }

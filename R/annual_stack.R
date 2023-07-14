@@ -25,11 +25,11 @@
 #' @param gfc thresholded extract of GFC product for a given AOI (see 
 #' \code{\link{threshold_gfc}})
 #' @param dataset which version of the Hansen data to use
-annual_stack <- function(gfc, dataset='GFC-2020-v1.8') {
+annual_stack <- function(gfc, dataset='GFC-2022-v1.10') {
     data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
     names(gfc) <- c('forest2000', 'lossyear', 'gain', 'lossgain', 'datamask')
     out <- raster(gfc)
-    layer_names <- paste0('y', gen_year_list(data_year))
+    layer_names <- paste0('y', seq(2000, data_year))
     for (n in 1:length(layer_names)) {
         if (n == 1) {
             # Code forest as 1, non-forest as 2
@@ -50,7 +50,7 @@ annual_stack <- function(gfc, dataset='GFC-2020-v1.8') {
         out <- addLayer(out, this_year)
     }
     out[gfc$datamask == 0] <- 0 # missing
-    out <- setZ(out, as.Date(paste0(gen_year_list(data_year), '-1-1')))
+    out <- setZ(out, as.Date(paste0(seq(2000, data_year), '-1-1')))
     names(out) <- layer_names
     return(out)
 }

@@ -15,10 +15,6 @@ mapping forest/non-forest}
 
 \item{...}{additional arguments as for writeRaster, such as \code{filename} 
 or \code{overwrite}}
-
-\item{parallel}{whether to run data processing in parallel, accepts \code{FALSE},
-\code{TRUE}, or a specified number of cores.  If \code{TRUE} is given instead of 
-a specific number of cores, R will use one less than is available on the machine.}
 }
 \value{
 \code{RasterBrick} with thresholded GFC product (see details above)

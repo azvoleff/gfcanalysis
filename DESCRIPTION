@@ -1,18 +1,18 @@
 Package: gfcanalysis
-Version: 1.7.0
-Date: 2021-04-13
+Version: 1.8.0
+Date: 2023-07-14
 Language: en-us
 Title: Tools for Working with Hansen et al. Global Forest Change Dataset
-Authors@R: c(person("Matthew", "Cooper", email="mw.coop.r@gmail.com", role=c("cre")), person("Alex", "Zvoleff", email="azvoleff@conservation.org", role=c("aut")))
+Authors@R: person("Alex", "Zvoleff", email="azvoleff@conservation.org", role=c("aut", "cre"))
 Depends:
     R (>= 2.10.0),
     raster,
     methods
 Imports:
-    rgdal,
+    sf,
+    terra,
     geosphere,
     RCurl,
-    rgeos,
     plyr,
     ggplot2,
     grid,
@@ -20,8 +20,6 @@ Imports:
     stringr,
     animation,
     rasterVis
-Suggests:
-    sf
 Encoding: UTF-8
 Description: Supports analyses using the Global Forest Change dataset released
     by Hansen et al. gfcanalysis was originally written for the Tropical Ecology 
@@ -34,4 +32,4 @@ License: GPL (>= 3)
 URL: https://github.com/azvoleff/gfcanalysis
 BugReports: https://github.com/azvoleff/gfcanalysis/issues
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3

@@ -1,33 +1,3 @@
-verify_layer_count <- function(gfc_stack, data_year) {
-    if (data_year == 2013 & nlayers(gfc_stack) != 14) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2013 Hansen dataset should have 14 layers')
-    } else if (data_year == 2014 & nlayers(gfc_stack) != 15) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2014 Hansen dataset should have 15 layers')
-    } else if (data_year == 2015 & nlayers(gfc_stack) != 16) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2015 Hansen dataset should have 16 layers')
-    } else if (data_year == 2016 & nlayers(gfc_stack) != 17) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2016 Hansen dataset should have 17 layers')
-    } else if (data_year == 2017 & nlayers(gfc_stack) != 18) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2017 Hansen dataset should have 18 layers')
-    } else if (data_year == 2018 & nlayers(gfc_stack) != 19) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2018 Hansen dataset should have 19 layers')
-    } else if (data_year == 2019 & nlayers(gfc_stack) != 20) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2019 Hansen dataset should have 20 layers')
-    } else if (data_year == 2020 & nlayers(gfc_stack) != 21) {
-        warning('gfc_stack has ', nlayers(gfc_stack),
-                ' layers - full annual GFC product stack from 2020 Hansen dataset should have 21 layers')
-    } else if (data_year > 2020) {
-        warning('data_year ', data_year, ' is not officially supported. Check that output matches was is expected (in particular the years in the animation output).')
-    }
-}
-
 #' Plot forest change (relative to 2000) for a given year
 #'
 #' Plots a single layer of forest change from a layer stack output by 
@@ -35,13 +5,12 @@ verify_layer_count <- function(gfc_stack, data_year) {
 #'
 #' @seealso \code{\link{annual_stack}}, \code{\link{animate_annual}}
 #' @export
-#' @import rgdal
 #' @importFrom grid unit
 #' @importFrom ggplot2 fortify geom_tile aes coord_fixed scale_fill_manual 
 #' theme_bw theme element_blank geom_path guides guide_legend ggtitle
 #' @importFrom plyr join
 #' @importFrom rasterVis gplot
-#' @importFrom sp spTransform CRS proj4string
+#' @importFrom sf st_transform st_crs
 #' @param fchg a forest change raster layer (a single layer of the layer 
 #' stack output by \code{\link{annual_stack}}
 #' @param aoi one or more AOI polygons as a \code{SpatialPolygonsDataFrame} or \code{sf}
@@ -54,14 +23,10 @@ verify_layer_count <- function(gfc_stack, data_year) {
 plot_gfc <- function(fchg, aoi, title_string='', 
                      size_scale=1, maxpixels=50000) {
     aoi <- check_aoi(aoi)
-    aoi_tr <- spTransform(aoi, CRS(proj4string(fchg)))
-    aoi_tr$ID <- row.names(aoi_tr)
-    if (!('label' %in% names(aoi_tr))) {
-        aoi_tr$label <- paste('AOI', seq(1:nrow(aoi_tr@data)))
-    }
-    aoi_tr@data$id <- rownames(aoi_tr@data)
-    aoi_points <- fortify(aoi_tr, region="id")
-    aoi_df <- join(aoi_points, aoi_tr@data, by="id")
+    aoi_tr <- st_transform(aoi, st_crs(fchg))
+
+    rasterpts <- data.frame(rasterToPoints(fchg))
+    names(rasterpts)[3] <- 'data'
 
     long=lat=value=label=ID=NULL # For R CMD CHECK
     gplot(fchg, maxpixels=maxpixels) +
@@ -91,13 +56,10 @@ plot_gfc <- function(fchg, aoi, title_string='',
               panel.grid.major=element_blank(), panel.grid.minor=element_blank(),
               plot.background=element_blank(), axis.ticks=element_blank(),
               plot.margin=unit(c(.1, .1, .1, .1), 'cm')) +
-        geom_path(aes(long, lat, group=ID, linetype=label), data=aoi_df, 
-                  size=.2*size_scale, alpha=.7) +
-        geom_path(aes(long, lat, group=ID), data=aoi_df, 
-                  size=.4*size_scale, alpha=.2) +
         guides(linetype=guide_legend(title="Region", keywidth=2.5, 
                                      override.aes=list(alpha=1))) +
         ggtitle(title_string)
+
 }
 
 #' Plot an animation of forest change within a given area of interest (AOI)
@@ -137,10 +99,9 @@ plot_gfc <- function(fchg, aoi, title_string='',
 animate_annual <- function(aoi, gfc_stack, out_dir=getwd(), 
                            out_basename='gfc_animation', site_name='', 
                            type='html', height=3, width=3, dpi=300,
-                           dataset='GFC-2020-v1.8') {
+                           dataset='GFC-2022-v1.10') {
     aoi <- check_aoi(aoi)
     data_year <- as.numeric(str_extract(dataset, '(?<=GFC-?)[0-9]{4}'))
-    verify_layer_count(gfc_stack, data_year)
 
     if (!file_test('-d', out_dir)) {
         dir.create(out_dir)
@@ -157,7 +118,7 @@ animate_annual <- function(aoi, gfc_stack, out_dir=getwd(),
         stop('type must be gif or html')
     }
 
-    dates <- gen_year_list(data_year)
+    dates <- seq(1, data_year)
 
     # Round maxpixels to nearest 1000
     maxpixels <- ceiling((width * height * dpi^2)/1000) * 1000

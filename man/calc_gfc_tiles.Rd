@@ -12,7 +12,7 @@ If the AOI is not in the WGS84 geographic coordinate system, it will be
 reprojected to WGS84.}
 }
 \value{
-a \code{SpatialPolygonsDataFrame} of the GFC tiles needed to cover 
+a \code{sf} of the GFC tiles needed to cover 
 the AOI
 }
 \description{

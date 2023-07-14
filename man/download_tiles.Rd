@@ -8,11 +8,11 @@ download_tiles(
   tiles,
   output_folder,
   images = c("treecover2000", "lossyear", "gain", "datamask"),
-  dataset = "GFC-2020-v1.8"
+  dataset = "GFC-2022-v1.10"
 )
 }
 \arguments{
-\item{tiles}{\code{SpatialPolygonsDataFrame} with GFC 
+\item{tiles}{\code{sf} with GFC 
 product tiles to download, as calculated by the \code{calc_gfc_tiles} 
 function.}
 

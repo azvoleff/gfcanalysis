@@ -15,8 +15,7 @@
 
 # Load the gfcanalysis package
 library(gfcanalysis)
-# Load 'rgdal' package, which is used to read/write shapefiles and rasters
-library(rgdal)
+library(sf)
 
 # Indicate where we want to save GFC tiles downloaded from Google. For any 
 # given AOI, the script will first check to see if these tiles are available 
@@ -31,7 +30,7 @@ data_folder <- '.'
 
 # Load a demo AOI from the P drive - notice that first we specify the folder 
 # the shapefile is in, and then the name of the shapefile without the '.shp'
-aoi <- readOGR(system.file('extdata', package='gfcanalysis'), 'ZOI_NAK_2012')
+aoi <- read_sf(system.file('extdata', package='gfcanalysis'), 'ZOI_NAK_2012')
 
 # Calculate the google server URLs for the tiles needed to cover the AOI
 tiles <- calc_gfc_tiles(aoi)
@@ -73,3 +72,5 @@ writeRaster(gfc_thresholded_annual, filename='gfc_NAK_extract_thresholded_annual
 # just an example, and is using the data in WGS84. The data should be projected 
 # for this).
 animate_annual(aoi, gfc_thresholded_annual)
+
+
