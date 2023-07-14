@@ -48,9 +48,9 @@ scale_by_pixel_area <- function(x, filename, datatype, pixel_areas=NULL,
     if (is.null(pixel_areas)) {
         pixel_areas <- calc_pixel_areas(x)
     }
-    if (class(x) == 'RasterLayer') {
+    if (inherits(x, 'RasterLayer')) {
         out <- raster(x)
-    } else if (class(x) %in% c('RasterStack', 'RasterBrick')) {
+    } else if (inherits(x, c('RasterStack', 'RasterBrick'))) {
         out <- brick(x, values=FALSE)
     } else {
         stop('x must be a Raster* object')
