@@ -21,8 +21,11 @@ calc_gfc_tiles <- function(aoi) {
               but may not overlap with results when plotting")
       aoi <- st_transform(aoi, st_crs(gfc_tiles))
     }
-    intersecting <- as.logical(st_intersects(gfc_tiles, st_convex_hull(aoi), sparse=FALSE) & 
-                               !st_touches(gfc_tiles, st_convex_hull(aoi), sparse=FALSE))
+
+    intersecting <- apply(st_intersects(gfc_tiles, st_convex_hull(aoi), sparse=FALSE),
+                          FUN=any,
+                          MARGIN=1)
+
     if (sum(intersecting) == 0) {
         stop('no intersecting GFC tiles found')
     } else {
@@ -30,3 +33,5 @@ calc_gfc_tiles <- function(aoi) {
     }
     return(gfc_tiles)
 }
+
+

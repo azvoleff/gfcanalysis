@@ -58,17 +58,18 @@ download_tiles <- function(tiles, output_folder,
                            images=c('treecover2000', 'lossyear', 'gain', 
                                     'datamask'),
                            dataset='GFC-2022-v1.10') {
+
     stopifnot(all(images %in% c('treecover2000', 'lossyear', 'gain',
                                 'datamask', 'first', 'last')))
     if (!file_test('-d', output_folder)) {
         stop('output_folder does not exist')
     }
-    message(paste(length(tiles), 'tiles to download/check.'))
+    message(paste(dim(tiles)[1], 'tiles to download/check.'))
     successes <- 0
     failures <- 0
     skips <- 0
 
-    for (n in 1:length(tiles)) {
+    for (n in 1:dim(tiles)[1]) {
         gfc_tile <- tiles[n,]
         min_x <- st_bbox(gfc_tile)[1]
         max_y <- st_bbox(gfc_tile)[4]

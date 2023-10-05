@@ -27,8 +27,8 @@ make_tile_mosaic <- function(aoi, data_folder, dataset, filename="",
     file_root <- paste0('Hansen_', dataset, '_')
 
     tile_stacks <- c()
-    for (n in 1:length(tiles)) {
-        tile <- tiles[n]
+    for (n in 1:dim(tiles)[1]) {
+        tile <- tiles[n, ]
         min_x <- st_bbox(tile)[1]
         max_y <- st_bbox(tile)[4]
         if (min_x < 0) {
