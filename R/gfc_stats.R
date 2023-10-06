@@ -41,7 +41,7 @@ gfc_stats <- function(aoi, gfc, scale_factor=.0001, dataset='GFC-2022-v1.10') {
     gfc_boundpoly_wgs84 <- st_transform(gfc_boundpoly, st_crs('+init=epsg:4326'))
     aoi <- check_aoi(aoi)
     aoi_wgs84 <- st_transform(aoi, st_crs('+init=epsg:4326'))
-    if (!st_intersects(gfc_boundpoly_wgs84, aoi_wgs84, sparse=FALSE)) {
+    if (!all(st_intersects(gfc_boundpoly_wgs84, aoi_wgs84, sparse=FALSE))) {
         stop('aoi does not intersect supplied GFC extract')
     }
 
