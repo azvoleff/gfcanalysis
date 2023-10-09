@@ -6,7 +6,7 @@ Title: Tools for Working with Hansen et al. Global Forest Change Dataset
 Authors@R: c(person("Alex", "Zvoleff", email="azvoleff@conservation.org", role=c("aut")),
              person("Matthew", "Cooper", email="mw.coop.r@gmail.com", role=c("cre")))
 Depends:
-    R (>= 2.10.0),
+    R (>= 3.5.0),
     raster,
     methods
 Imports:

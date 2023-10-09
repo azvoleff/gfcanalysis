@@ -1,2 +1,3 @@
 ^CRAN-RELEASE$
 .travis.yml
+^cran-comments\.md$
