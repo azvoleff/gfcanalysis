@@ -35,13 +35,13 @@ There are two example scripts demonstrating how to use the `gfcanalysis`
 package:
 
 - For those new to R, see the 
-[install_gfcanalysis.R](https://raw.github.com/azvoleff/gfcanalysis/master/inst/examples/install_gfcanalysis.R)
+[install_gfcanalysis.R](https://raw.githubusercontent.com/azvoleff/gfcanalysis/master/inst/examples/install_gfcanalysis.R)
 script. This script provides guidance on how to download and install the 
 (development version) of the package in R.
 
 - For an example of how to run the package to calculate forest 
 change statistics for a given area of interest (AOI), see the examples in
-[analyze_gfc.R](https://raw.github.com/azvoleff/gfcanalysis/master/inst/examples/analyze_GFC.R).
+[analyze_gfc.R](https://raw.githubusercontent.com/azvoleff/gfcanalysis/master/inst/examples/analyze_GFC.R).
 
 ## Author Contact Information
 
